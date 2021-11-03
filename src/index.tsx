@@ -5,16 +5,19 @@ import { queryClient } from "./react-query/client";
 import { ChakraProvider } from "@chakra-ui/react";
 import { HelmetProvider } from "react-helmet-async";
 import { App } from "./components/app/App";
+import { RecoilRoot } from "recoil";
 
 render(
   <Router>
-    <ChakraProvider>
-      <QueryClientProvider client={queryClient}>
-        <HelmetProvider>
-          <App />
-        </HelmetProvider>
-      </QueryClientProvider>
-    </ChakraProvider>
+    <RecoilRoot>
+      <ChakraProvider>
+        <QueryClientProvider client={queryClient}>
+          <HelmetProvider>
+            <App />
+          </HelmetProvider>
+        </QueryClientProvider>
+      </ChakraProvider>
+    </RecoilRoot>
   </Router>,
   document.querySelector("#root")
 );

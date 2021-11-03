@@ -1,8 +1,9 @@
 import { Switch, Router, Route } from "react-router-dom";
+import { HomePage, LoginPage, RegisterPage } from "../../pages";
 
 const noAuthRoutes = [
-  { id: 0, path: "/login", component: <h1>Login page</h1>, exact: true },
-  { id: 1, path: "/register", component: <h1>Register page</h1> },
+  { id: 0, path: "/login", component: <LoginPage />, exact: true },
+  { id: 1, path: "/register", component: <RegisterPage /> },
 ];
 
 const protectedRoutes = [
@@ -17,7 +18,7 @@ const protectedRoutes = [
 ];
 
 const commonRoutes = [
-  { id: 100, path: "/", component: <h1>Home.page</h1>, exact: true },
+  { id: 100, path: "/", component: <HomePage />, exact: true },
 ];
 
 export const Routes = () => {
