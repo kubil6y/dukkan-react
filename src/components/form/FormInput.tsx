@@ -32,6 +32,14 @@ export const FormInput: FC<FormInputProps> = ({
         size="sm"
         placeholder={placeholder}
         isInvalid={isInvalid}
+        borderColor="#a6a6a6"
+        height="31px"
+        paddingX="7px"
+        paddingY="3px"
+        _focus={{
+          boxShadow: "0 0 3px 2px rgb(228 121 17 / 50%)",
+          borderColor: "#e77600",
+        }}
       />
     </Box>
   );

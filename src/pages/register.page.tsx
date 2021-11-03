@@ -36,7 +36,8 @@ export const RegisterPage = () => {
         minW="350px"
         border="1px solid"
         borderColor="gray.300"
-        padding="18px"
+        paddingX="18px"
+        paddingY="14px"
       >
         <Text fontSize="28px" marginBottom="1rem" fontWeight="semibold">
           Create account

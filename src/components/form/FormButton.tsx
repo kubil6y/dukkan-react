@@ -15,7 +15,7 @@ export const FormButton: FC<FormButtonProps> = ({
   return (
     <Button
       type="submit"
-      colorScheme="blue"
+      colorScheme="facebook"
       width="100%"
       isLoading={isLoading}
       loadingText={loadingText}
