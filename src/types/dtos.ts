@@ -6,3 +6,8 @@ export interface RegisterDTO {
   password: string;
   password_confirm: string;
 }
+
+export interface CreateAuthenticationTokenDTO {
+  email: string;
+  password: string;
+}

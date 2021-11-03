@@ -3,14 +3,14 @@ import { RegisterDTO } from "../types";
 import { Logo } from "../components/app/Logo";
 import { useEffect } from "react";
 import { FormInput, FormErrorMessage, FormButton } from "../components/form";
-import { Box, Flex, Text, Input, VStack } from "@chakra-ui/react";
+import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 
 export const RegisterPage = () => {
   const {
     register,
     handleSubmit,
     getValues,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<RegisterDTO>({
     mode: "onChange",
   });
@@ -53,6 +53,7 @@ export const RegisterPage = () => {
                     message: "Must be at least 2 characters",
                   },
                 })}
+                isInvalid={Boolean(errors?.first_name)}
               />
               {errors?.first_name?.message && (
                 <FormErrorMessage message={errors.first_name.message} />
@@ -69,6 +70,7 @@ export const RegisterPage = () => {
                     message: "Must be at least 2 characters",
                   },
                 })}
+                isInvalid={Boolean(errors?.last_name)}
               />
               {errors?.last_name?.message && (
                 <FormErrorMessage message={errors.last_name.message} />
@@ -86,6 +88,7 @@ export const RegisterPage = () => {
                     message: "Must be valid email address",
                   },
                 })}
+                isInvalid={Boolean(errors?.email)}
               />
               {errors?.email?.message && (
                 <FormErrorMessage message={errors.email.message} />
@@ -102,6 +105,7 @@ export const RegisterPage = () => {
                     message: "Must be at least 12 characters",
                   },
                 })}
+                isInvalid={Boolean(errors?.address)}
               />
               {errors?.address?.message && (
                 <FormErrorMessage message={errors.address.message} />
@@ -118,6 +122,7 @@ export const RegisterPage = () => {
                     message: "Must be at least 6 characters",
                   },
                 })}
+                isInvalid={Boolean(errors?.password)}
               />
               {errors?.password?.message && (
                 <FormErrorMessage message={errors.password.message} />
@@ -134,6 +139,7 @@ export const RegisterPage = () => {
                     message: "Must be at least 6 characters",
                   },
                 })}
+                isInvalid={Boolean(errors?.password_confirm)}
               />
               {errors?.password_confirm?.message && (
                 <FormErrorMessage message={errors.password_confirm.message} />
@@ -145,7 +151,6 @@ export const RegisterPage = () => {
             text="register"
             isLoading={false}
             loadingText="Submitting"
-            isDisabled={!isValid}
           />
         </form>
       </Box>

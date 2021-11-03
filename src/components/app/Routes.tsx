@@ -1,4 +1,4 @@
-import { Switch, Router, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { HomePage, LoginPage, RegisterPage } from "../../pages";
 
 const noAuthRoutes = [
