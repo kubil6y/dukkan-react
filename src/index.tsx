@@ -6,11 +6,12 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { HelmetProvider } from "react-helmet-async";
 import { App } from "./components/app/App";
 import { RecoilRoot } from "recoil";
+import { chakraTheme } from "./themes/chakra";
 
 render(
   <Router>
     <RecoilRoot>
-      <ChakraProvider>
+      <ChakraProvider theme={chakraTheme}>
         <QueryClientProvider client={queryClient}>
           <HelmetProvider>
             <App />
