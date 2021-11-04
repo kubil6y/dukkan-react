@@ -64,10 +64,7 @@ export function useAuth(): UseAuth {
   }
 
   async function getProfile(token: string): Promise<void> {
-    if (!token) {
-      return;
-    }
-
+    if (!token) return;
     try {
       const {
         data: { ok, data },

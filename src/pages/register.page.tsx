@@ -60,7 +60,7 @@ export const RegisterPage = () => {
       await registerUser(input);
       history.push("/login");
     } catch (error) {
-      console.log(error); // TODO
+      console.log(error);
     }
   };
 

@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { useAuth } from "../../auth/useAuth";
@@ -5,16 +6,21 @@ import { userAuthTokenState } from "../../recoil/atoms";
 import { Routes } from "./Routes";
 
 export const App = () => {
-  const { getProfile } = useAuth();
   const token = useRecoilValue(userAuthTokenState);
+  const { getProfile } = useAuth();
+
+  const memoizedGetProfile = React.useCallback(
+    () => getProfile(token),
+    [token]
+  );
 
   useEffect(() => {
     try {
-      getProfile(token);
+      memoizedGetProfile();
     } catch (error) {
       console.log(error);
     }
-  }, [token, getProfile]);
+  }, [token, memoizedGetProfile]);
 
   return (
     <div>
