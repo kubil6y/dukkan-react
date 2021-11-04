@@ -15,6 +15,7 @@ const protectedRoutes = [
   },
   { id: 11, path: "/me", component: <h1>My profile page</h1> },
   { id: 12, path: "/me/edit", component: <h1>Update profile page</h1> },
+  { id: 12, path: "/my-orders", component: <h1>my orders page</h1> },
 ];
 
 const commonRoutes = [

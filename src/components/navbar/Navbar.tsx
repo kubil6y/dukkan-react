@@ -6,6 +6,7 @@ import { CartCount } from "./CartCount";
 import { DeliveryLocation } from "./DeliveryLocation";
 import { SignInAndAccount } from "./SignInAndAccount";
 import { SearchInput } from "./SearchInput";
+import { ReturnsOrders } from "./ReturnsOrders";
 
 export const Navbar: FC = () => {
   return (
@@ -15,6 +16,7 @@ export const Navbar: FC = () => {
         <DeliveryLocation />
         <SearchInput />
         <SignInAndAccount />
+        <ReturnsOrders />
         <CartCount />
       </Flex>
     </Box>

@@ -5,8 +5,12 @@ import { useAuth } from "../../auth/useAuth";
 import { useUser } from "../../auth/useUser";
 import { userAuthTokenState } from "../../recoil/atoms";
 import { Routes } from "./Routes";
+import { Navbar } from "../navbar/Navbar";
+import { useLocation } from "react-router-dom";
+import { includes } from "../../helpers";
 
 export const App = () => {
+  const { pathname } = useLocation();
   const token = useRecoilValue(userAuthTokenState);
   const { getProfile } = useAuth();
 
@@ -29,8 +33,10 @@ export const App = () => {
     // eslint-disable-next-line
   }, [token]);
 
+  const showNavbar = !includes(["/register", "/login"], pathname);
   return (
     <div>
+      {showNavbar && <Navbar />}
       <Routes />
     </div>
   );
