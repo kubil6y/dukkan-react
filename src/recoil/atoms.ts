@@ -2,11 +2,15 @@ import { atom } from "recoil";
 import { USER_TOKEN } from "../constants";
 import { User } from "../types";
 
-const userAuthTokenFromLocalStorage = localStorage.getItem(USER_TOKEN);
+let token = "";
+const localTokenValue = localStorage.getItem(USER_TOKEN);
+if (localTokenValue !== null) {
+  token = JSON.parse(localTokenValue);
+}
 
 export const userAuthTokenState = atom<string>({
   key: "userAuthTokenState",
-  default: userAuthTokenFromLocalStorage || "",
+  default: token,
 });
 
 export const userState = atom<User | null>({

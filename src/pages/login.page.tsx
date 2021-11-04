@@ -1,33 +1,28 @@
 import { useForm } from "react-hook-form";
 import { Logo } from "../components/app/Logo";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { CreateAuthenticationTokenDTO } from "../types";
 import { FormInput, FormButton, FormErrorMessage } from "../components/form";
 import { Helmet } from "react-helmet-async";
-import { axiosInstance } from "../axios/axiosInstance";
-import { AxiosError } from "axios";
-import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { Box, Flex, Text, VStack } from "@chakra-ui/react";
+import { useAuth } from "../auth/useAuth";
+import { useRecoilValue } from "recoil";
 import { userAuthTokenState } from "../recoil/atoms";
-import { USER_TOKEN } from "../constants";
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  Box,
-  CloseButton,
-  Flex,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schema = yup.object().shape({
+  email: yup.string().email("Must be valid email").required("Must be provided"),
+  password: yup
+    .string()
+    .required("Must be provided")
+    .min(6, "Must be at least 6 characters"),
+});
 
 export const LoginPage = () => {
-  const [_, setAuthTokenState] = useRecoilState(userAuthTokenState);
-  const [errMessage, setErrMessage] = useState({
-    message: "",
-    show: false,
-  });
-
+  const history = useHistory();
+  const token = useRecoilValue(userAuthTokenState);
+  const { createToken, getProfile } = useAuth();
   const {
     register,
     handleSubmit,
@@ -35,41 +30,23 @@ export const LoginPage = () => {
     formState: { errors },
   } = useForm<CreateAuthenticationTokenDTO>({
     mode: "onChange",
+    resolver: yupResolver(schema),
   });
 
   const onSubmit = async () => {
     const { email, password } = getValues();
 
     try {
-      const {
-        data: { ok, data },
-      } = await axiosInstance.post("/tokens/authentication", {
-        email: email.trim().toLowerCase(),
-        password: password,
+      await createToken({
+        email,
+        password,
       });
 
-      if (ok && data?.authentication_token?.token) {
-        localStorage.setItem(USER_TOKEN, data.authentication_token.token);
-        setAuthTokenState(data.authentication_token.token);
-      }
+      await getProfile(token);
 
-      setErrMessage({
-        show: false,
-        message: "",
-      });
-    } catch (e) {
-      const err = e as AxiosError;
-      if (err?.response?.data) {
-        if (typeof err.response?.data?.error === "string") {
-          setErrMessage({
-            message: err.response?.data?.error,
-            show: true,
-          });
-        }
-      } else {
-        // TODO
-        console.log(err);
-      }
+      history.push("/");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -95,35 +72,13 @@ export const LoginPage = () => {
             Login account
           </Text>
 
-          {errMessage.show && (
-            <Alert status="error" my="8px">
-              <AlertIcon />
-              <AlertDescription fontSize="13px" className="fl">
-                {errMessage.message}
-              </AlertDescription>
-              <CloseButton
-                position="absolute"
-                right="8px"
-                top="8px"
-                onClick={() => setErrMessage((s) => ({ ...s, show: false }))}
-              />
-            </Alert>
-          )}
-
           <form onSubmit={handleSubmit(onSubmit)}>
             <VStack spacing="1rem" marginBottom="24px" marginTop="1rem">
               <Box width="100%">
                 <FormInput
                   type="text"
                   label="email"
-                  options={register("email", {
-                    required: "Must be provided",
-                    pattern: {
-                      value:
-                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                      message: "Must be valid email address",
-                    },
-                  })}
+                  options={register("email")}
                   isInvalid={Boolean(errors?.email)}
                 />
                 {errors?.email?.message && (
@@ -135,13 +90,7 @@ export const LoginPage = () => {
                 <FormInput
                   type="password"
                   label="password"
-                  options={register("password", {
-                    required: "Must be provided",
-                    minLength: {
-                      value: 6,
-                      message: "Must be at least 6 characters",
-                    },
-                  })}
+                  options={register("password")}
                   isInvalid={Boolean(errors?.password)}
                   placeholder="At least 6 characters"
                 />

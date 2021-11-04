@@ -4,9 +4,39 @@ import { Logo } from "../components/app/Logo";
 import { FormInput, FormErrorMessage, FormButton } from "../components/form";
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useAuth } from "../auth/useAuth";
+
+const schema = yup.object().shape({
+  first_name: yup
+    .string()
+    .min(2, "Must be at least 2 characters")
+    .required("Must be provided"),
+  last_name: yup
+    .string()
+    .required("Must be provided")
+    .min(2, "Must be at least 2 characters"),
+  email: yup.string().email("Must be valid email").required("Must be provided"),
+  address: yup
+    .string()
+    .required("Must be provided")
+    .min(12, "Must be at least 12 characters"),
+  password: yup
+    .string()
+    .required("Must be provided")
+    .min(6, "Must be at least 6 characters"),
+  password_confirm: yup
+    .string()
+    .required("Must be provided")
+    .min(6, "Must be at least 6 characters")
+    .oneOf([yup.ref("password")], "Passwords must match"),
+});
 
 export const RegisterPage = () => {
+  const history = useHistory();
+  const { register: registerUser } = useAuth();
   const {
     register,
     handleSubmit,
@@ -14,12 +44,24 @@ export const RegisterPage = () => {
     formState: { errors },
   } = useForm<RegisterDTO>({
     mode: "onChange",
+    resolver: yupResolver(schema),
   });
 
-  const onSubmit = () => {
-    const values = getValues();
-    console.log({ values });
-    console.log({ errors });
+  const onSubmit = async () => {
+    const input: RegisterDTO = {
+      first_name: getValues("first_name").trim().toLowerCase(),
+      last_name: getValues("last_name").trim().toLowerCase(),
+      email: getValues("email"),
+      address: getValues("address").trim().toLowerCase(),
+      password: getValues("password"),
+      password_confirm: getValues("password_confirm"),
+    };
+    try {
+      await registerUser(input);
+      history.push("/login");
+    } catch (error) {
+      console.log(error); // TODO
+    }
   };
 
   return (
@@ -49,13 +91,7 @@ export const RegisterPage = () => {
                 <FormInput
                   type="text"
                   label="first name"
-                  options={register("first_name", {
-                    required: "Must be provided",
-                    minLength: {
-                      value: 2,
-                      message: "Must be at least 2 characters",
-                    },
-                  })}
+                  options={register("first_name")}
                   isInvalid={Boolean(errors?.first_name)}
                 />
                 {errors?.first_name?.message && (
@@ -67,13 +103,7 @@ export const RegisterPage = () => {
                 <FormInput
                   type="text"
                   label="last name"
-                  options={register("last_name", {
-                    required: "Must be provided",
-                    minLength: {
-                      value: 2,
-                      message: "Must be at least 2 characters",
-                    },
-                  })}
+                  options={register("last_name")}
                   isInvalid={Boolean(errors?.last_name)}
                 />
                 {errors?.last_name?.message && (
@@ -85,14 +115,7 @@ export const RegisterPage = () => {
                 <FormInput
                   type="text"
                   label="email"
-                  options={register("email", {
-                    required: "Must be provided",
-                    pattern: {
-                      value:
-                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                      message: "Must be valid email address",
-                    },
-                  })}
+                  options={register("email")}
                   isInvalid={Boolean(errors?.email)}
                 />
                 {errors?.email?.message && (
@@ -104,13 +127,7 @@ export const RegisterPage = () => {
                 <FormInput
                   type="text"
                   label="address"
-                  options={register("address", {
-                    required: "Must be provided",
-                    minLength: {
-                      value: 12,
-                      message: "Must be at least 12 characters",
-                    },
-                  })}
+                  options={register("address")}
                   isInvalid={Boolean(errors?.address)}
                 />
                 {errors?.address?.message && (
@@ -122,13 +139,7 @@ export const RegisterPage = () => {
                 <FormInput
                   type="password"
                   label="password"
-                  options={register("password", {
-                    required: "Must be provided",
-                    minLength: {
-                      value: 6,
-                      message: "Must be at least 6 characters",
-                    },
-                  })}
+                  options={register("password")}
                   isInvalid={Boolean(errors?.password)}
                   placeholder="At least 6 characters"
                 />
@@ -141,13 +152,7 @@ export const RegisterPage = () => {
                 <FormInput
                   type="password"
                   label="password confirm"
-                  options={register("password_confirm", {
-                    required: "Please confirm your password",
-                    minLength: {
-                      value: 6,
-                      message: "Must be at least 6 characters",
-                    },
-                  })}
+                  options={register("password_confirm")}
                   isInvalid={Boolean(errors?.password_confirm)}
                 />
                 {errors?.password_confirm?.message && (
