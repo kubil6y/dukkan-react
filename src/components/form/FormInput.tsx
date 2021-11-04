@@ -3,16 +3,18 @@ import { Input, Text, Box } from "@chakra-ui/react";
 
 interface FormInputProps {
   label: string;
+  type: string;
   placeholder?: string;
   isInvalid: boolean;
   options: any; // react form hook
 }
 
 export const FormInput: FC<FormInputProps> = ({
-  placeholder,
   label,
+  type,
   isInvalid,
   options,
+  placeholder,
 }) => {
   return (
     <Box width="100%">
@@ -26,7 +28,7 @@ export const FormInput: FC<FormInputProps> = ({
       </Text>
       <Input
         {...options}
-        type="text"
+        type={type}
         autoComplete="off"
         borderRadius="3px"
         size="sm"

@@ -1,0 +1,11 @@
+.fl:first-letter {
+  text-transform: uppercase;
+}
+
+.link {
+  color: #3182ce;
+}
+.link:hover {
+  color: #2b6cb0;
+  text-decoration: underline;
+}
