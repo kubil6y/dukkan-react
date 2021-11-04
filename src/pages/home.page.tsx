@@ -1,9 +1,11 @@
-import { Text } from "@chakra-ui/react";
+import { Navbar } from "../components/navbar/Navbar";
+import { Box, Text } from "@chakra-ui/react";
 
 export const HomePage = () => {
   return (
-    <div>
+    <Box width="100%">
+      <Navbar />
       <Text fontWeight="bold">Home page</Text>
-    </div>
+    </Box>
   );
 };

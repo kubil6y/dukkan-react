@@ -6,8 +6,6 @@ import { FormInput, FormButton, FormErrorMessage } from "../components/form";
 import { Helmet } from "react-helmet-async";
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import { useAuth } from "../auth/useAuth";
-import { useRecoilValue } from "recoil";
-import { userAuthTokenState } from "../recoil/atoms";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -21,8 +19,7 @@ const schema = yup.object().shape({
 
 export const LoginPage = () => {
   const history = useHistory();
-  const token = useRecoilValue(userAuthTokenState);
-  const { createToken, getProfile } = useAuth();
+  const { createToken } = useAuth();
   const {
     register,
     handleSubmit,
@@ -41,8 +38,6 @@ export const LoginPage = () => {
         email,
         password,
       });
-
-      await getProfile(token);
 
       history.push("/");
     } catch (error) {

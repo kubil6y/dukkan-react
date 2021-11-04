@@ -1,6 +1,7 @@
 import { atom } from "recoil";
 import { USER_TOKEN } from "../constants";
 import { User } from "../types";
+import { recoilKeys } from "./constants";
 
 let token = "";
 const localTokenValue = localStorage.getItem(USER_TOKEN);
@@ -9,11 +10,11 @@ if (localTokenValue !== null) {
 }
 
 export const userAuthTokenState = atom<string>({
-  key: "userAuthTokenState",
+  key: recoilKeys.userAuthTokenState,
   default: token,
 });
 
 export const userState = atom<User | null>({
-  key: "userState",
+  key: recoilKeys.userState,
   default: null,
 });

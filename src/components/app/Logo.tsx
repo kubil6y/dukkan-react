@@ -1,8 +1,10 @@
 import { FC } from "react";
-import { Image } from "@chakra-ui/react";
+import { Image, Flex } from "@chakra-ui/react";
 import LogoLight from "../../images/amazon-logo.png";
 import LogoDark from "../../images/amazon-logo-dark.png";
-import { Link } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import { colors } from "../../themes/colors";
+import { includes } from "../../helpers";
 
 type Theme = "light" | "dark";
 
@@ -12,9 +14,35 @@ interface ILogoProps {
 
 export const Logo: FC<ILogoProps> = ({ theme }) => {
   const src = theme === "light" ? LogoLight : LogoDark;
+  const { pathname } = useLocation();
+  const history = useHistory();
+
+  const show = !includes(["/register", "/login"], pathname);
+
   return (
-    <Link to="/">
-      <Image src={src} alt="app logo" _hover={{ cursor: "pointer" }} />
-    </Link>
+    <Flex
+      onClick={() => history.push("/")}
+      justifyContent="center"
+      alignItems="center"
+      minW="120px"
+      className="image-container"
+      border="1px solid transparent"
+      borderRadius="2px"
+      _hover={{
+        ...(show && {
+          borderColor: colors.lightGrayPrimary,
+        }),
+      }}
+    >
+      <Image
+        bgSize="contain"
+        bgPos="center center"
+        src={src}
+        alt="app logo"
+        _hover={{ cursor: "pointer" }}
+        maxW="100%"
+        maxH="100%"
+      />
+    </Flex>
   );
 };

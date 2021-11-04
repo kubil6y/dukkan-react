@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { useAuth } from "../../auth/useAuth";
+import { useUser } from "../../auth/useUser";
 import { userAuthTokenState } from "../../recoil/atoms";
 import { Routes } from "./Routes";
 
@@ -9,18 +10,24 @@ export const App = () => {
   const token = useRecoilValue(userAuthTokenState);
   const { getProfile } = useAuth();
 
-  const memoizedGetProfile = React.useCallback(
-    () => getProfile(token),
-    [token]
-  );
+  // TODO
+  const { user } = useUser();
+  console.log({
+    user,
+    token,
+  });
+
+  // eslint-disable-next-line
+  const cbGetProfile = React.useCallback(() => getProfile(token), [token]);
 
   useEffect(() => {
     try {
-      memoizedGetProfile();
+      cbGetProfile();
     } catch (error) {
       console.log(error);
     }
-  }, [token, memoizedGetProfile]);
+    // eslint-disable-next-line
+  }, [token]);
 
   return (
     <div>
