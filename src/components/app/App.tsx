@@ -9,6 +9,7 @@ import { Container } from "./Container";
 import { Navbar } from "../navbar/Navbar";
 import { useLocation } from "react-router-dom";
 import { includes } from "../../helpers";
+import { UserMenu } from "../menus/user-menu/UserMenu";
 
 export const App = () => {
   const { pathname } = useLocation();
@@ -41,6 +42,7 @@ export const App = () => {
       <Container>
         <Routes />
       </Container>
+      <UserMenu />
     </div>
   );
 };

@@ -58,3 +58,7 @@
   border-radius: 4px;
   overflow: hidden;
 }
+
+.text-underline:hover {
+  text-decoration: underline;
+}

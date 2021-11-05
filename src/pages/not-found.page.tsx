@@ -9,8 +9,9 @@ export const NotFoundPage: FC = () => {
     <Flex
       alignItems="center"
       justifyContent="center"
-      mt="2rem"
+      p="2rem"
       flexDir="column"
+      bg="white"
     >
       <Link to="/">
         <Image src={notFoundImage} />

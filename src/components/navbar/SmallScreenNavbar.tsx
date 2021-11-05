@@ -5,8 +5,11 @@ import { CartCount } from "./CartCount";
 import { SearchInput } from "./SearchInput";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Box, Flex, Icon } from "@chakra-ui/react";
+import { useSetRecoilState } from "recoil";
+import { userMenuState } from "../../recoil/atoms";
 
 export const SmallScreenNavbar: FC = () => {
+  const setUserMenuState = useSetRecoilState(userMenuState);
   return (
     <Flex
       bg={colors.darkGrayPrimary}
@@ -21,7 +24,7 @@ export const SmallScreenNavbar: FC = () => {
           h={8}
           color="white"
           cursor="pointer"
-          onClick={() => console.log("clicked menu TODO")}
+          onClick={() => setUserMenuState(true)}
         />
         <Box h="40px" p="2px">
           <Logo />

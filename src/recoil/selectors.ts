@@ -3,8 +3,8 @@ import { USER_TOKEN } from "../constants";
 import { userState } from "./atoms";
 import { recoilKeys } from "./constants";
 
-export const userInfo = selector({
-  key: recoilKeys.userInfo,
+export const userInfoState = selector({
+  key: recoilKeys.userInfoState,
   get: ({ get }) => {
     const user = get(userState);
     const isLoggedIn = Boolean(localStorage.getItem(USER_TOKEN));

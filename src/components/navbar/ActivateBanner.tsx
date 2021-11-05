@@ -2,10 +2,8 @@ import { FC } from "react";
 import { colors } from "../../themes/colors";
 import { Link } from "react-router-dom";
 import { Flex, Text } from "@chakra-ui/react";
-import { useIsLargeScreen } from "../app/hooks/useIsLargeScreen";
 
 export const ActivateBanner: FC = () => {
-  const isLargeScreen = useIsLargeScreen();
   return (
     <Flex
       bg={colors.orangePrimary}

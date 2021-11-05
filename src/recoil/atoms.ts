@@ -18,3 +18,8 @@ export const userState = atom<User | null>({
   key: recoilKeys.userState,
   default: null,
 });
+
+export const userMenuState = atom<boolean>({
+  key: recoilKeys.userMenuState,
+  default: false,
+});

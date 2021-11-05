@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Center, Flex, Text, Icon } from "@chakra-ui/react";
 import { useIsLargeScreen } from "../app/hooks/useIsLargeScreen";
+import { useSetRecoilState } from "recoil";
+import { userMenuState } from "../../recoil/atoms";
 
 const items = [
   { id: 1, text: "Electronics" },
@@ -30,6 +32,7 @@ const SecondaryBarItem: FC<SecondaryBarItemProps> = ({ text }) => {
 };
 
 export const SecondaryBar: FC = () => {
+  const setUserMenuState = useSetRecoilState(userMenuState);
   const isLargeScreen = useIsLargeScreen();
   const fontSize = isLargeScreen ? "14px" : "12px";
   const pl = isLargeScreen ? "24px" : "4px";
@@ -51,6 +54,7 @@ export const SecondaryBar: FC = () => {
           className="secondary-nav-border"
           justifyContent="center"
           alignItems="center"
+          onClick={() => setUserMenuState(true)}
         >
           <Icon as={GiHamburgerMenu} w={4} h={4} color="white" />
           <Text fontWeight="bold" marginLeft="6px">

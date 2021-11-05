@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Box, Center, Flex, Icon, Input, Text } from "@chakra-ui/react";
+import { Box, Center, Icon, Input, Text } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import { useIsLargeScreen } from "../components/app/hooks/useIsLargeScreen";
 import { IoSendSharp } from "react-icons/io5";
@@ -9,7 +9,6 @@ export const VerifyAccountPage: FC = () => {
   const [inputFocused, setInputFocused] = useState(false);
   const isLargeScreen = useIsLargeScreen();
 
-  //const inputWidth = isLargeScreen ? "600px" : "100%";
   const fsPlaceholder = isLargeScreen ? "16px" : "12px";
   const maxW = isLargeScreen ? "600px" : "100%";
 
@@ -35,7 +34,7 @@ export const VerifyAccountPage: FC = () => {
             }),
           }}
         >
-          <Center fontSize="12px" px="10px" bg={colors.lightGrayPrimary}>
+          <Center fontSize="12px" px="10px" bg={colors.orangeSecondary}>
             Code
           </Center>
 

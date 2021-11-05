@@ -81,6 +81,7 @@ export const RegisterPage = () => {
           borderColor="gray.300"
           paddingX="18px"
           paddingY="14px"
+          bg="white"
         >
           <Text fontSize="28px" fontWeight="semibold">
             Create account
