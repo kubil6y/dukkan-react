@@ -17,6 +17,7 @@ interface SecondaryBarItemProps {
 }
 const SecondaryBarItem: FC<SecondaryBarItemProps> = ({ text }) => {
   const history = useHistory();
+
   return (
     <Center
       className="secondary-nav-border"
@@ -45,16 +46,18 @@ export const SecondaryBar: FC = () => {
       fontSize={fontSize}
       textTransform="capitalize"
     >
-      <Flex
-        className="secondary-nav-border"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Icon as={GiHamburgerMenu} w={4} h={4} color="white" />
-        <Text fontWeight="bold" marginLeft="6px">
-          Menu
-        </Text>
-      </Flex>
+      {isLargeScreen && (
+        <Flex
+          className="secondary-nav-border"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Icon as={GiHamburgerMenu} w={4} h={4} color="white" />
+          <Text fontWeight="bold" marginLeft="6px">
+            Menu
+          </Text>
+        </Flex>
+      )}
       {items.map(({ id, text }) => (
         <SecondaryBarItem key={id} text={text} />
       ))}

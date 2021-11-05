@@ -12,7 +12,7 @@ export const SearchInput: FC = () => {
     <form
       className="nav-form"
       style={{
-        width: isLargeScreen ? "65%" : "95%",
+        width: isLargeScreen ? "65%" : "100%",
         ...(inputFocused && {
           outlineColor: colors.orangeTernary,
           outlineStyle: "solid",
