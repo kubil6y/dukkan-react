@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { colors } from "../../themes/colors";
 import { Logo } from "../app/Logo";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useMediaQuery } from "@chakra-ui/react";
 import { CartCount } from "./CartCount";
 import { DeliveryLocation } from "./DeliveryLocation";
 import { SignInAndAccount } from "./SignInAndAccount";
@@ -11,8 +11,23 @@ import { useRecoilValue } from "recoil";
 import { userInfo } from "../../recoil/selectors";
 import { ActivateBanner } from "./ActivateBanner";
 import { SecondaryBar } from "./SecondaryBar";
+import { LargeScreenNavbar } from "./LargeScreenNavbar";
+import { SmallScreenNavbar } from "./SmallScreenNavbar";
 import { useIsLargeScreen } from "../app/hooks/useIsLargeScreen";
 
+export const Navbar: FC = () => {
+  const { isActivated, isLoggedIn } = useRecoilValue(userInfo);
+  const isLargeScreen = useIsLargeScreen();
+  return (
+    <>
+      {isLoggedIn && !isActivated && <ActivateBanner />}
+      {isLargeScreen ? <LargeScreenNavbar /> : <SmallScreenNavbar />}
+      <SecondaryBar />
+    </>
+  );
+};
+
+/*
 export const Navbar: FC = () => {
   const { isActivated, isLoggedIn } = useRecoilValue(userInfo);
   const isLargeScreen = useIsLargeScreen();
@@ -33,3 +48,4 @@ export const Navbar: FC = () => {
     </>
   );
 };
+ */

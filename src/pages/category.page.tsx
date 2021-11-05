@@ -5,7 +5,7 @@ import { includes } from "../helpers";
 interface IParams {
   name: string;
 }
-const items = ["furniture", "beauty", "deals"];
+const items = ["furniture", "beauty", "deals", "electronics"];
 
 export const CategoryPage: FC = () => {
   const { name } = useParams<IParams>();

@@ -3,6 +3,7 @@ import { colors } from "../../themes/colors";
 import { useHistory } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Center, Flex, Text, Icon } from "@chakra-ui/react";
+import { useIsLargeScreen } from "../app/hooks/useIsLargeScreen";
 
 const items = [
   { id: 1, text: "Electronics" },
@@ -28,6 +29,9 @@ const SecondaryBarItem: FC<SecondaryBarItemProps> = ({ text }) => {
 };
 
 export const SecondaryBar: FC = () => {
+  const isLargeScreen = useIsLargeScreen();
+  const fontSize = isLargeScreen ? "14px" : "12px";
+  const pl = isLargeScreen ? "24px" : "4px";
   return (
     <Flex
       bg={colors.darkGraySecondary}
@@ -36,8 +40,8 @@ export const SecondaryBar: FC = () => {
       alignItems="center"
       justifyContent="start"
       className="space-x-4"
-      paddingLeft="24px"
-      fontSize="14px"
+      px={pl}
+      fontSize={fontSize}
       textTransform="capitalize"
     >
       <Flex
@@ -45,9 +49,9 @@ export const SecondaryBar: FC = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Icon as={GiHamburgerMenu} w={5} h={5} color="white" />
+        <Icon as={GiHamburgerMenu} w={4} h={4} color="white" />
         <Text fontWeight="bold" marginLeft="6px">
-          all
+          Menu
         </Text>
       </Flex>
       {items.map(({ id, text }) => (

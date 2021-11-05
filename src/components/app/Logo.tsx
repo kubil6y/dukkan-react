@@ -24,10 +24,10 @@ export const Logo: FC<ILogoProps> = ({ theme }) => {
       onClick={() => history.push("/")}
       justifyContent="center"
       alignItems="center"
-      minW="120px"
       className="image-container"
       border="1px solid transparent"
       borderRadius="2px"
+      height="100%"
       _hover={{
         ...(show && {
           borderColor: colors.lightGrayPrimary,

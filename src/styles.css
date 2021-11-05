@@ -34,11 +34,21 @@
 .secondary-nav-border:hover {
   border-color: #eaeded;
 }
+
 .space-x-2 > * + * {
   margin-left: 8px;
 }
 .space-x-4 > * + * {
   margin-left: 16px;
+}
+
+@media (max-width: 1024px) {
+  .space-x-2 > * + * {
+    margin-left: 2px;
+  }
+  .space-x-4 > * + * {
+    margin-left: 0px;
+  }
 }
 
 .nav-form {

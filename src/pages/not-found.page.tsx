@@ -15,7 +15,7 @@ export const NotFoundPage: FC = () => {
       <Link to="/">
         <Image src={notFoundImage} />
       </Link>
-      <Box marginTop="1rem">
+      <Box marginTop="1rem" maxH="70vh">
         <Link to="/">
           <Image src="https://images.dog.ceo/breeds/germanshepherd/n02106662_855.jpg" />
         </Link>
