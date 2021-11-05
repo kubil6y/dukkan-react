@@ -6,7 +6,7 @@ import { colors } from "../../themes/colors";
 export const DeliveryLocation: FC = () => {
   return (
     <Tooltip
-      label="Work in Progress..."
+      label="Work in Progress"
       bg={colors.lightGrayPrimary}
       color={colors.darkGrayPrimary}
       fontSize="13px"
@@ -20,8 +20,15 @@ export const DeliveryLocation: FC = () => {
           marginRight="4px"
         />
         <Flex color="white" flexDirection="column">
-          <Text fontSize="12px">Deliver to</Text>
-          <Text fontWeight="bold" fontSize="14px" marginTop="-2px">
+          <Text fontSize="12px" letterSpacing="wide">
+            Deliver to
+          </Text>
+          <Text
+            fontWeight="bold"
+            fontSize="14px"
+            marginTop="-2px"
+            textAlign="end"
+          >
             Albania
           </Text>
         </Flex>

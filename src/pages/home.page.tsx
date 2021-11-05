@@ -1,4 +1,3 @@
-import { Navbar } from "../components/navbar/Navbar";
 import { Box, Text } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 

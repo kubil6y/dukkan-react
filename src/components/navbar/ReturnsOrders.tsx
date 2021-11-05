@@ -12,6 +12,7 @@ export const ReturnsOrders: FC = () => {
       justifyContent="center"
       flexDir="column"
       minW="100px"
+      letterSpacing="wide"
       onClick={() => history.push("/my-orders")}
     >
       <Text fontSize="12px">Returns</Text>

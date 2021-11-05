@@ -2,7 +2,7 @@ import { FC } from "react";
 import { colors } from "../../themes/colors";
 import { Flex, Text } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
-import { userStateInfo } from "../../recoil/selectors";
+import { userInfo } from "../../recoil/selectors";
 import { useUser } from "../../auth/useUser";
 import { capitalize } from "../../helpers";
 import { useHistory } from "react-router-dom";
@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 export const SignInAndAccount: FC = () => {
   const history = useHistory();
   const { user } = useUser();
-  const { isLoggedIn } = useRecoilValue(userStateInfo);
+  const { isLoggedIn } = useRecoilValue(userInfo);
 
   return (
     <Flex
@@ -21,6 +21,7 @@ export const SignInAndAccount: FC = () => {
       flexDir="column"
       textAlign="end"
       onClick={() => history.push("/me")}
+      letterSpacing="wide"
     >
       <Text fontSize="12px">
         Hello, {isLoggedIn && user ? capitalize(user.first_name) : "Sign in"}

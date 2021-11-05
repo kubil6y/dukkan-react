@@ -8,27 +8,18 @@ export const SearchInput: FC = () => {
   const [inputFocused, setInputFocused] = useState(false);
   return (
     <form
+      className="nav-form"
       style={{
-        width: "65%",
+        ...(inputFocused && {
+          outlineColor: colors.orangeTernary,
+          outlineStyle: "solid",
+          outlineWidth: "3px",
+        }),
       }}
     >
-      <Flex
-        w="65%"
-        my="6px"
-        mx="auto"
-        borderRadius="4px"
-        alignItems="center"
-        overflow="hidden"
-        style={{
-          ...(inputFocused && {
-            outlineColor: colors.orangeTernary,
-            outlineStyle: "solid",
-            outlineWidth: "3px",
-          }),
-        }}
-      >
+      <Flex w="100%" h="100%">
         <Tooltip
-          label="Work in Progress..."
+          label="Work in Progress"
           bg={colors.lightGrayPrimary}
           color={colors.darkGrayPrimary}
           fontSize="13px"
