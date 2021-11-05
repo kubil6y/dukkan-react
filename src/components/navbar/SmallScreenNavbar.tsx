@@ -15,7 +15,14 @@ export const SmallScreenNavbar: FC = () => {
       justifyContent="center"
     >
       <Flex alignItems="center" justifyContent="space-between">
-        <Icon as={GiHamburgerMenu} w={8} h={8} color="white" />
+        <Icon
+          as={GiHamburgerMenu}
+          w={8}
+          h={8}
+          color="white"
+          cursor="pointer"
+          onClick={() => console.log("clicked menu TODO")}
+        />
         <Box h="40px" p="2px">
           <Logo />
         </Box>

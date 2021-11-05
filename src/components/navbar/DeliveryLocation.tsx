@@ -11,7 +11,7 @@ export const DeliveryLocation: FC = () => {
       color={colors.darkGrayPrimary}
       fontSize="13px"
     >
-      <Flex className="nav-border" alignItems="center" minW="100px">
+      <Flex className="nav-border" alignItems="center" minW="100px" mx="4px">
         <Icon
           as={HiOutlineLocationMarker}
           w={5}
