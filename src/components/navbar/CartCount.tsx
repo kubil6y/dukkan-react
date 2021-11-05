@@ -11,6 +11,7 @@ export const CartCount: FC = () => {
         ml="4px"
         flexDir="column"
         justifyContent="center"
+        alignItems="center"
         fontWeight="700"
         textAlign="center"
       >

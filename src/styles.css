@@ -53,9 +53,8 @@
 
 .nav-form {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   margin: 6px auto;
   border-radius: 4px;
   overflow: hidden;
-  width: 65%;
 }

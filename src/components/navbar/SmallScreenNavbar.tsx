@@ -10,11 +10,11 @@ import { SignInAndAccount } from "./SignInAndAccount";
 
 export const SmallScreenNavbar: FC = () => {
   return (
-    <Box bg={colors.darkGrayPrimary}>
+    <Flex bg={colors.darkGrayPrimary} flexDir="column">
       <Box h="40px" p="2px">
         <Logo />
       </Box>
       <SearchInput />
-    </Box>
+    </Flex>
   );
 };

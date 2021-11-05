@@ -11,7 +11,14 @@ import { SignInAndAccount } from "./SignInAndAccount";
 export const LargeScreenNavbar: FC = () => {
   return (
     <Box bg={colors.darkGrayPrimary}>
-      <Flex className="space-x-2" mx="18px" my="0" h="60px" p="4px">
+      <Flex
+        className="space-x-2"
+        my="0"
+        h="60px"
+        p="4px"
+        alignItems="center"
+        justifyContent="center"
+      >
         <Logo />
         <DeliveryLocation />
         <SearchInput />

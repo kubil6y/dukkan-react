@@ -32,13 +32,14 @@ export const SecondaryBar: FC = () => {
   const isLargeScreen = useIsLargeScreen();
   const fontSize = isLargeScreen ? "14px" : "12px";
   const pl = isLargeScreen ? "24px" : "4px";
+  const lateralPosition = isLargeScreen ? "start" : "center";
   return (
     <Flex
       bg={colors.darkGraySecondary}
       color="white"
       h="36px"
       alignItems="center"
-      justifyContent="start"
+      justifyContent={lateralPosition}
       className="space-x-4"
       px={pl}
       fontSize={fontSize}
