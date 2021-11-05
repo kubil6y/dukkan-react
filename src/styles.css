@@ -28,3 +28,11 @@
 .space-x-2 > * + * {
   margin-left: 8px;
 }
+
+.nav-form {
+  display: flex;
+  align-items: center;
+  margin: 6px auto;
+  border-radius: 4px;
+  overflow: hidden;
+}
