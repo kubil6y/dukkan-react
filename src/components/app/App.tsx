@@ -5,7 +5,6 @@ import { useAuth } from "../../auth/useAuth";
 import { useUser } from "../../auth/useUser";
 import { userAuthTokenState } from "../../recoil/atoms";
 import { Routes } from "./Routes";
-import { Container } from "./Container";
 import { Navbar } from "../navbar/Navbar";
 import { useLocation } from "react-router-dom";
 import { includes } from "../../helpers";
@@ -39,9 +38,7 @@ export const App = () => {
   return (
     <div>
       {showNavbar && <Navbar />}
-      <Container>
-        <Routes />
-      </Container>
+      <Routes />
       <UserMenu />
     </div>
   );

@@ -8,7 +8,7 @@ import { Link, useHistory } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useAuth } from "../auth/useAuth";
-import { useIsLargeScreen } from "../components/app/hooks/useIsLargeScreen";
+import { useIsLargeScreen } from "../components/app/hooks/mediaQueries";
 
 const schema = yup.object().shape({
   first_name: yup

@@ -1,8 +1,6 @@
 import "./styles.css";
-//import "swiper/css/bundle";
-//import "swiper/css";
-//import "swiper/css/navigation";
-//import "swiper/css/pagination";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import { render } from "react-dom";
 import { QueryClientProvider } from "react-query";

@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { Box, Center, Icon, Input, Text } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
-import { useIsLargeScreen } from "../components/app/hooks/useIsLargeScreen";
+import { useIsLargeScreen } from "../components/app/hooks/mediaQueries";
 import { IoSendSharp } from "react-icons/io5";
 import { colors } from "../themes/colors";
 
@@ -11,13 +11,13 @@ export const VerifyAccountPage: FC = () => {
 
   const fsPlaceholder = isLargeScreen ? "16px" : "12px";
   const maxW = isLargeScreen ? "600px" : "100%";
-
+  const py = isLargeScreen ? "4rem" : "2rem";
   return (
     <>
       <Helmet>
         <title>Dukkan | Verify Account</title>
       </Helmet>
-      <Box py="4rem" px="1rem" maxW={maxW} mx="auto">
+      <Box py={py} px="1rem" maxW={maxW} mx="auto">
         <Text as="h2" fontSize="24px" fontWeight="bold">
           Email Verification
         </Text>

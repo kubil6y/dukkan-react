@@ -3,7 +3,7 @@ import { ActivateBanner } from "./ActivateBanner";
 import { SecondaryBar } from "./SecondaryBar";
 import { LargeScreenNavbar } from "./LargeScreenNavbar";
 import { SmallScreenNavbar } from "./SmallScreenNavbar";
-import { useIsLargeScreen } from "../app/hooks/useIsLargeScreen";
+import { useIsLargeScreen } from "../app/hooks/mediaQueries";
 import { useUser } from "../../auth/useUser";
 
 export const Navbar: FC = () => {

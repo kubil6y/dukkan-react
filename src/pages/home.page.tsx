@@ -9,10 +9,7 @@ export const HomePage = () => {
         <title>Dukkan | Spend less. Smile more.</title>
       </Helmet>
       <Box width="100%">
-        <Text fontWeight="bold">Home page</Text>
-        {/*
-         *<Carousel />
-         */}
+        <Carousel />
       </Box>
     </>
   );

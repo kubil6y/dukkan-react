@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { GoSearch } from "react-icons/go";
 import { colors } from "../../themes/colors";
-import { useIsLargeScreen } from "../app/hooks/useIsLargeScreen";
+import { useIsLargeScreen } from "../app/hooks/mediaQueries";
 import { Flex, Icon, Center, Input, Tooltip } from "@chakra-ui/react";
 
 export const SearchInput: FC = () => {

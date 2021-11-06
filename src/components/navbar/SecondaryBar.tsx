@@ -3,7 +3,7 @@ import { colors } from "../../themes/colors";
 import { useHistory } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Center, Flex, Text, Icon } from "@chakra-ui/react";
-import { useIsLargeScreen } from "../app/hooks/useIsLargeScreen";
+import { useIsLargeScreen } from "../app/hooks/mediaQueries";
 import { useSetRecoilState } from "recoil";
 import { userMenuState } from "../../recoil/atoms";
 

@@ -2,7 +2,7 @@ import { Flex, Icon, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { colors } from "../../themes/colors";
-import { useIsLargeScreen } from "../app/hooks/useIsLargeScreen";
+import { useIsLargeScreen } from "../app/hooks/mediaQueries";
 
 export const CartCount: FC = () => {
   const isLargeScreen = useIsLargeScreen();

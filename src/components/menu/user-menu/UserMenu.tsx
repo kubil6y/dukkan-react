@@ -1,6 +1,6 @@
 import React from "react";
 import { FC } from "react";
-import { useIsLargeScreen } from "../../app/hooks/useIsLargeScreen";
+import { useIsLargeScreen } from "../../app/hooks/mediaQueries";
 import { useRecoilState } from "recoil";
 import { userMenuState } from "../../../recoil/atoms";
 import { UserMenuHeader } from "./UserMenuHeader";

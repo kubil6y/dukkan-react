@@ -8,7 +8,7 @@ import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import { useAuth } from "../auth/useAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useIsLargeScreen } from "../components/app/hooks/useIsLargeScreen";
+import { useIsLargeScreen } from "../components/app/hooks/mediaQueries";
 
 const schema = yup.object().shape({
   email: yup.string().email("Must be valid email").required("Must be provided"),

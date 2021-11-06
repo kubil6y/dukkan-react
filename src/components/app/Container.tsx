@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { FC } from "react";
-import { useIsLargeScreen } from "./hooks/useIsLargeScreen";
+import { useIsLargeScreen } from "./hooks/mediaQueries";
 
 export const Container: FC = ({ children }) => {
   const isLargeScreen = useIsLargeScreen();

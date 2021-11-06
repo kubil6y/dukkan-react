@@ -1,24 +1,42 @@
-import { FC } from "react";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
+import React, { FC } from "react";
+import Slider, { Settings } from "react-slick";
+import beautyImage from "../../images/beauty.jpg";
+import furnitureImage from "../../images/furniture.jpg";
+import blackFridayImage from "../../images/black_friday.jpg";
+import { CarouselNextButton, CarouselPrevButton } from "./CarouselButtons";
 
 export const Carousel: FC = () => {
+  const slider = React.useRef<Slider>(null);
+
+  var settings: Settings = {
+    dots: false,
+    infinite: true,
+    arrows: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+  };
   return (
-    <Swiper
-      modules={[Navigation, Pagination, Scrollbar, A11y]}
-      spaceBetween={50}
-      slidesPerView={3}
-      navigation
-      pagination={{ clickable: true }}
-      scrollbar={{ draggable: true }}
-      onSwiper={(swiper) => console.log(swiper)}
-      onSlideChange={() => console.log("slide change")}
+    <div
+      style={{
+        position: "relative",
+      }}
     >
-      <SwiperSlide>Slide 1</SwiperSlide>
-      <SwiperSlide>Slide 2</SwiperSlide>
-      <SwiperSlide>Slide 3</SwiperSlide>
-      <SwiperSlide>Slide 4</SwiperSlide>
-      ...
-    </Swiper>
+      <Slider {...settings} ref={slider}>
+        <div>
+          <img src={beautyImage} alt="beauty" />
+        </div>
+        <div>
+          <img src={furnitureImage} alt="furniture" />
+        </div>
+        <div>
+          <img src={blackFridayImage} alt="black friday" />
+        </div>
+      </Slider>
+
+      <CarouselNextButton onClick={() => slider?.current?.slickNext()} />
+      <CarouselPrevButton onClick={() => slider?.current?.slickPrev()} />
+    </div>
   );
 };
