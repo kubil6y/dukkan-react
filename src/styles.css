@@ -62,3 +62,11 @@
 .text-underline:hover {
   text-decoration: underline;
 }
+
+.home-message-link {
+  color: #007185;
+}
+.home-message-link:hover {
+  color: #c7511f;
+  text-decoration: underline;
+}

@@ -4,8 +4,10 @@ import beautyImage from "../../images/beauty.jpg";
 import furnitureImage from "../../images/furniture.jpg";
 import blackFridayImage from "../../images/black_friday.jpg";
 import { CarouselNextButton, CarouselPrevButton } from "./CarouselButtons";
+import { Link, useHistory } from "react-router-dom";
 
 export const Carousel: FC = () => {
+  const history = useHistory();
   const slider = React.useRef<Slider>(null);
 
   var settings: Settings = {
@@ -16,6 +18,7 @@ export const Carousel: FC = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
+    swipe: false,
   };
   return (
     <div
@@ -24,13 +27,13 @@ export const Carousel: FC = () => {
       }}
     >
       <Slider {...settings} ref={slider}>
-        <div>
+        <Link to="/categories/beauty">
           <img src={beautyImage} alt="beauty" />
-        </div>
-        <div>
+        </Link>
+        <Link to="/categories/furniture">
           <img src={furnitureImage} alt="furniture" />
-        </div>
-        <div>
+        </Link>
+        <div onClick={() => history.push("/categories/deals")}>
           <img src={blackFridayImage} alt="black friday" />
         </div>
       </Slider>
