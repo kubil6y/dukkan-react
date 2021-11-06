@@ -1,3 +1,3 @@
 export * from "./ProtectedRoute";
 export * from "./UnauthenticatedRoute";
-export * from "./InactivateRoutes";
+export * from "./InactivateRoute";
