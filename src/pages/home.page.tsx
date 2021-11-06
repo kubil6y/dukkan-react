@@ -1,17 +1,10 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Carousel } from "../components/carousel/Carousel";
-import { Box, Text, Center } from "@chakra-ui/react";
+import { Text, Center, Grid } from "@chakra-ui/react";
 import { colors } from "../themes/colors";
-import {
-  useIsMediumScreen,
-  useIsLargeScreen,
-} from "../components/app/hooks/mediaQueries";
 
 export const HomePage = () => {
-  const isMediumScreen = useIsMediumScreen();
-  const isLargeScreen = useIsLargeScreen();
-  const mt = isLargeScreen ? "-200px" : isMediumScreen ? "-100px" : 0;
   return (
     <>
       <Helmet>
@@ -39,6 +32,8 @@ export const HomePage = () => {
           :)
         </Text>
       </Center>
+
+      <Grid></Grid>
     </>
   );
 };

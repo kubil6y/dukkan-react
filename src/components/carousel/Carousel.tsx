@@ -1,8 +1,5 @@
 import React, { FC } from "react";
 import Slider, { Settings } from "react-slick";
-import beautyImage from "../../images/beauty.jpg";
-import furnitureImage from "../../images/furniture.jpg";
-import blackFridayImage from "../../images/black_friday.jpg";
 import { CarouselNextButton, CarouselPrevButton } from "./CarouselButtons";
 import { Link, useHistory } from "react-router-dom";
 
@@ -28,13 +25,13 @@ export const Carousel: FC = () => {
     >
       <Slider {...settings} ref={slider}>
         <Link to="/categories/beauty">
-          <img src={beautyImage} alt="beauty" />
+          <img src="/beauty.jpg" alt="beauty" />
         </Link>
         <Link to="/categories/furniture">
-          <img src={furnitureImage} alt="furniture" />
+          <img src="/furniture.jpg" alt="furniture" />
         </Link>
         <div onClick={() => history.push("/categories/deals")}>
-          <img src={blackFridayImage} alt="black friday" />
+          <img src="/black_friday.jpg" alt="black friday" />
         </div>
       </Slider>
 

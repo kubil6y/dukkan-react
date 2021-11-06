@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import notFoundImage from "../images/not-found.png";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { Flex, Image, Text, Box, Icon } from "@chakra-ui/react";
 
@@ -14,7 +13,7 @@ export const NotFoundPage: FC = () => {
       bg="white"
     >
       <Link to="/">
-        <Image src={notFoundImage} />
+        <Image src="/not-found.png" />
       </Link>
       <Box marginTop="1rem" maxH="70vh">
         <Link to="/">

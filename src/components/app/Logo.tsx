@@ -1,7 +1,5 @@
 import { FC } from "react";
 import { Image, Flex } from "@chakra-ui/react";
-import LogoLight from "../../images/amazon-logo.png";
-import LogoDark from "../../images/amazon-logo-dark.png";
 import { useHistory, useLocation } from "react-router-dom";
 import { colors } from "../../themes/colors";
 import { includes } from "../../helpers";
@@ -13,7 +11,7 @@ interface ILogoProps {
 }
 
 export const Logo: FC<ILogoProps> = ({ theme }) => {
-  const src = theme === "light" ? LogoLight : LogoDark;
+  const src = theme === "light" ? "/amazon-logo.png" : "/amazon-logo-dark.png";
   const { pathname } = useLocation();
   const history = useHistory();
 
