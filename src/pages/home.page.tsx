@@ -1,5 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
+import { Carousel } from "../components/carousel/Carousel";
 
 export const HomePage = () => {
   return (
@@ -9,6 +10,9 @@ export const HomePage = () => {
       </Helmet>
       <Box width="100%">
         <Text fontWeight="bold">Home page</Text>
+        {/*
+         *<Carousel />
+         */}
       </Box>
     </>
   );
