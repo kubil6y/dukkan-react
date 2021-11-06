@@ -1,6 +1,5 @@
 import { Redirect, Route, RouteProps } from "react-router";
-import { useRecoilValue } from "recoil";
-import { userInfoState } from "../../../recoil/selectors";
+import { useUser } from "../../../auth/useUser";
 
 export type UnauthenticatedRouteProps = {
   pathname: string;
@@ -10,8 +9,8 @@ export const UnauthenticatedRoute = ({
   pathname,
   ...routeProps
 }: UnauthenticatedRouteProps) => {
-  const { isLoggedIn } = useRecoilValue(userInfoState);
-  if (!isLoggedIn) {
+  const { user } = useUser();
+  if (!user) {
     return <Route {...routeProps} />;
   } else {
     return <Redirect to={{ pathname }} />;

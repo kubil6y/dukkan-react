@@ -1,16 +1,14 @@
 import { FC } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { colors } from "../../../themes/colors";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { userInfoState } from "../../../recoil/selectors";
+import { useSetRecoilState } from "recoil";
 import { DrawerHeader, Flex, Icon, Text } from "@chakra-ui/react";
 import { useUser } from "../../../auth/useUser";
 import { capitalize } from "../../../helpers";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { userMenuState } from "../../../recoil/atoms";
 
 export const UserMenuHeader: FC = () => {
-  const { isLoggedIn } = useRecoilValue(userInfoState);
   const { user } = useUser();
   const history = useHistory();
   const setIsOpen = useSetRecoilState(userMenuState);
@@ -18,7 +16,7 @@ export const UserMenuHeader: FC = () => {
     <DrawerHeader bg={colors.darkGraySecondary} color="white">
       <Flex alignItems="center" color="white" fontSize="19px">
         <Icon as={FaUserCircle} w={6} h={6} marginRight="12px" />
-        {user && isLoggedIn ? (
+        {user ? (
           <Text>Hello {capitalize(user.first_name)}</Text>
         ) : (
           <Text>

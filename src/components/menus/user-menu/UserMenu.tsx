@@ -1,11 +1,10 @@
 import React from "react";
 import { FC } from "react";
 import { useIsLargeScreen } from "../../app/hooks/useIsLargeScreen";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { userMenuState } from "../../../recoil/atoms";
 import { UserMenuHeader } from "./UserMenuHeader";
 import { UserMenuItem } from "./UserMenuItem";
-import { userInfoState } from "../../../recoil/selectors";
 import { useUser } from "../../../auth/useUser";
 import {
   Button,
@@ -21,17 +20,19 @@ import {
 import { useHistory } from "react-router-dom";
 import { USER_TOKEN } from "../../../constants";
 
-const loggedInMenuItems = [
+const loggedInMenuUserItems = [
   { id: 1, text: "Profile", to: "/me" },
   { id: 2, text: "Edit Profile", to: "/me/edit" },
-  { id: 3, text: "My Orders", to: "/my-orders" },
+];
+
+const loggedInMenuOrderItems = [
+  { id: 10, text: "My Orders", to: "/my-orders" },
 ];
 
 //{ id: 4, text: "Verify Acccount", to: "/verify-account" },
 
 export const UserMenu: FC = () => {
   const { user, clearUser } = useUser();
-  const { isLoggedIn, isActivated } = useRecoilValue(userInfoState);
   const history = useHistory();
 
   const [isOpen, setIsOpen] = useRecoilState(userMenuState);
@@ -41,8 +42,10 @@ export const UserMenu: FC = () => {
   const size = isLargeScreen ? "xs" : "full";
 
   const handleLogout = () => {
+    setIsOpen(false);
     localStorage.removeItem(USER_TOKEN);
     clearUser();
+    window.location.reload();
   };
 
   const onClose = () => setIsOpen(false);
@@ -59,19 +62,28 @@ export const UserMenu: FC = () => {
         <DrawerCloseButton color="white" />
         <UserMenuHeader />
 
-        {isLoggedIn && user ? (
+        {user ? (
           <>
             <Text fontSize="24px" fontWeight="bold" pl="36px" py="13px">
               User
             </Text>
             <Divider />
             <DrawerBody p="0">
-              {loggedInMenuItems.map(({ id, text, to }) => (
+              {loggedInMenuUserItems.map(({ id, text, to }) => (
                 <UserMenuItem text={text} to={to} key={id} />
               ))}
-              {!isActivated && (
+              {!user.is_activated && (
                 <UserMenuItem text="Verify Account" to="/verify-account" />
               )}
+
+              <Divider />
+              <Text fontSize="24px" fontWeight="bold" pl="36px" py="13px">
+                Orders
+              </Text>
+              <Divider />
+              {loggedInMenuOrderItems.map(({ id, text, to }) => (
+                <UserMenuItem text={text} to={to} key={id} />
+              ))}
             </DrawerBody>
           </>
         ) : (
@@ -79,7 +91,7 @@ export const UserMenu: FC = () => {
         )}
 
         <DrawerFooter>
-          {isLoggedIn ? (
+          {user ? (
             <Button
               colorScheme="red"
               width="100%"

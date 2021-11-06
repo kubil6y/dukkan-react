@@ -8,6 +8,7 @@ import { Link, useHistory } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useAuth } from "../auth/useAuth";
+import { useIsLargeScreen } from "../components/app/hooks/useIsLargeScreen";
 
 const schema = yup.object().shape({
   first_name: yup
@@ -47,6 +48,9 @@ export const RegisterPage = () => {
     resolver: yupResolver(schema),
   });
 
+  const isLargeScreen = useIsLargeScreen();
+  const minW = isLargeScreen ? "350px" : "280px";
+
   const onSubmit = async () => {
     const input: RegisterDTO = {
       first_name: getValues("first_name").trim().toLowerCase(),
@@ -76,7 +80,7 @@ export const RegisterPage = () => {
         <Box
           marginTop="1rem"
           borderRadius="4px"
-          minW="350px"
+          minW={minW}
           border="1px solid"
           borderColor="gray.300"
           paddingX="18px"
@@ -128,6 +132,7 @@ export const RegisterPage = () => {
                 <FormInput
                   type="text"
                   label="address"
+                  placeholder="At least 12 characters"
                   options={register("address")}
                   isInvalid={Boolean(errors?.address)}
                 />
@@ -169,9 +174,9 @@ export const RegisterPage = () => {
             />
           </form>
           <Text fontSize="13px" marginTop="1rem">
-            New to Dukkan? Please register{" "}
+            Already have an account?{" "}
             <Link to="/login" className="link">
-              here.
+              Sign in.
             </Link>
           </Text>
         </Box>

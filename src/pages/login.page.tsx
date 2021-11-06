@@ -8,6 +8,7 @@ import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import { useAuth } from "../auth/useAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useIsLargeScreen } from "../components/app/hooks/useIsLargeScreen";
 
 const schema = yup.object().shape({
   email: yup.string().email("Must be valid email").required("Must be provided"),
@@ -29,6 +30,9 @@ export const LoginPage = () => {
     mode: "onChange",
     resolver: yupResolver(schema),
   });
+
+  const isLargeScreen = useIsLargeScreen();
+  const minW = isLargeScreen ? "350px" : "280px";
 
   const onSubmit = async () => {
     const { email, password } = getValues();
@@ -57,7 +61,7 @@ export const LoginPage = () => {
         <Box
           marginTop="1rem"
           borderRadius="4px"
-          minW="350px"
+          minW={minW}
           border="1px solid"
           borderColor="gray.300"
           paddingX="18px"
@@ -103,9 +107,9 @@ export const LoginPage = () => {
             />
           </form>
           <Text fontSize="13px" marginTop="1rem">
-            Already have an account?{" "}
+            New to Dukkan? Please register{" "}
             <Link to="/register" className="link">
-              Sign in.
+              here.
             </Link>
           </Text>
         </Box>

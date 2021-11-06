@@ -1,6 +1,5 @@
 import { Redirect, Route, RouteProps } from "react-router";
-import { useRecoilValue } from "recoil";
-import { userInfoState } from "../../../recoil/selectors";
+import { useUser } from "../../../auth/useUser";
 
 export type InactivatedRouteProps = {
   pathname: string;
@@ -10,8 +9,8 @@ export const InactivatedRoute = ({
   pathname,
   ...routeProps
 }: InactivatedRouteProps) => {
-  const { isActivated, isLoggedIn } = useRecoilValue(userInfoState);
-  if (!isActivated && isLoggedIn) {
+  const { user } = useUser();
+  if (user && !user.is_activated) {
     return <Route {...routeProps} />;
   } else {
     return <Redirect to={{ pathname }} />;
