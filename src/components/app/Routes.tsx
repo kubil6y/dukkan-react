@@ -23,12 +23,12 @@ const unauthenticatedRoutes = [
 const protectedRoutes = [
   { id: 11, path: "/me", component: <ProfilePage />, exact: true },
   { id: 12, path: "/me/edit", component: <UpdateProfilePage /> },
-  { id: 12, path: "/my-orders", component: <h1>my orders page</h1> },
+  { id: 13, path: "/my-orders", component: <h1>my orders page</h1> },
 ];
 
 const inactivatedRoutes = [
   {
-    id: 10,
+    id: 100,
     path: "/verify-account",
     component: <VerifyAccountPage />,
     exact: true,
@@ -36,8 +36,8 @@ const inactivatedRoutes = [
 ];
 
 const commonRoutes = [
-  { id: 100, path: "/", component: <HomePage />, exact: true },
-  { id: 101, path: "/categories/:name", component: <CategoryPage /> },
+  { id: 1000, path: "/", component: <HomePage />, exact: true },
+  { id: 1001, path: "/categories/:name", component: <CategoryPage /> },
 ];
 
 export const Routes = () => {

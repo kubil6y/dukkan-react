@@ -9,6 +9,7 @@ import { Navbar } from "../navbar/Navbar";
 import { useLocation } from "react-router-dom";
 import { includes } from "../../helpers";
 import { UserMenu } from "../menu/user-menu/UserMenu";
+import { Footer } from "./Footer";
 
 export const App = () => {
   const { pathname } = useLocation();
@@ -34,12 +35,13 @@ export const App = () => {
     // eslint-disable-next-line
   }, [token]);
 
-  const showNavbar = !includes(["/register", "/login"], pathname);
+  const show = !includes(["/register", "/login"], pathname);
   return (
     <div>
-      {showNavbar && <Navbar />}
+      {show && <Navbar />}
       <Routes />
       <UserMenu />
+      {show && <Footer />}
     </div>
   );
 };

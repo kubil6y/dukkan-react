@@ -78,10 +78,7 @@ export const ProfilePage: FC = () => {
             value={capitalize(user.last_name)}
           />
           <ProfilePageItem fieldName="Email Address" value={user.email} />
-          <ProfilePageItem
-            fieldName="Address"
-            value={"aalskjdf asldfkj als dfjkals jkfl;s jkadfl; djkaslk sjadf"}
-          />
+          <ProfilePageItem fieldName="Address" value={user.address} />
           <ProfilePageItem
             fieldName="Account Verification Status"
             value={user.is_activated ? "Verified" : "Not Verified"}

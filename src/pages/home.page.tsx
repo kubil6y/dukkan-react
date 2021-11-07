@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Carousel } from "../components/carousel/Carousel";
-import { Text, Center, Grid } from "@chakra-ui/react";
+import { Text, Center, VStack, HStack } from "@chakra-ui/react";
 import { Container } from "../components/app/Container";
+import { FamilyReviews } from "../components/misc/FamilyReviews";
+import { CategoryCard } from "../components/cards/CategoryCard";
+import { useIsSmallScreen } from "../components/app/hooks/mediaQueries";
 
 export const HomePage = () => {
+  const isSmallScreen = useIsSmallScreen();
   return (
     <>
       <Helmet>
@@ -41,7 +45,61 @@ export const HomePage = () => {
           </Text>
         </Center>
 
-        <Grid></Grid>
+        {isSmallScreen ? (
+          <VStack my="1rem" spacing="1rem">
+            <CategoryCard
+              to="/categories/electronics"
+              title="Electronics"
+              imgSrc="/category_laptop.jpg"
+            />
+
+            <CategoryCard
+              to="/categories/furniture"
+              title="Furniture"
+              imgSrc="/category_furniture.jpg"
+            />
+
+            <CategoryCard
+              to="/categories/beauty"
+              title="Beauty"
+              imgSrc="/category_beauty.jpg"
+            />
+
+            <CategoryCard
+              to="/categories/deals"
+              title="Deals"
+              imgSrc="/category_deals.jpg"
+            />
+          </VStack>
+        ) : (
+          <HStack mt="1rem" mb="2rem" spacing="2rem">
+            <CategoryCard
+              to="/categories/electronics"
+              title="Electronics"
+              imgSrc="/category_laptop.jpg"
+            />
+
+            <CategoryCard
+              to="/categories/furniture"
+              title="Furniture"
+              imgSrc="/category_furniture.jpg"
+            />
+
+            <CategoryCard
+              to="/categories/beauty"
+              title="Beauty"
+              imgSrc="/category_beauty.jpg"
+            />
+
+            <CategoryCard
+              to="/categories/deals"
+              title="Deals"
+              imgSrc="/category_deals.jpg"
+            />
+          </HStack>
+        )}
+
+        <FamilyReviews />
       </Container>
     </>
   );

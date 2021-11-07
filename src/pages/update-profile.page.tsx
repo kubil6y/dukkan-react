@@ -4,7 +4,6 @@ import * as yup from "yup";
 import { Flex, Box, VStack, Text } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { useHistory, Link } from "react-router-dom";
 import { useIsLargeScreen } from "../components/app/hooks/mediaQueries";
 import { FormInput, FormButton, FormErrorMessage } from "../components/form";
 import { RegisterDTO } from "../types";
