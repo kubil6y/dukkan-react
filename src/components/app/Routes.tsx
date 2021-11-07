@@ -11,6 +11,8 @@ import {
   RegisterPage,
   VerifyAccountPage,
   NotFoundPage,
+  ProfilePage,
+  UpdateProfilePage,
 } from "../../pages";
 
 const unauthenticatedRoutes = [
@@ -19,8 +21,8 @@ const unauthenticatedRoutes = [
 ];
 
 const protectedRoutes = [
-  { id: 11, path: "/me", component: <h1>My profile page</h1>, exact: true },
-  { id: 12, path: "/me/edit", component: <h1>Update profile page</h1> },
+  { id: 11, path: "/me", component: <ProfilePage />, exact: true },
+  { id: 12, path: "/me/edit", component: <UpdateProfilePage /> },
   { id: 12, path: "/my-orders", component: <h1>my orders page</h1> },
 ];
 

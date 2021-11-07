@@ -7,7 +7,7 @@ export const includes = <T>(arr: T[], item: T): boolean => {
   return false;
 };
 
-export const capitalize = (s :string): string => {
-	if (s.length === 0) return "";
-	return s[0].toUpperCase() + s.slice(1).toLowerCase()
-}
+export const capitalize = (s: string): string => {
+  if (s.length === 0) return "";
+  return s[0].toUpperCase() + s.slice(1).toLowerCase();
+};

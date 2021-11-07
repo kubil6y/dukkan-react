@@ -17,9 +17,6 @@ export const CarouselNextButton: FC<CarouselButtonProps> = ({ onClick }) => {
   const w = "50px";
   const size = isLargeScreen ? 8 : isMediumScreen ? 6 : 4;
 
-  console.log({
-    isMediumScreen,
-  });
   return (
     <Center
       onClick={onClick}
