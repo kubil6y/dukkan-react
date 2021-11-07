@@ -13,6 +13,7 @@ import {
   NotFoundPage,
   ProfilePage,
   UpdateProfilePage,
+  ProductDetailsPage,
 } from "../../pages";
 
 const unauthenticatedRoutes = [
@@ -37,7 +38,8 @@ const inactivatedRoutes = [
 
 const commonRoutes = [
   { id: 1000, path: "/", component: <HomePage />, exact: true },
-  { id: 1001, path: "/categories/:name", component: <CategoryPage /> },
+  { id: 1001, path: "/categories/:slug", component: <CategoryPage /> },
+  { id: 1002, path: "/products/:slug", component: <ProductDetailsPage /> },
 ];
 
 export const Routes = () => {

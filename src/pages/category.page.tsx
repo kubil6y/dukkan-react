@@ -3,16 +3,16 @@ import { useHistory, useParams } from "react-router-dom";
 import { includes } from "../helpers";
 
 interface IParams {
-  name: string;
+  slug: string;
 }
 const items = ["furniture", "beauty", "deals", "electronics"];
 
 export const CategoryPage: FC = () => {
-  const { name } = useParams<IParams>();
+  const { slug } = useParams<IParams>();
   const history = useHistory();
 
   // TODO hardcoded values...
-  const isValidName = includes(items, name.toLowerCase());
+  const isValidName = includes(items, slug.toLowerCase());
   if (!isValidName) {
     history.push("/");
   }
@@ -20,7 +20,7 @@ export const CategoryPage: FC = () => {
   return (
     <div>
       <h1>category page</h1>
-      <h1>{name}</h1>
+      <h1>{slug}</h1>
     </div>
   );
 };
