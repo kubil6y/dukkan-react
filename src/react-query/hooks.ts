@@ -1,14 +1,16 @@
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useCustomToast } from "../components/app/hooks/useCustomToast";
 import { userState } from "../recoil/atoms";
 import { EditProfileDTO, User } from "../types";
+import { queryKeys } from "./constants";
 import {
   activateAccountMutationFn,
   generateTokenMutationFn,
   updateProfileMutationFn,
 } from "./mutation.func";
+import { getProductBySlug } from "./query.func";
 
 export const useActivateAccount = (data: any) => {
   const history = useHistory();
@@ -59,12 +61,12 @@ export const useGenerateCode = (data: any) => {
   return mutation;
 };
 
-export const useUpdateProfile = (data: EditProfileDTO) => {
+export const useUpdateProfile = (data: EditProfileDTO, token: string) => {
   const history = useHistory();
   const toast = useCustomToast();
   const [user, setUserState] = useRecoilState(userState);
 
-  const mutation = useMutation(() => updateProfileMutationFn(data), {
+  const mutation = useMutation(() => updateProfileMutationFn(data, token), {
     onSuccess: () => {
       const { first_name, last_name, email, address } = data;
 
@@ -90,4 +92,8 @@ export const useUpdateProfile = (data: EditProfileDTO) => {
   });
 
   return mutation;
+};
+
+export const useProduct = (slug: string) => {
+  return useQuery([queryKeys.products, slug], () => getProductBySlug(slug));
 };

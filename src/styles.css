@@ -71,3 +71,12 @@
   color: #c7511f;
   text-decoration: underline;
 }
+
+.space-y-4 > * + * {
+  margin-top: 12px;
+}
+@media (max-width: 500px) {
+  .space-y-4 > * + * {
+    margin-top: 6px;
+  }
+}

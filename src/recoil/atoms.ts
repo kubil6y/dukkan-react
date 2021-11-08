@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 import { USER_TOKEN } from "../constants";
-import { User } from "../types";
+import { CartItem, User } from "../types";
 import { recoilKeys } from "./constants";
 
 let token = "";
@@ -22,4 +22,9 @@ export const userState = atom<User | null>({
 export const userMenuState = atom<boolean>({
   key: recoilKeys.userMenuState,
   default: false,
+});
+
+export const cartState = atom<CartItem[]>({
+  key: recoilKeys.cartState,
+  default: [],
 });

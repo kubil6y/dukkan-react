@@ -11,7 +11,7 @@ export const CategoryPage: FC = () => {
   const { slug } = useParams<IParams>();
   const history = useHistory();
 
-  // TODO hardcoded values...
+  // TODO hardcoded values... (wont be dynamic!)
   const isValidName = includes(items, slug.toLowerCase());
   if (!isValidName) {
     history.push("/");

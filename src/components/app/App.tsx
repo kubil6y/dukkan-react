@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { useAuth } from "../../auth/useAuth";
-import { useUser } from "../../auth/useUser";
 import { userAuthTokenState } from "../../recoil/atoms";
 import { Routes } from "./Routes";
 import { Navbar } from "../navbar/Navbar";
@@ -10,18 +9,13 @@ import { useLocation } from "react-router-dom";
 import { includes } from "../../helpers";
 import { UserMenu } from "../menu/user-menu/UserMenu";
 import { Footer } from "./Footer";
+import { useUser } from "../../auth/useUser";
 
 export const App = () => {
+  const { user } = useUser();
   const { pathname } = useLocation();
   const token = useRecoilValue(userAuthTokenState);
   const { getProfile } = useAuth();
-
-  // TODO
-  const { user } = useUser();
-  console.log({
-    user,
-    token,
-  });
 
   // eslint-disable-next-line
   const cbGetProfile = React.useCallback(() => getProfile(token), [token]);
@@ -34,6 +28,11 @@ export const App = () => {
     }
     // eslint-disable-next-line
   }, [token]);
+
+  console.log({
+    token,
+    user,
+  });
 
   const show = !includes(["/register", "/login"], pathname);
   return (

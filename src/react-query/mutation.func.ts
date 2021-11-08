@@ -1,24 +1,24 @@
 import { axiosInstance } from "../axios/axiosInstance";
-import { USER_TOKEN } from "../constants";
 import { EditProfileDTO } from "../types";
 
-export const generateTokenMutationFn = async (data: any) => {
-  await axiosInstance.post("/tokens/generate-activation", data);
+export const generateTokenMutationFn = (data: any) => {
+  return axiosInstance.post("/tokens/generate-activation", data);
 };
 
-export const activateAccountMutationFn = async (data: any) => {
-  await axiosInstance.post("/tokens/activation", data);
+export const activateAccountMutationFn = (data: any) => {
+  return axiosInstance.post("/tokens/activation", data);
 };
 
-export const updateProfileMutationFn = async (data: EditProfileDTO) => {
-  await axiosInstance({
+export const updateProfileMutationFn = (
+  data: EditProfileDTO,
+  token: string
+) => {
+  return axiosInstance({
     method: "PATCH",
     url: "/profile/edit",
     data: data,
     headers: {
-      Authorization: `Bearer ${JSON.parse(
-        localStorage.getItem(USER_TOKEN) || ""
-      )}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 };

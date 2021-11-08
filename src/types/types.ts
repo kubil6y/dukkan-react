@@ -1,3 +1,11 @@
+export interface Metadata {
+  current_page: number;
+  first_page: number;
+  last_page: number;
+  page_size: number;
+  total_records: number;
+}
+
 export interface Role {
   id: number;
   created_at: Date;
@@ -40,10 +48,26 @@ export interface Product {
   category?: Category;
 }
 
-export interface Metadata {
-  current_page: number;
-  first_page: number;
-  last_page: number;
-  page_size: number;
-  total_records: number;
+export interface Review {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  text: string;
+}
+
+export interface Rating {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  value: number;
+  user_id: number;
+  product_id: number;
+}
+
+export interface CartItem {
+  product_id: number;
+  product_name: string;
+  product_image: string;
+  product_qty: number;
+  product_price: number;
 }

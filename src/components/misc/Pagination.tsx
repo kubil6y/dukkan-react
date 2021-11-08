@@ -11,7 +11,7 @@ interface PaginationProps {
 }
 
 export const Pagination: FC<PaginationProps> = ({
-  metadata: { first_page, last_page, page_size, current_page, total_records },
+  metadata: { first_page, last_page, current_page },
   setPage,
 }) => {
   const isSmallScreen = useIsSmallScreen();

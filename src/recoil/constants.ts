@@ -3,4 +3,6 @@ export const recoilKeys = {
   userAuthTokenState: "userAuthTokenState",
   userInfoState: "userInfoState",
   userMenuState: "userMenuState",
+  cartState: "cartState",
+  cartInfoState: "cartInfoState",
 };

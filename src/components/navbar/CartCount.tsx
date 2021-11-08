@@ -1,10 +1,13 @@
 import { Flex, Icon, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { FiShoppingCart } from "react-icons/fi";
+import { useRecoilValue } from "recoil";
+import { cartInfoState } from "../../recoil/selectors";
 import { colors } from "../../themes/colors";
 import { useIsLargeScreen } from "../app/hooks/mediaQueries";
 
 export const CartCount: FC = () => {
+  const { count } = useRecoilValue(cartInfoState);
   const isLargeScreen = useIsLargeScreen();
   const fsCount = isLargeScreen ? "20px" : "16px";
   const fsCart = isLargeScreen ? "14px" : "10px";
@@ -21,7 +24,7 @@ export const CartCount: FC = () => {
         textAlign="center"
       >
         <Text fontSize={fsCount} color={colors.orangePrimary} lineHeight="1">
-          0
+          {count}
         </Text>
         <Text fontSize={fsCart} color="white" lineHeight="1">
           Cart

@@ -6,6 +6,8 @@ import { userMenuState } from "../../../recoil/atoms";
 import { UserMenuHeader } from "./UserMenuHeader";
 import { UserMenuItem } from "./UserMenuItem";
 import { useUser } from "../../../auth/useUser";
+import { useHistory } from "react-router-dom";
+import { USER_TOKEN } from "../../../constants";
 import {
   Button,
   Drawer,
@@ -17,8 +19,6 @@ import {
   Divider,
   Text,
 } from "@chakra-ui/react";
-import { useHistory } from "react-router-dom";
-import { USER_TOKEN } from "../../../constants";
 
 const loggedInMenuUserItems = [
   { id: 1, text: "Profile", to: "/me" },
@@ -29,10 +29,8 @@ const loggedInMenuOrderItems = [
   { id: 10, text: "My Orders", to: "/my-orders" },
 ];
 
-//{ id: 4, text: "Verify Acccount", to: "/verify-account" },
-
 export const UserMenu: FC = () => {
-  const { user, clearUser } = useUser();
+  const { user } = useUser();
   const history = useHistory();
 
   const [isOpen, setIsOpen] = useRecoilState(userMenuState);

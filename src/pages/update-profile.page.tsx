@@ -9,8 +9,11 @@ import { RegisterDTO } from "../types";
 import { useUser } from "../auth/useUser";
 import { useUpdateProfile } from "../react-query/hooks";
 import { updateProfileSchema } from "../validation";
+import { userAuthTokenState } from "../recoil/atoms";
+import { useRecoilValue } from "recoil";
 
 export const UpdateProfilePage: FC = () => {
+  const token = useRecoilValue(userAuthTokenState);
   const { user } = useUser();
   const {
     register,
@@ -28,7 +31,7 @@ export const UpdateProfilePage: FC = () => {
     resolver: yupResolver(updateProfileSchema),
   });
 
-  const updateProfileMutation = useUpdateProfile(getValues());
+  const updateProfileMutation = useUpdateProfile(getValues(), token);
 
   const isLargeScreen = useIsLargeScreen();
   const minW = isLargeScreen ? "350px" : "280px";
