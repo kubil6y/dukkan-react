@@ -5,14 +5,18 @@ import { colors } from "../../themes/colors";
 import { useIsLargeScreen } from "../app/hooks/mediaQueries";
 import { Flex, Icon, Center, Input, Tooltip, Box } from "@chakra-ui/react";
 import { useDebounce } from "use-debounce/lib";
-import { Product } from "../../types";
+import { Metadata, Product } from "../../types";
 import { axiosInstance } from "../../axios/axiosInstance";
 import { SearchResultItem } from "./SearchResultItem";
 import { useClickOutside } from "../app/hooks/useClickOutside";
 import { useLocation } from "react-router-dom";
+import { Pagination } from "../misc/Pagination";
 
 export const SearchInput: FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [metadata, setMetadata] = useState<Metadata | null>(null);
+  const [page, setPage] = useState(1);
+
   const [inputFocused, setInputFocused] = useState(false);
   const isLargeScreen = useIsLargeScreen();
   const [showDropbox, setShowDropbox] = useState(false);
@@ -31,6 +35,7 @@ export const SearchInput: FC = () => {
   useEffect(() => {
     setShowDropbox(false);
     setS("");
+    setPage(1);
   }, [key]);
 
   useEffect(() => {
@@ -38,26 +43,26 @@ export const SearchInput: FC = () => {
       if (text === "") {
         if (products.length !== 0) {
           setProducts([]);
+          setMetadata(null);
         }
         return;
       }
       setShowDropbox(true); // open dropbox
       try {
-        const { data } = await axiosInstance.get(`/products?search=${text}`);
+        const { data } = await axiosInstance.get(
+          `/products?search=${text}&limit=2&page=${page}`
+        );
 
         if (data!.ok) {
           setProducts(data!.data!.products);
+          setMetadata(data!.data!.metadata);
         }
       } catch (error) {
         console.log(error);
       }
     };
     getProducts();
-  }, [text]);
-
-  // TODO
-  console.log(text);
-  console.log(products);
+  }, [text, page, products.length]);
 
   return (
     <div
@@ -121,9 +126,15 @@ export const SearchInput: FC = () => {
           color={colors.darkGrayPrimary}
           shadow="lg"
         >
-          {showDropbox &&
-            products.length > 0 &&
-            products.map((p) => <SearchResultItem key={p.id} product={p} />)}
+          {showDropbox && products.length > 0 && metadata && (
+            <>
+              {products.map((p) => (
+                <SearchResultItem key={p.id} product={p} />
+              ))}
+
+              <Pagination metadata={metadata} setPage={setPage} />
+            </>
+          )}
         </Box>
       </form>
 

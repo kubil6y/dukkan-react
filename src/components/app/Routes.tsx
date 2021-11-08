@@ -14,6 +14,7 @@ import {
   ProfilePage,
   UpdateProfilePage,
   ProductDetailsPage,
+  MyOrdersPage,
 } from "../../pages";
 
 const unauthenticatedRoutes = [
@@ -24,7 +25,7 @@ const unauthenticatedRoutes = [
 const protectedRoutes = [
   { id: 11, path: "/me", component: <ProfilePage />, exact: true },
   { id: 12, path: "/me/edit", component: <UpdateProfilePage /> },
-  { id: 13, path: "/my-orders", component: <h1>my orders page</h1> },
+  { id: 13, path: "/my-orders", component: <MyOrdersPage /> },
 ];
 
 const inactivatedRoutes = [

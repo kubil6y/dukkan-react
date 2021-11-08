@@ -39,3 +39,11 @@ export interface Product {
   category_id: number;
   category?: Category;
 }
+
+export interface Metadata {
+  current_page: number;
+  first_page: number;
+  last_page: number;
+  page_size: number;
+  total_records: number;
+}
