@@ -4,16 +4,11 @@ import { Helmet } from "react-helmet-async";
 import { useIsLargeScreen } from "../components/app/hooks/mediaQueries";
 import { IoSendSharp } from "react-icons/io5";
 import { colors } from "../themes/colors";
-import { useCustomToast } from "../components/app/hooks/useCustomToast";
-import { axiosInstance } from "../axios/axiosInstance";
-import { useMutation } from "react-query";
-import { useRecoilState } from "recoil";
-import { userState } from "../recoil/atoms";
-import { useHistory } from "react-router-dom";
+import { useGenerateCode, useActivateAccount } from "../react-query/hooks";
+import { useUser } from "../auth/useUser";
 
 export const VerifyAccountPage: FC = () => {
-  const history = useHistory();
-  const [user, setUser] = useRecoilState(userState);
+  const { user } = useUser();
   const [inputFocused, setInputFocused] = useState(false);
   const isLargeScreen = useIsLargeScreen();
 
@@ -22,56 +17,9 @@ export const VerifyAccountPage: FC = () => {
   const py = isLargeScreen ? "4rem" : "2rem";
 
   const [code, setCode] = useState("");
-  const toast = useCustomToast();
 
-  const generateTokenQueryFn = async () => {
-    await axiosInstance.post("/tokens/generate-activation", {
-      email: user?.email,
-    });
-  };
-
-  const activateAccountQueryFn = async () => {
-    await axiosInstance.post("/tokens/activation", {
-      code: code,
-    });
-  };
-
-  const generateMutation = useMutation(generateTokenQueryFn, {
-    onSuccess: () => {
-      toast({
-        title: "Activation Code has been sent!",
-        status: "info",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Something went wrong",
-        status: "error",
-      });
-    },
-  });
-
-  const activateMutation = useMutation(activateAccountQueryFn, {
-    onSuccess: () => {
-      toast({
-        title: "Account has been verified",
-        status: "info",
-      });
-      setUser((user) => {
-        if (user !== null) {
-          return { ...user, is_activated: true };
-        }
-        return user;
-      });
-      history.push("/");
-    },
-    onError: () => {
-      toast({
-        title: "Something went wrong",
-        status: "error",
-      });
-    },
-  });
+  const generateMutation = useGenerateCode({ email: user?.email });
+  const activateMutation = useActivateAccount({ code: code });
 
   const handleGenerateToken = () => generateMutation.mutate();
   const handleSubmit = () => {
