@@ -6,8 +6,15 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { useIsLargeScreen } from "../components/app/hooks/mediaQueries";
 import { FormInput, FormButton, FormErrorMessage } from "../components/form";
-import { RegisterDTO } from "../types";
+import { RegisterDTO, User } from "../types";
 import { useUser } from "../auth/useUser";
+import { axiosInstance } from "../axios/axiosInstance";
+import { USER_TOKEN } from "../constants";
+import { useHistory } from "react-router-dom";
+import { useMutation } from "react-query";
+import { useSetRecoilState } from "recoil";
+import { userState } from "../recoil/atoms";
+import { useCustomToast } from "../components/app/hooks/useCustomToast";
 
 const schema = yup.object().shape({
   first_name: yup
@@ -35,6 +42,9 @@ const schema = yup.object().shape({
 });
 
 export const UpdateProfilePage: FC = () => {
+  const toast = useCustomToast();
+  const history = useHistory();
+  const setUserState = useSetRecoilState(userState);
   const { user } = useUser();
   const {
     register,
@@ -52,15 +62,49 @@ export const UpdateProfilePage: FC = () => {
     resolver: yupResolver(schema),
   });
 
-  //const history = useHistory();
+  const updateQueryFn = async () => {
+    const values = getValues();
+    await axiosInstance({
+      method: "PATCH",
+      url: "/profile/edit",
+      data: values,
+      headers: {
+        Authorization: `Bearer ${JSON.parse(
+          localStorage.getItem(USER_TOKEN) || ""
+        )}`,
+      },
+    });
+  };
+  const mutation = useMutation(updateQueryFn, {
+    onSuccess: () => {
+      const { first_name, last_name, email, address } = getValues();
+
+      if (user) {
+        const copy: User = { ...user };
+        if (first_name) copy.first_name = first_name;
+        if (last_name) copy.last_name = last_name;
+        if (email) copy.email = email;
+        if (address) copy.address = address;
+        setUserState(copy);
+        history.push("/me");
+      } else {
+        history.push("/");
+      }
+    },
+    onError: () => {
+      toast({
+        title: "Something went wrong",
+        status: "error",
+      });
+      history.push("/");
+    },
+  });
 
   const isLargeScreen = useIsLargeScreen();
   const minW = isLargeScreen ? "350px" : "280px";
 
-  const onSubmit = async () => {
-    console.log({
-      values: getValues(),
-    });
+  const onSubmit = () => {
+    mutation.mutate();
   };
 
   return (
@@ -161,7 +205,7 @@ export const UpdateProfilePage: FC = () => {
 
             <FormButton
               text="Update"
-              isLoading={false}
+              isLoading={mutation.isLoading}
               loadingText="Submitting"
             />
           </form>
