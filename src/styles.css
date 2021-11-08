@@ -47,16 +47,16 @@
     margin-left: 2px;
   }
   .space-x-4 > * + * {
-    margin-left: 0px;
+    margin-left: 4px;
   }
 }
 
-.nav-form {
+.bar-wrapper {
   display: flex;
   align-items: stretch;
   margin: 6px auto;
   border-radius: 4px;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 .text-underline:hover {

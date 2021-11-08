@@ -23,7 +23,7 @@ export const VerifyAccountPage: FC = () => {
         </Text>
 
         <form
-          className="nav-form"
+          className="bar-wrapper"
           style={{
             marginTop: "12px",
             marginBottom: "8px",
