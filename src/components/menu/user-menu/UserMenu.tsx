@@ -42,9 +42,8 @@ export const UserMenu: FC = () => {
   const size = isLargeScreen ? "xs" : "full";
 
   const handleLogout = () => {
-    setIsOpen(false);
     localStorage.removeItem(USER_TOKEN);
-    clearUser();
+    history.push("/");
     window.location.reload();
   };
 

@@ -23,7 +23,6 @@ export const VerifyAccountPage: FC = () => {
 
   const handleGenerateToken = () => generateMutation.mutate();
   const handleSubmit = () => {
-    console.log("submit!");
     if (code === "") return;
     activateMutation.mutate();
   };

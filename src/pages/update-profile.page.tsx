@@ -1,50 +1,16 @@
 import { FC } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { Flex, Box, VStack, Text } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { useIsLargeScreen } from "../components/app/hooks/mediaQueries";
 import { FormInput, FormButton, FormErrorMessage } from "../components/form";
-import { RegisterDTO, User } from "../types";
+import { RegisterDTO } from "../types";
 import { useUser } from "../auth/useUser";
-import { axiosInstance } from "../axios/axiosInstance";
-import { USER_TOKEN } from "../constants";
-import { useHistory } from "react-router-dom";
-import { useMutation } from "react-query";
-import { useSetRecoilState } from "recoil";
-import { userState } from "../recoil/atoms";
-import { useCustomToast } from "../components/app/hooks/useCustomToast";
-
-const schema = yup.object().shape({
-  first_name: yup
-    .string()
-    .min(2, "Must be at least 2 characters")
-    .required("Must be provided"),
-  last_name: yup
-    .string()
-    .required("Must be provided")
-    .min(2, "Must be at least 2 characters"),
-  email: yup.string().email("Must be valid email").required("Must be provided"),
-  address: yup
-    .string()
-    .required("Must be provided")
-    .min(12, "Must be at least 12 characters"),
-  password: yup
-    .string()
-    .required("Must be provided")
-    .min(6, "Must be at least 6 characters"),
-  password_confirm: yup
-    .string()
-    .required("Must be provided")
-    .min(6, "Must be at least 6 characters")
-    .oneOf([yup.ref("password")], "Passwords must match"),
-});
+import { useUpdateProfile } from "../react-query/hooks";
+import { updateProfileSchema } from "../validation";
 
 export const UpdateProfilePage: FC = () => {
-  const toast = useCustomToast();
-  const history = useHistory();
-  const setUserState = useSetRecoilState(userState);
   const { user } = useUser();
   const {
     register,
@@ -59,54 +25,15 @@ export const UpdateProfilePage: FC = () => {
       address: user?.address || "",
     },
     mode: "onChange",
-    resolver: yupResolver(schema),
+    resolver: yupResolver(updateProfileSchema),
   });
 
-  const updateQueryFn = async () => {
-    const values = getValues();
-    await axiosInstance({
-      method: "PATCH",
-      url: "/profile/edit",
-      data: values,
-      headers: {
-        Authorization: `Bearer ${JSON.parse(
-          localStorage.getItem(USER_TOKEN) || ""
-        )}`,
-      },
-    });
-  };
-  const mutation = useMutation(updateQueryFn, {
-    onSuccess: () => {
-      const { first_name, last_name, email, address } = getValues();
-
-      if (user) {
-        const copy: User = { ...user };
-        if (first_name) copy.first_name = first_name;
-        if (last_name) copy.last_name = last_name;
-        if (email) copy.email = email;
-        if (address) copy.address = address;
-        setUserState(copy);
-        history.push("/me");
-      } else {
-        history.push("/");
-      }
-    },
-    onError: () => {
-      toast({
-        title: "Something went wrong",
-        status: "error",
-      });
-      history.push("/");
-    },
-  });
+  const updateProfileMutation = useUpdateProfile(getValues());
 
   const isLargeScreen = useIsLargeScreen();
   const minW = isLargeScreen ? "350px" : "280px";
 
-  const onSubmit = () => {
-    mutation.mutate();
-  };
-
+  const onSubmit = () => updateProfileMutation.mutate();
   return (
     <>
       <Helmet>
@@ -205,7 +132,7 @@ export const UpdateProfilePage: FC = () => {
 
             <FormButton
               text="Update"
-              isLoading={mutation.isLoading}
+              isLoading={updateProfileMutation.isLoading}
               loadingText="Submitting"
             />
           </form>
