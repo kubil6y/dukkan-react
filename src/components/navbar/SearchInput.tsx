@@ -44,6 +44,10 @@ export const SearchInput: FC = () => {
   });
 
   useEffect(() => {
+    setPage(1);
+  }, [text]);
+
+  useEffect(() => {
     setS("");
     setShowDropbox(false);
     setIsLoading(false);
@@ -80,6 +84,7 @@ export const SearchInput: FC = () => {
 
   return (
     <div
+      ref={inputRef}
       className="bar-wrapper"
       style={{
         width: isLargeScreen ? "65%" : "100%",
@@ -113,7 +118,7 @@ export const SearchInput: FC = () => {
         />
       </Flex>
 
-      <form style={{ width: "100%", position: "relative" }} ref={inputRef}>
+      <form style={{ width: "100%", position: "relative" }}>
         <Input
           type="text"
           width="100%"
@@ -163,7 +168,12 @@ export const SearchInput: FC = () => {
         </Box>
       </form>
 
-      <Center bg={colors.orangeSecondary} px="12px" cursor="pointer">
+      <Center
+        bg={colors.orangeSecondary}
+        px="12px"
+        cursor="pointer"
+        onClick={() => setInputFocused(true)}
+      >
         <Icon as={GoSearch} w={5} h={5} color={colors.darkGrayPrimary} />
       </Center>
     </div>

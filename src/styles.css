@@ -3,6 +3,7 @@
 }
 
 .link {
+  cursor: pointer;
   color: #3182ce;
 }
 .link:hover {

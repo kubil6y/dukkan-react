@@ -14,13 +14,6 @@ export const Pagination: FC<PaginationProps> = ({
   metadata: { first_page, last_page, page_size, current_page, total_records },
   setPage,
 }) => {
-  console.log({
-    first_page,
-    last_page,
-    page_size,
-    current_page,
-    total_records,
-  });
   const isSmallScreen = useIsSmallScreen();
   const size = isSmallScreen ? 4 : 5;
   const w = isSmallScreen ? "100%" : "40%";
@@ -90,7 +83,9 @@ export const Pagination: FC<PaginationProps> = ({
         color={getItemByStatus(prevButtonStatus, activeColor, disabledColor)}
         onClick={() => handlePrevPageClick(prevButtonStatus)}
       />
-      <Text fontSize={fs}>{current_page}</Text>
+      <Text fontSize={fs}>
+        {current_page}/{last_page}
+      </Text>
       <Icon
         cursor={getItemByStatus(nextButtonStatus, "pointer", "cursor")}
         as={IoIosArrowForward}
