@@ -34,14 +34,30 @@ export const Pagination: FC<PaginationProps> = ({
   const nextButtonStatus = lastPageButtonStatus && last_page > current_page;
   const prevButtonStatus = firstPageButtonStatus && first_page < current_page;
 
-  const getStatusColor = (b: boolean): string => {
-    return b ? activeColor : disabledColor;
+  const getItemByStatus = (status: boolean, first: any, second: any): any => {
+    return status ? first : second;
   };
 
-  const handleFirstPageClick = () => setPage(1);
-  const handlePrevPageClick = () => setPage((i: number) => i - 1);
-  const handleNextPageClick = () => setPage((i: number) => i + 1);
-  const handleLastPageClick = () => setPage(last_page);
+  const handleFirstPageClick = (status: boolean) => {
+    if (status) {
+      setPage(1);
+    }
+  };
+  const handlePrevPageClick = (status: boolean) => {
+    if (status) {
+      setPage((i: number) => i - 1);
+    }
+  };
+  const handleNextPageClick = (status: boolean) => {
+    if (status) {
+      setPage((i: number) => i + 1);
+    }
+  };
+  const handleLastPageClick = (status: boolean) => {
+    if (status) {
+      setPage(last_page);
+    }
+  };
 
   return (
     <Grid
@@ -55,37 +71,45 @@ export const Pagination: FC<PaginationProps> = ({
       py="8px"
     >
       <Icon
-        cursor={firstPageButtonStatus ? "pointer" : "cursor"}
+        cursor={getItemByStatus(firstPageButtonStatus, "pointer", "cursor")}
         as={BiArrowToLeft}
         w={size}
         h={size}
-        color={getStatusColor(firstPageButtonStatus)}
-        onClick={handleFirstPageClick}
+        color={getItemByStatus(
+          firstPageButtonStatus,
+          activeColor,
+          disabledColor
+        )}
+        onClick={() => handleFirstPageClick(firstPageButtonStatus)}
       />
       <Icon
-        cursor={prevButtonStatus ? "pointer" : "cursor"}
+        cursor={getItemByStatus(prevButtonStatus, "pointer", "cursor")}
         as={IoIosArrowBack}
         w={size}
         h={size}
-        color={getStatusColor(prevButtonStatus)}
-        onClick={handlePrevPageClick}
+        color={getItemByStatus(prevButtonStatus, activeColor, disabledColor)}
+        onClick={() => handlePrevPageClick(prevButtonStatus)}
       />
       <Text fontSize={fs}>{current_page}</Text>
       <Icon
-        cursor={nextButtonStatus ? "pointer" : "cursor"}
+        cursor={getItemByStatus(nextButtonStatus, "pointer", "cursor")}
         as={IoIosArrowForward}
         w={size}
         h={size}
-        color={getStatusColor(nextButtonStatus)}
-        onClick={handleNextPageClick}
+        color={getItemByStatus(nextButtonStatus, activeColor, disabledColor)}
+        onClick={() => handleNextPageClick(nextButtonStatus)}
       />
       <Icon
-        cursor={lastPageButtonStatus ? "pointer" : "cursor"}
+        cursor={getItemByStatus(nextButtonStatus, "pointer", "cursor")}
         as={BiArrowToRight}
         w={size}
         h={size}
-        color={getStatusColor(lastPageButtonStatus)}
-        onClick={handleLastPageClick}
+        color={getItemByStatus(
+          lastPageButtonStatus,
+          activeColor,
+          disabledColor
+        )}
+        onClick={() => handleLastPageClick(lastPageButtonStatus)}
       />
     </Grid>
   );

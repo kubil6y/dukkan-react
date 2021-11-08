@@ -3,7 +3,6 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { GoSearch } from "react-icons/go";
 import { colors } from "../../themes/colors";
 import { useIsLargeScreen } from "../app/hooks/mediaQueries";
-import { Flex, Icon, Center, Input, Tooltip, Box } from "@chakra-ui/react";
 import { useDebounce } from "use-debounce/lib";
 import { Metadata, Product } from "../../types";
 import { axiosInstance } from "../../axios/axiosInstance";
@@ -11,8 +10,18 @@ import { SearchResultItem } from "./SearchResultItem";
 import { useClickOutside } from "../app/hooks/useClickOutside";
 import { useLocation } from "react-router-dom";
 import { Pagination } from "../misc/Pagination";
+import {
+  Flex,
+  Icon,
+  Center,
+  Input,
+  Tooltip,
+  Box,
+  Spinner,
+} from "@chakra-ui/react";
 
 export const SearchInput: FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [metadata, setMetadata] = useState<Metadata | null>(null);
   const [page, setPage] = useState(1);
@@ -28,13 +37,16 @@ export const SearchInput: FC = () => {
   const { key } = useLocation();
   const dropboxRef = useRef(null);
   const inputRef = useRef(null);
+
   useClickOutside(dropboxRef, inputRef, () => {
+    setS("");
     setShowDropbox(false);
   });
 
   useEffect(() => {
-    setShowDropbox(false);
     setS("");
+    setShowDropbox(false);
+    setIsLoading(false);
     setPage(1);
   }, [key]);
 
@@ -48,14 +60,16 @@ export const SearchInput: FC = () => {
         return;
       }
       setShowDropbox(true); // open dropbox
+      setIsLoading(true);
       try {
         const { data } = await axiosInstance.get(
-          `/products?search=${text}&limit=2&page=${page}`
+          `/products?search=${text}&limit=5&page=${page}`
         );
 
         if (data!.ok) {
           setProducts(data!.data!.products);
           setMetadata(data!.data!.metadata);
+          setIsLoading(false);
         }
       } catch (error) {
         console.log(error);
@@ -99,17 +113,20 @@ export const SearchInput: FC = () => {
         />
       </Flex>
 
-      <form style={{ width: "100%", position: "relative" }}>
+      <form style={{ width: "100%", position: "relative" }} ref={inputRef}>
         <Input
-          ref={inputRef}
           type="text"
           width="100%"
           bg="white"
           borderRadius="0"
           placeholder="Search for Products"
           _focus={{ borderColor: "none" }}
+          value={s}
           onChange={(e) => setS(e.target.value)}
-          onFocus={() => setInputFocused(true)}
+          onFocus={() => {
+            setInputFocused(true);
+            setShowDropbox(true);
+          }}
           onBlur={() => setInputFocused(false)}
         />
 
@@ -126,14 +143,22 @@ export const SearchInput: FC = () => {
           color={colors.darkGrayPrimary}
           shadow="lg"
         >
-          {showDropbox && products.length > 0 && metadata && (
-            <>
-              {products.map((p) => (
-                <SearchResultItem key={p.id} product={p} />
-              ))}
+          {showDropbox && s && isLoading ? (
+            <Center py="4px" h="80px" w="100%">
+              <Spinner />
+            </Center>
+          ) : (
+            showDropbox &&
+            products.length > 0 &&
+            metadata && (
+              <>
+                {products.map((p) => (
+                  <SearchResultItem key={p.id} product={p} />
+                ))}
 
-              <Pagination metadata={metadata} setPage={setPage} />
-            </>
+                <Pagination metadata={metadata} setPage={setPage} />
+              </>
+            )
           )}
         </Box>
       </form>
