@@ -3,7 +3,6 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  Divider,
   DrawerBody,
   DrawerFooter,
   Button,
@@ -13,10 +12,12 @@ import { useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { cartMenuState } from "../../../recoil/atoms";
 import { useIsLargeScreen } from "../../app/hooks/mediaQueries";
+import { useCartItems } from "../../app/hooks/useCartItems";
 import { CartMenuHeader } from "./CartMenuHeader";
 import { CartMenuItem } from "./CartMenuItem";
 
 export const CartMenu: FC = () => {
+  const { cartItems } = useCartItems();
   const [isOpen, setIsOpen] = useRecoilState(cartMenuState);
   const history = useHistory();
 
@@ -28,8 +29,6 @@ export const CartMenu: FC = () => {
 
   const goToCheckout = () => {
     // TODO
-    // 1- must be signed in to go to checkout
-    // 2- must be activated to make an order!
     console.log("clicked");
     history.push("/checkout");
   };
@@ -48,11 +47,15 @@ export const CartMenu: FC = () => {
         <CartMenuHeader />
 
         <DrawerBody px="4px">
-          <CartMenuItem initQty={3} />
+          {cartItems.length > 0 &&
+            cartItems.map((item) => (
+              <CartMenuItem item={item} key={item.uuid} />
+            ))}
         </DrawerBody>
 
         <DrawerFooter>
           <Button
+            mt="10px"
             colorScheme="facebook"
             width="100%"
             onClick={goToCheckout}

@@ -1,12 +1,3 @@
-import { FC, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useProduct } from "../react-query/hooks";
-import { useCustomToast } from "../components/app/hooks/useCustomToast";
-import { Product, Review, Rating } from "../types";
-import { Container } from "../components/app/Container";
-import { Helmet } from "react-helmet-async";
-import { Ratings } from "../components/misc/Ratings";
-import { Link } from "react-router-dom";
 import {
   Box,
   Center,
@@ -17,8 +8,21 @@ import {
   Select,
   Button,
 } from "@chakra-ui/react";
+import { FC, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useProduct } from "../react-query/hooks";
+import { useCustomToast } from "../components/app/hooks/useCustomToast";
+import { ProductDetailsResponse } from "../types";
+import { Container } from "../components/app/Container";
+import { Helmet } from "react-helmet-async";
+import { Ratings } from "../components/misc/Ratings";
+import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import { useIsSmallScreen } from "../components/app/hooks/mediaQueries";
 import { genArrayOfNElements } from "../helpers";
+import { useSetRecoilState } from "recoil";
+import { cartMenuState } from "../recoil/atoms";
+import { useCartItems } from "../components/app/hooks/useCartItems";
 
 interface IParams {
   slug: string;
@@ -27,11 +31,10 @@ interface IParams {
 export const ProductDetailsPage: FC = () => {
   const { slug } = useParams<IParams>();
   const { data, isLoading, isError } = useProduct(slug);
+  const { addCartItem } = useCartItems();
 
+  const setIsCartOpen = useSetRecoilState(cartMenuState);
   const [qty, setQty] = useState(1);
-  useEffect(() => {
-    console.log(qty);
-  }, [qty]);
 
   const toast = useCustomToast();
   const isSmallScreen = useIsSmallScreen();
@@ -53,15 +56,18 @@ export const ProductDetailsPage: FC = () => {
   }
 
   if (data?.ok === true) {
-    // TODO is this what cancer looks like?
-    const product: Product & { reviews: Review[] } & { ratings: Rating[] } & {
-      rating_average: number;
-      rating_count: number;
-      review_count: number;
-    } = data?.data?.product;
+    const product: ProductDetailsResponse = data?.data?.product;
 
     const handleAddToCart = () => {
-      console.log("clicked add to cart");
+      if (qty <= 0 || qty > product.count) {
+        return;
+      }
+      setIsCartOpen(true);
+      addCartItem({
+        uuid: uuidv4(),
+        product: product,
+        qty: qty,
+      });
     };
 
     return (

@@ -1,27 +1,43 @@
-import { Flex, Image, Text, Icon, Input, Grid, Center } from "@chakra-ui/react";
+import { Flex, Image, Text, Icon, Grid, Center } from "@chakra-ui/react";
 import { FC, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CartItem } from "../../../types";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import { FaTrashAlt } from "react-icons/fa";
 import { useIsSmallScreen } from "../../app/hooks/mediaQueries";
+import { useCartItems } from "../../app/hooks/useCartItems";
+import { FancyCurrency } from "../../misc/FancyCurrency";
 
-export const CartMenuItem: FC<CartItem> = ({ product, initQty }) => {
+interface CartMenuItemProps {
+  item: CartItem;
+}
+
+export const CartMenuItem: FC<CartMenuItemProps> = ({ item }) => {
   const isSmallScreen = useIsSmallScreen();
-  const [qty, setQty] = useState(initQty);
+  const [qty, setQty] = useState(item.qty);
   const history = useHistory();
+  const { updateQtyOfCartItem, deleteCartItemByUUID } = useCartItems();
 
-  const goToProductDetails = () =>
-    history.push(`/products/${product?.slug || ""}`);
+  const goToProductDetails = () => {
+    history.push(`/products/${item.product.slug}`);
+  };
 
   const handleMinus = () => {
-    setQty((i) => i - 1);
+    if (qty <= 1) {
+      return;
+    }
+    updateQtyOfCartItem(item.uuid, qty - 1);
+    setQty((c) => c - 1);
   };
   const handlePlus = () => {
-    setQty((i) => i + 1);
+    if (item.product.count <= qty) {
+      return;
+    }
+    updateQtyOfCartItem(item.uuid, qty + 1);
+    setQty((c) => c + 1);
   };
 
-  //templateColumns="80px 150px 120px 80px 50px"
+  const handleDeleteItem = () => deleteCartItemByUUID(item.uuid);
 
   return !isSmallScreen ? (
     <Grid
@@ -30,24 +46,28 @@ export const CartMenuItem: FC<CartItem> = ({ product, initQty }) => {
       justifyContent="space-between"
       px="1rem"
     >
+      {/* product image */}
       <Image
         src="/products/keyboard.jpg"
-        alt="keyboard lasjkf asldf kjasdlfkj"
+        alt={item.product.name}
         cursor="pointer"
         onClick={goToProductDetails}
       />
 
+      {/* product name */}
       <Text
         p="4px"
         fontSize="14px"
         fontStyle="bold"
         ml="1rem"
         cursor="pointer"
+        isTruncated
         onClick={goToProductDetails}
       >
-        keyboard lasjkf asldf kjasdlfkj
+        {item.product.name}
       </Text>
 
+      {/* quantity counter */}
       <Flex alignItems="center" justifyContent="center">
         <Icon
           as={AiFillMinusCircle}
@@ -56,14 +76,9 @@ export const CartMenuItem: FC<CartItem> = ({ product, initQty }) => {
           w={4}
           h={4}
         />
-        <Input
-          value={qty}
-          onChange={(e) => setQty(+e.target.value)}
-          mx="4px"
-          width="55px"
-          fontSize="13px"
-          textAlign="center"
-        />
+        <Text mx="4px" width="40px" fontSize="13px" textAlign="center">
+          {item.qty}
+        </Text>
         <Icon
           as={AiFillPlusCircle}
           onClick={handlePlus}
@@ -73,11 +88,10 @@ export const CartMenuItem: FC<CartItem> = ({ product, initQty }) => {
         />
       </Flex>
 
-      <Text fontSize="16px" fontStyle="bold" color="red.400" textAlign="center">
-        ${(qty * 3).toFixed(2)}
-      </Text>
+      {/* price */}
+      <FancyCurrency color="red.400" fs={11} value={item.product.price * qty} />
 
-      <Center>
+      <Center cursor="pointer" onClick={handleDeleteItem}>
         <Icon as={FaTrashAlt} w={5} h={5} color="red.500" />
       </Center>
     </Grid>

@@ -1,9 +1,9 @@
-import { useInfiniteQuery, useMutation, useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useCustomToast } from "../components/app/hooks/useCustomToast";
 import { userState } from "../recoil/atoms";
-import { EditProfileDTO, Metadata, User } from "../types";
+import { EditProfileDTO, User } from "../types";
 import { queryKeys } from "./constants";
 import {
   activateAccountMutationFn,

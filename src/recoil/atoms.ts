@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { USER_TOKEN } from "../constants";
+import { CART_ITEMS, USER_TOKEN } from "../constants";
 import { CartItem, User } from "../types";
 import { recoilKeys } from "./constants";
 
@@ -7,6 +7,12 @@ let token = "";
 const localTokenValue = localStorage.getItem(USER_TOKEN);
 if (localTokenValue !== null) {
   token = JSON.parse(localTokenValue);
+}
+
+let cartItems: CartItem[] = [];
+const localInitCartItems = localStorage.getItem(CART_ITEMS);
+if (localInitCartItems !== null) {
+  cartItems = JSON.parse(localInitCartItems);
 }
 
 // userAuthTokenState is responsible for auth token state
@@ -36,5 +42,5 @@ export const cartMenuState = atom<boolean>({
 // cartState is responsible for items added to cart
 export const cartState = atom<CartItem[]>({
   key: recoilKeys.cartState,
-  default: [],
+  default: cartItems,
 });

@@ -66,6 +66,15 @@ export interface Rating {
 
 // TODO busted
 export interface CartItem {
-  product?: Product;
-  initQty: number;
+  uuid: string;
+  product: Product;
+  qty: number;
 }
+
+export type ProductDetailsResponse = Product & { reviews: Review[] } & {
+  ratings: Rating[];
+} & {
+  rating_average: number;
+  rating_count: number;
+  review_count: number;
+};

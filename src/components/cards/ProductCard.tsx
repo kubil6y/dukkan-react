@@ -1,4 +1,4 @@
-import { Flex, Text, Image, Box, Center } from "@chakra-ui/react";
+import { Text, Image, Box, Center } from "@chakra-ui/react";
 import { FC } from "react";
 import { Product } from "../../types";
 import { useIsLargeScreen } from "../app/hooks/mediaQueries";
