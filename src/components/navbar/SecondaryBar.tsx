@@ -24,7 +24,7 @@ const SecondaryBarItem: FC<SecondaryBarItemProps> = ({ text }) => {
     <Center
       className="secondary-nav-border"
       cursor="pointer"
-      onClick={() => history.push(`/categories/${text}`)}
+      onClick={() => history.push(`/categories/${text.toLowerCase()}`)}
     >
       <Text>{text}</Text>
     </Center>

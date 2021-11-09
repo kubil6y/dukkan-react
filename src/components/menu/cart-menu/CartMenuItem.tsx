@@ -1,26 +1,18 @@
-import { Flex, Image, Text, Box, Icon, Input } from "@chakra-ui/react";
+import { Flex, Image, Text, Icon, Input, Grid, Center } from "@chakra-ui/react";
 import { FC, useState } from "react";
-import { colors } from "../../../themes/colors";
 import { useHistory } from "react-router-dom";
 import { CartItem } from "../../../types";
-import { CartMenuItemCounter } from "./CartMenuItemCounter";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import { FaTrashAlt } from "react-icons/fa";
+import { useIsSmallScreen } from "../../app/hooks/mediaQueries";
 
-export const CartMenuItem: FC<CartItem> = ({
-  product_id = 0,
-  product_name = "keyboard lasjkf asldf kjasdlfkj",
-  product_image = "/products/keyboard.jpg",
-  product_qty = 3,
-  product_price = 31.25,
-  product_slug = "bhrtlrn-dyvuav",
-  product_count = 5,
-  product_brand = "Sony",
-}) => {
-  const [qty, setQty] = useState(product_qty);
+export const CartMenuItem: FC<CartItem> = ({ product, initQty }) => {
+  const isSmallScreen = useIsSmallScreen();
+  const [qty, setQty] = useState(initQty);
   const history = useHistory();
 
-  const goToProductDetails = () => history.push(`/products/${product_slug}`);
+  const goToProductDetails = () =>
+    history.push(`/products/${product?.slug || ""}`);
 
   const handleMinus = () => {
     setQty((i) => i - 1);
@@ -29,31 +21,34 @@ export const CartMenuItem: FC<CartItem> = ({
     setQty((i) => i + 1);
   };
 
-  return (
-    <Flex alignItems="center" justifyContent="space-between">
+  //templateColumns="80px 150px 120px 80px 50px"
+
+  return !isSmallScreen ? (
+    <Grid
+      templateColumns="80px 150px 120px 80px 50px"
+      alignItems="center"
+      justifyContent="space-between"
+      px="1rem"
+    >
       <Image
-        src={product_image}
-        alt={product_name}
+        src="/products/keyboard.jpg"
+        alt="keyboard lasjkf asldf kjasdlfkj"
         cursor="pointer"
         onClick={goToProductDetails}
-        w="50px"
-        h="50px"
       />
 
       <Text
-        bg="red.500"
+        p="4px"
         fontSize="14px"
         fontStyle="bold"
+        ml="1rem"
         cursor="pointer"
-        isTruncated
-        mx="4px"
-        noOfLines={1}
         onClick={goToProductDetails}
       >
-        {product_name}
+        keyboard lasjkf asldf kjasdlfkj
       </Text>
 
-      <Flex alignItems="center">
+      <Flex alignItems="center" justifyContent="center">
         <Icon
           as={AiFillMinusCircle}
           onClick={handleMinus}
@@ -64,10 +59,10 @@ export const CartMenuItem: FC<CartItem> = ({
         <Input
           value={qty}
           onChange={(e) => setQty(+e.target.value)}
-          width="50px"
+          mx="4px"
+          width="55px"
           fontSize="13px"
           textAlign="center"
-          mx="8px"
         />
         <Icon
           as={AiFillPlusCircle}
@@ -78,11 +73,17 @@ export const CartMenuItem: FC<CartItem> = ({
         />
       </Flex>
 
-      <Text fontSize="18px" fontStyle="bold" color="red.400">
-        ${(qty * product_price).toFixed(2)}
+      <Text fontSize="16px" fontStyle="bold" color="red.400" textAlign="center">
+        ${(qty * 3).toFixed(2)}
       </Text>
 
-      <Icon as={FaTrashAlt} w={5} h={5} color="red.500" />
-    </Flex>
+      <Center>
+        <Icon as={FaTrashAlt} w={5} h={5} color="red.500" />
+      </Center>
+    </Grid>
+  ) : (
+    <div>
+      <div>small screen</div>
+    </div>
   );
 };

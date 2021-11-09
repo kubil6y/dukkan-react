@@ -1,16 +1,16 @@
-import { useMutation, useQuery } from "react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useCustomToast } from "../components/app/hooks/useCustomToast";
 import { userState } from "../recoil/atoms";
-import { EditProfileDTO, User } from "../types";
+import { EditProfileDTO, Metadata, User } from "../types";
 import { queryKeys } from "./constants";
 import {
   activateAccountMutationFn,
   generateTokenMutationFn,
   updateProfileMutationFn,
 } from "./mutation.func";
-import { getProductBySlug } from "./query.func";
+import { getProductBySlug, getProductsByCategorySlug } from "./query.func";
 
 export const useActivateAccount = (data: any) => {
   const history = useHistory();
@@ -97,3 +97,26 @@ export const useUpdateProfile = (data: EditProfileDTO, token: string) => {
 export const useProduct = (slug: string) => {
   return useQuery([queryKeys.products, slug], () => getProductBySlug(slug));
 };
+
+export const useProductsByCategorySlug = (slug: string) => {
+  return useQuery([queryKeys.products, queryKeys.category, slug], () =>
+    getProductsByCategorySlug(slug)
+  );
+};
+
+//export const useProductsByCategorySlug = (slug: string) => {
+//return useInfiniteQuery(
+//[queryKeys.products, queryKeys.category, slug],
+//() => getProductsByCategorySlug(slug),
+//{
+//getNextPageParam: (data) => {
+//const { last_page, current_page } = data?.data?.metadata as Metadata;
+//if (current_page < last_page) {
+//return current_page + 1;
+//} else {
+//return undefined;
+//}
+//},
+//}
+//);
+//};

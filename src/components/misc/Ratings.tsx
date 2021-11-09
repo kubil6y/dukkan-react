@@ -27,7 +27,7 @@ export const Ratings: FC<RatingsProps> = ({ rating_average, rating_count }) => {
         ))}
       </Flex>
       <Text fontSize="12px" ml="1rem">
-        {rating_count} {rating_count > 1 ? "ratings" : "rating"}
+        {rating_count} {rating_count === 1 ? "rating" : "ratings"}
       </Text>
     </Flex>
   );

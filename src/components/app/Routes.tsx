@@ -3,7 +3,7 @@ import {
   ProtectedRoute,
   UnauthenticatedRoute,
   InactivatedRoute,
-} from "./wrappers";
+} from "./custom-routes";
 import {
   CategoryPage,
   HomePage,
@@ -15,6 +15,7 @@ import {
   UpdateProfilePage,
   ProductDetailsPage,
   MyOrdersPage,
+  CheckoutPage,
 } from "../../pages";
 
 const unauthenticatedRoutes = [
@@ -41,6 +42,7 @@ const commonRoutes = [
   { id: 1000, path: "/", component: <HomePage />, exact: true },
   { id: 1001, path: "/categories/:slug", component: <CategoryPage /> },
   { id: 1002, path: "/products/:slug", component: <ProductDetailsPage /> },
+  { id: 1003, path: "/checkout", component: <CheckoutPage /> },
 ];
 
 export const Routes = () => {

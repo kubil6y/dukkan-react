@@ -64,13 +64,8 @@ export interface Rating {
   product_id: number;
 }
 
+// TODO busted
 export interface CartItem {
-  product_id?: number;
-  product_name?: string;
-  product_image?: string;
-  product_qty?: number;
-  product_price?: number;
-  product_slug?: string;
-  product_count?: number;
-  product_brand?: string;
+  product?: Product;
+  initQty: number;
 }

@@ -26,8 +26,12 @@ export const CartMenu: FC = () => {
 
   const onClose = () => setIsOpen(false);
 
-  const handleCheckout = () => {
-    console.log("clicked checkout");
+  const goToCheckout = () => {
+    // TODO
+    // 1- must be signed in to go to checkout
+    // 2- must be activated to make an order!
+    console.log("clicked");
+    history.push("/checkout");
   };
 
   return (
@@ -43,15 +47,15 @@ export const CartMenu: FC = () => {
         <DrawerCloseButton color="white" />
         <CartMenuHeader />
 
-        <DrawerBody>
-          <CartMenuItem />
+        <DrawerBody px="4px">
+          <CartMenuItem initQty={3} />
         </DrawerBody>
 
         <DrawerFooter>
           <Button
             colorScheme="facebook"
             width="100%"
-            onClick={() => handleCheckout}
+            onClick={goToCheckout}
             letterSpacing="wider"
             textTransform="uppercase"
           >
