@@ -7,18 +7,23 @@ import { FaTrashAlt } from "react-icons/fa";
 import { useIsSmallScreen } from "../../app/hooks/mediaQueries";
 import { useCartItems } from "../../app/hooks/useCartItems";
 import { FancyCurrency } from "../../misc/FancyCurrency";
+import { useSetRecoilState } from "recoil";
+import { cartMenuState } from "../../../recoil/atoms";
 
 interface CartMenuItemProps {
   item: CartItem;
 }
 
 export const CartMenuItem: FC<CartMenuItemProps> = ({ item }) => {
-  const isSmallScreen = useIsSmallScreen();
-  const [qty, setQty] = useState(item.qty);
-  const history = useHistory();
   const { updateQtyOfCartItem, deleteCartItemByUUID } = useCartItems();
+  const [qty, setQty] = useState(item.qty);
+  const setIsCartOpen = useSetRecoilState(cartMenuState);
+
+  const history = useHistory();
+  const isSmallScreen = useIsSmallScreen();
 
   const goToProductDetails = () => {
+    setIsCartOpen(false);
     history.push(`/products/${item.product.slug}`);
   };
 
@@ -55,15 +60,7 @@ export const CartMenuItem: FC<CartMenuItemProps> = ({ item }) => {
       />
 
       {/* product name */}
-      <Text
-        p="4px"
-        fontSize="14px"
-        fontStyle="bold"
-        ml="1rem"
-        cursor="pointer"
-        isTruncated
-        onClick={goToProductDetails}
-      >
+      <Text p="4px" fontSize="14px" fontStyle="bold" ml="1rem" isTruncated>
         {item.product.name}
       </Text>
 
