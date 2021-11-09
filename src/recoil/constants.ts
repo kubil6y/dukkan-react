@@ -5,4 +5,5 @@ export const recoilKeys = {
   userMenuState: "userMenuState",
   cartState: "cartState",
   cartInfoState: "cartInfoState",
+  cartMenuState: "cartMenuState",
 };

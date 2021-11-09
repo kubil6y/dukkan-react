@@ -1,19 +1,27 @@
 import { Flex, Icon, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { FiShoppingCart } from "react-icons/fi";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { cartMenuState } from "../../recoil/atoms";
 import { cartInfoState } from "../../recoil/selectors";
 import { colors } from "../../themes/colors";
 import { useIsLargeScreen } from "../app/hooks/mediaQueries";
 
 export const CartCount: FC = () => {
+  const setIsOpen = useSetRecoilState(cartMenuState);
+
   const { count } = useRecoilValue(cartInfoState);
   const isLargeScreen = useIsLargeScreen();
   const fsCount = isLargeScreen ? "20px" : "16px";
   const fsCart = isLargeScreen ? "14px" : "10px";
   const iconSize = isLargeScreen ? 7 : 6;
   return (
-    <Flex className="nav-border" alignItems="center" justifyContent="center">
+    <Flex
+      className="nav-border"
+      alignItems="center"
+      justifyContent="center"
+      onClick={() => setIsOpen(true)}
+    >
       <Icon as={FiShoppingCart} w={iconSize} h={iconSize} color="white" />
       <Flex
         ml="4px"

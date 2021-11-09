@@ -65,9 +65,12 @@ export interface Rating {
 }
 
 export interface CartItem {
-  product_id: number;
-  product_name: string;
-  product_image: string;
-  product_qty: number;
-  product_price: number;
+  product_id?: number;
+  product_name?: string;
+  product_image?: string;
+  product_qty?: number;
+  product_price?: number;
+  product_slug?: string;
+  product_count?: number;
+  product_brand?: string;
 }

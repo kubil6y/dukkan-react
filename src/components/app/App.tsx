@@ -7,7 +7,6 @@ import { Routes } from "./Routes";
 import { Navbar } from "../navbar/Navbar";
 import { useLocation } from "react-router-dom";
 import { includes } from "../../helpers";
-import { UserMenu } from "../menu/user-menu/UserMenu";
 import { Footer } from "./Footer";
 import { useUser } from "../../auth/useUser";
 
@@ -39,7 +38,6 @@ export const App = () => {
     <div>
       {show && <Navbar />}
       <Routes />
-      <UserMenu />
       {show && <Footer />}
     </div>
   );
