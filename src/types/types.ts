@@ -22,7 +22,7 @@ export interface User {
   email: string;
   address: string;
   is_activated: boolean;
-  role: Role;
+  role?: Role;
 }
 
 export interface Category {
@@ -53,6 +53,7 @@ export interface Review {
   created_at: Date;
   updated_at: Date;
   text: string;
+  user?: User;
 }
 
 export interface Rating {

@@ -40,7 +40,7 @@ export const UserMenu: FC = () => {
 
   const handleLogout = () => {
     localStorage.removeItem(USER_TOKEN);
-    history.push("/");
+    history.goBack();
     window.location.reload();
   };
 

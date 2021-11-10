@@ -1,10 +1,17 @@
 import * as yup from "yup";
 
+export const reviewSchema = yup.object().shape({
+  text: yup
+    .string()
+    .required("Must be provided")
+    .min(3, "Must be at least 3 characters"),
+});
+
 export const updateProfileSchema = yup.object().shape({
   first_name: yup
     .string()
-    .min(2, "Must be at least 2 characters")
-    .required("Must be provided"),
+    .required("Must be provided")
+    .min(2, "Must be at least 2 characters"),
   last_name: yup
     .string()
     .required("Must be provided")

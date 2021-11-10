@@ -20,3 +20,7 @@ export interface EditProfileDTO {
   password?: string;
   password_confirm?: string;
 }
+
+export interface ReviewDTO {
+  text: string;
+}

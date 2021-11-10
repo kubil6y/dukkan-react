@@ -1,14 +1,18 @@
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useCustomToast } from "../components/app/hooks/useCustomToast";
-import { userState } from "../recoil/atoms";
-import { EditProfileDTO, User } from "../types";
+import { userAuthTokenState, userState } from "../recoil/atoms";
+import { EditProfileDTO, ReviewDTO, User } from "../types";
+import { queryClient } from "./client";
 import { queryKeys } from "./constants";
 import {
   activateAccountMutationFn,
+  createReviewMutationFn,
+  deleteReviewMutationFn,
   generateTokenMutationFn,
   updateProfileMutationFn,
+  updateReviewMutationFn,
 } from "./mutation.func";
 import { getProductBySlug, getProductsByCategorySlug } from "./query.func";
 
@@ -102,4 +106,78 @@ export const useProductsByCategorySlug = (slug: string, page: number) => {
   return useQuery([queryKeys.products, queryKeys.category, slug, page], () =>
     getProductsByCategorySlug(slug, page)
   );
+};
+
+export const useUpdateReview = (
+  reviewID: number,
+  data: ReviewDTO,
+  slug: string
+) => {
+  const toast = useCustomToast();
+  const token = useRecoilValue(userAuthTokenState);
+  const mutation = useMutation(
+    () => updateReviewMutationFn(reviewID, data, token),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([queryKeys.products, slug]);
+        toast({
+          title: "Review Updated",
+          status: "info",
+        });
+      },
+      onError: () => {
+        toast({
+          title: "Something went wrong",
+          status: "error",
+        });
+      },
+    }
+  );
+  return mutation;
+};
+
+export const useDeleteReview = (reviewID: number, slug: string) => {
+  const toast = useCustomToast();
+  const token = useRecoilValue(userAuthTokenState);
+  const mutation = useMutation(() => deleteReviewMutationFn(reviewID, token), {
+    onSuccess: () => {
+      queryClient.invalidateQueries([queryKeys.products, slug]);
+      toast({
+        title: "Review Deleted",
+        status: "info",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Something went wrong",
+        status: "error",
+      });
+    },
+  });
+  return mutation;
+};
+
+export const useCreateReviewProduct = (data: ReviewDTO, slug: string) => {
+  const toast = useCustomToast();
+  const token = useRecoilValue(userAuthTokenState);
+  const mutation = useMutation(
+    () => createReviewMutationFn(data, token, slug),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([queryKeys.products, slug]);
+        toast({
+          title: "Review Added",
+          status: "info",
+        });
+      },
+      onError: (error) => {
+        console.log("error fala filan", error); // CHECK THIS
+        toast({
+          title: "Something went wrong",
+          status: "error",
+        });
+      },
+    }
+  );
+  return mutation;
 };
