@@ -101,7 +101,6 @@ export const UserMenu: FC = () => {
               colorScheme="facebook"
               width="100%"
               onClick={() => {
-                setIsOpen(false);
                 history.push("/register");
               }}
             >

@@ -161,7 +161,14 @@ export const ProductDetailsPage: FC = () => {
                       ))}
                     </Select>
                   </Flex>
-                  <Button colorScheme="facebook" onClick={handleAddToCart}>
+                  <Button
+                    textTransform="uppercase"
+                    colorScheme="facebook"
+                    onClick={handleAddToCart}
+                    mt="1rem"
+                    size="sm"
+                    letterSpacing="wide"
+                  >
                     Add to Cart
                   </Button>
                 </>

@@ -10,7 +10,7 @@ export const FamilyReviews: FC = () => {
   const fsName = isSmallScreen ? "10px" : "16px";
   const posName = isSmallScreen ? "center" : "end";
   return (
-    <Flex flexDir={flexDir}>
+    <Flex flexDir={flexDir} boxShadow="lg">
       <Image src="/family.jpeg" />
       <Flex
         grow={1}

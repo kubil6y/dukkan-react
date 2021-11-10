@@ -64,7 +64,6 @@ export interface Rating {
   product_id: number;
 }
 
-// TODO busted
 export interface CartItem {
   uuid: string;
   product: Product;

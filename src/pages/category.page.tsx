@@ -1,13 +1,15 @@
-import { Flex, Spinner, Text, Grid } from "@chakra-ui/react";
-import { FC } from "react";
+import { Flex, Spinner, Text, Grid, Box } from "@chakra-ui/react";
+import { FC, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 import { Container } from "../components/app/Container";
 import { useMyMediaQueries } from "../components/app/hooks";
 import { ProductCard } from "../components/cards/ProductCard";
+import { CategoryBanner } from "../components/misc/CategoryBanner";
+import { Pagination } from "../components/misc/Pagination";
 import { capitalize } from "../helpers";
 import { useProductsByCategorySlug } from "../react-query/hooks";
-import { Product } from "../types";
+import { Metadata, Product } from "../types";
 
 interface IParams {
   slug: string;
@@ -15,10 +17,17 @@ interface IParams {
 
 export const CategoryPage: FC = () => {
   const { slug } = useParams<IParams>();
-  const { isSmallScreen } = useMyMediaQueries();
-  const minH = isSmallScreen ? "60vh" : "80vh";
+  const [page, setPage] = useState(1);
 
-  const { data, isLoading, isError } = useProductsByCategorySlug(slug);
+  const { isSmallScreen, isMediumScreen, isLargeScreen } = useMyMediaQueries();
+  const minH = isSmallScreen ? "60vh" : "80vh";
+  const templateColumns = isLargeScreen
+    ? "repeat(3, 1fr)"
+    : isMediumScreen
+    ? "repeat(2, 1fr)"
+    : "repat(1, 1fr)";
+
+  const { data, isLoading, isError } = useProductsByCategorySlug(slug, page);
 
   if (isLoading) {
     return (
@@ -54,29 +63,33 @@ export const CategoryPage: FC = () => {
     );
   }
 
-  console.log({ data, isLoading, isError });
-
   if (data && !isError && !isLoading) {
     const products = data!.data.products as Product[];
+    const metadata = data!.data.metadata as Metadata;
     return (
       <>
         <Helmet>
           <title>Dukkan | Category {capitalize(slug)}</title>
         </Helmet>
         <Container>
-          <Grid
-            p="2rem"
-            alignItems="flex-start"
-            justifyContent="center"
-            templateColumns="repeat(3, 1fr)"
-            rowGap="2rem"
-            maxW="800px"
-            mx="auto"
-          >
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </Grid>
+          <Box maxW="800px" mx="auto">
+            {/* category names are hardcoded so slug works! */}
+            <CategoryBanner categoryName={slug} />
+            <Grid
+              mt="2rem"
+              alignItems="flex-start"
+              justifyItems="space-between"
+              templateColumns={templateColumns}
+              gap="2rem"
+            >
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </Grid>
+            <Box mt="2rem" w="100%">
+              <Pagination setPage={setPage} metadata={metadata} />
+            </Box>
+          </Box>
         </Container>
       </>
     );

@@ -13,6 +13,7 @@ interface UseCartItems {
   deleteCartItemByUUID(uuid: string): void;
   updateQtyOfCartItem(uuid: string, qty: number): void;
   clearCartItems(): void;
+  calculateTotal(): number;
 }
 
 export function useCartItems(): UseCartItems {
@@ -84,6 +85,15 @@ export function useCartItems(): UseCartItems {
     setCartItems([]);
   }
 
+  function calculateTotal(): number {
+    if (cartItems.length === 0) return 0;
+    let total = 0;
+    for (let i = 0; i < cartItems.length; i++) {
+      total += cartItems[i].qty * cartItems[i].product.price;
+    }
+    return total;
+  }
+
   return {
     cartItems,
     setCartItems,
@@ -92,5 +102,6 @@ export function useCartItems(): UseCartItems {
     deleteCartItemByUUID,
     updateQtyOfCartItem,
     clearCartItems,
+    calculateTotal,
   };
 }

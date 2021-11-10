@@ -6,6 +6,7 @@ import { SmallScreenNavbar } from "./SmallScreenNavbar";
 import { useUser, useMyMediaQueries } from "../app/hooks";
 import { UserMenu } from "../menu/user-menu/UserMenu";
 import { CartMenu } from "../menu/cart-menu/CartMenu";
+import { CloseMenusProvider } from "../app/providers";
 
 export const Navbar: FC = () => {
   const { user } = useUser();
@@ -17,6 +18,7 @@ export const Navbar: FC = () => {
       <SecondaryBar />
       <UserMenu />
       <CartMenu />
+      <CloseMenusProvider />
     </>
   );
 };

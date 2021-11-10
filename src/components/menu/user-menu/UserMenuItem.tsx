@@ -3,8 +3,6 @@ import { Flex, Icon, Text } from "@chakra-ui/react";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { colors } from "../../../themes/colors";
 import { useHistory } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { userMenuState } from "../../../recoil/atoms";
 
 interface UserMenuItemProps {
   to: string;
@@ -13,11 +11,9 @@ interface UserMenuItemProps {
 
 export const UserMenuItem: FC<UserMenuItemProps> = ({ text, to }) => {
   const history = useHistory();
-  const setIsOpen = useSetRecoilState(userMenuState);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleOnClick = () => {
-    setIsOpen(false);
     history.push(to);
   };
   return (
@@ -32,9 +28,6 @@ export const UserMenuItem: FC<UserMenuItemProps> = ({ text, to }) => {
       onClick={handleOnClick}
       onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      //_hover={{
-      //backgroundColor: colors.lightGraySecondary,
-      //}}
       bg={isHovered ? colors.lightGraySecondary : "white"}
     >
       <Text>{text}</Text>

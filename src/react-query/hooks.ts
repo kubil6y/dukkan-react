@@ -98,25 +98,8 @@ export const useProduct = (slug: string) => {
   return useQuery([queryKeys.products, slug], () => getProductBySlug(slug));
 };
 
-export const useProductsByCategorySlug = (slug: string) => {
-  return useQuery([queryKeys.products, queryKeys.category, slug], () =>
-    getProductsByCategorySlug(slug)
+export const useProductsByCategorySlug = (slug: string, page: number) => {
+  return useQuery([queryKeys.products, queryKeys.category, slug, page], () =>
+    getProductsByCategorySlug(slug, page)
   );
 };
-
-//export const useProductsByCategorySlug = (slug: string) => {
-//return useInfiniteQuery(
-//[queryKeys.products, queryKeys.category, slug],
-//() => getProductsByCategorySlug(slug),
-//{
-//getNextPageParam: (data) => {
-//const { last_page, current_page } = data?.data?.metadata as Metadata;
-//if (current_page < last_page) {
-//return current_page + 1;
-//} else {
-//return undefined;
-//}
-//},
-//}
-//);
-//};

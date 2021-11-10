@@ -1,4 +1,12 @@
-import { Flex, Image, Text, Icon, Grid, Center } from "@chakra-ui/react";
+import {
+  Flex,
+  Image,
+  Text,
+  Icon,
+  Grid,
+  Center,
+  Divider,
+} from "@chakra-ui/react";
 import { FC, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CartItem } from "../../../types";
@@ -7,8 +15,6 @@ import { FaTrashAlt } from "react-icons/fa";
 import { useMyMediaQueries } from "../../app/hooks";
 import { useCartItems } from "../../app/hooks/useCartItems";
 import { FancyCurrency } from "../../misc/FancyCurrency";
-import { useSetRecoilState } from "recoil";
-import { cartMenuState } from "../../../recoil/atoms";
 
 interface CartMenuItemProps {
   item: CartItem;
@@ -17,13 +23,11 @@ interface CartMenuItemProps {
 export const CartMenuItem: FC<CartMenuItemProps> = ({ item }) => {
   const { updateQtyOfCartItem, deleteCartItemByUUID } = useCartItems();
   const [qty, setQty] = useState(item.qty);
-  const setIsCartOpen = useSetRecoilState(cartMenuState);
 
   const history = useHistory();
   const { isSmallScreen } = useMyMediaQueries();
 
   const goToProductDetails = () => {
-    setIsCartOpen(false);
     history.push(`/products/${item.product.slug}`);
   };
 
@@ -45,56 +49,121 @@ export const CartMenuItem: FC<CartMenuItemProps> = ({ item }) => {
   const handleDeleteItem = () => deleteCartItemByUUID(item.uuid);
 
   return !isSmallScreen ? (
-    <Grid
-      templateColumns="80px 150px 120px 80px 50px"
-      alignItems="center"
-      justifyContent="space-between"
-      px="1rem"
-    >
-      {/* product image */}
-      <Image
-        src="/products/keyboard.jpg"
-        alt={item.product.name}
-        cursor="pointer"
-        onClick={goToProductDetails}
-      />
-
-      {/* product name */}
-      <Text p="4px" fontSize="14px" fontStyle="bold" ml="1rem" isTruncated>
-        {item.product.name}
-      </Text>
-
-      {/* quantity counter */}
-      <Flex alignItems="center" justifyContent="center">
-        <Icon
-          as={AiFillMinusCircle}
-          onClick={handleMinus}
+    <>
+      <Grid
+        templateColumns="80px 150px 120px 80px 50px"
+        alignItems="center"
+        justifyContent="space-between"
+        px="1rem"
+      >
+        {/* product image */}
+        <Image
+          src="/products/keyboard.jpg"
+          alt={item.product.name}
           cursor="pointer"
-          w={4}
-          h={4}
+          onClick={goToProductDetails}
         />
-        <Text mx="4px" width="40px" fontSize="13px" textAlign="center">
-          {item.qty}
+
+        {/* product name */}
+        <Text p="4px" fontSize="14px" fontStyle="bold" ml="1rem" isTruncated>
+          {item.product.name}
         </Text>
-        <Icon
-          as={AiFillPlusCircle}
-          onClick={handlePlus}
-          cursor="pointer"
-          w={4}
-          h={4}
+
+        {/* quantity counter */}
+        <Flex alignItems="center" justifyContent="center">
+          <Icon
+            as={AiFillMinusCircle}
+            onClick={handleMinus}
+            cursor="pointer"
+            w={4}
+            h={4}
+          />
+          <Text mx="4px" width="40px" fontSize="13px" textAlign="center">
+            {item.qty}
+          </Text>
+          <Icon
+            as={AiFillPlusCircle}
+            onClick={handlePlus}
+            cursor="pointer"
+            w={4}
+            h={4}
+          />
+        </Flex>
+
+        {/* price */}
+        <FancyCurrency
+          color="red.400"
+          fs={11}
+          value={item.product.price * qty}
         />
-      </Flex>
 
-      {/* price */}
-      <FancyCurrency color="red.400" fs={11} value={item.product.price * qty} />
-
-      <Center cursor="pointer" onClick={handleDeleteItem}>
-        <Icon as={FaTrashAlt} w={5} h={5} color="red.500" />
-      </Center>
-    </Grid>
+        <Center cursor="pointer" onClick={handleDeleteItem}>
+          <Icon as={FaTrashAlt} w={5} h={5} color="red.500" />
+        </Center>
+      </Grid>
+      <Divider my="12px" />
+    </>
   ) : (
-    <div>
-      <div>small screen</div>
-    </div>
+    <>
+      <Grid templateColumns="80% 20%" alignItems="center">
+        <Flex width="100%" flexDirection="column" justifyContent="center">
+          <Flex alignItems="center" justifyContent="space-between">
+            <Image
+              maxH="50px"
+              src="/products/keyboard.jpg"
+              alt={item.product.name}
+              cursor="pointer"
+              onClick={goToProductDetails}
+            />
+
+            {/* quantity counter */}
+            <Flex alignItems="center" justifyContent="center">
+              <Icon
+                as={AiFillMinusCircle}
+                onClick={handleMinus}
+                cursor="pointer"
+                w={4}
+                h={4}
+              />
+              <Text mx="4px" width="40px" fontSize="13px" textAlign="center">
+                {item.qty}
+              </Text>
+              <Icon
+                as={AiFillPlusCircle}
+                onClick={handlePlus}
+                cursor="pointer"
+                w={4}
+                h={4}
+              />
+            </Flex>
+          </Flex>
+
+          <Flex justifyContent="space-between" alignItems="center">
+            {/* product name */}
+            <Text
+              p="4px"
+              fontSize="14px"
+              fontStyle="bold"
+              ml="1rem"
+              isTruncated
+            >
+              {item.product.name}
+            </Text>
+
+            {/* price */}
+            <FancyCurrency
+              color="red.400"
+              fs={11}
+              value={item.product.price * qty}
+            />
+          </Flex>
+        </Flex>
+
+        <Center cursor="pointer" onClick={handleDeleteItem}>
+          <Icon as={FaTrashAlt} w={5} h={5} color="red.500" />
+        </Center>
+      </Grid>
+      <Divider my="8px" />
+    </>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import { useAuth, useUser } from "./hooks";
+import { useAuth } from "./hooks";
 import { userAuthTokenState } from "../../recoil/atoms";
 import { Routes } from "./Routes";
 import { Navbar } from "../navbar/Navbar";
@@ -10,7 +10,6 @@ import { includes } from "../../helpers";
 import { Footer } from "./Footer";
 
 export const App = () => {
-  const { user } = useUser();
   const { pathname } = useLocation();
   const token = useRecoilValue(userAuthTokenState);
   const { getProfile } = useAuth();
@@ -26,11 +25,6 @@ export const App = () => {
     }
     // eslint-disable-next-line
   }, [token]);
-
-  console.log({
-    token,
-    user,
-  });
 
   const show = !includes(["/register", "/login"], pathname);
   return (

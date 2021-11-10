@@ -7,7 +7,9 @@ export const getProductBySlug = async (slug: string) => {
   return data;
 };
 
-export const getProductsByCategorySlug = async (slug: string) => {
-  const { data } = await axiosInstance.get(`/products/${slug}/category`);
+export const getProductsByCategorySlug = async (slug: string, page: number) => {
+  const { data } = await axiosInstance.get(
+    `/products/${slug}/category?limit=6&page=${page}`
+  );
   return data;
 };

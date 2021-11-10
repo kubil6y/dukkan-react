@@ -22,6 +22,7 @@ export const CategoryCard: FC<CategoryCardProps> = ({ title, imgSrc, to }) => {
       bg="white"
       flexDir="column"
       justifyContent="space-between"
+      boxShadow="lg"
     >
       <Text fontSize={fs} fontWeight="bold">
         {title}

@@ -21,7 +21,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
       justifyContent="space-between"
       alignItems="center"
       className="space-y-2"
-      ml="2rem"
+      boxShadow="lg"
     >
       <Link to={`/products/${product.slug}`}>
         <Center>
