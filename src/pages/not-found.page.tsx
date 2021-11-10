@@ -1,7 +1,7 @@
+import { Flex, Image, Text, Box, Icon } from "@chakra-ui/react";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { HiOutlineExternalLink } from "react-icons/hi";
-import { Flex, Image, Text, Box, Icon } from "@chakra-ui/react";
 
 export const NotFoundPage: FC = () => {
   return (

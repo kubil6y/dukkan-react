@@ -1,7 +1,7 @@
+import { Flex, Icon, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import { genArrayOfNElements, calculateStars } from "../../helpers";
-import { Flex, Icon, Text } from "@chakra-ui/react";
 
 interface RatingsProps {
   rating_average: number;

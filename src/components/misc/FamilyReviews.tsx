@@ -1,10 +1,10 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { colors } from "../../themes/colors";
-import { useIsSmallScreen } from "../app/hooks/mediaQueries";
+import { useMyMediaQueries } from "../app/hooks";
 
 export const FamilyReviews: FC = () => {
-  const isSmallScreen = useIsSmallScreen();
+  const { isSmallScreen } = useMyMediaQueries();
   const flexDir = isSmallScreen ? "column" : "row";
   const fsText = isSmallScreen ? "14px" : "24px";
   const fsName = isSmallScreen ? "10px" : "16px";

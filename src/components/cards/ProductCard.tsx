@@ -1,7 +1,7 @@
 import { Text, Image, Box, Center } from "@chakra-ui/react";
 import { FC } from "react";
 import { Product } from "../../types";
-import { useIsLargeScreen } from "../app/hooks/mediaQueries";
+import { useMyMediaQueries } from "../app/hooks";
 import { FancyCurrency } from "../misc/FancyCurrency";
 import { Link } from "react-router-dom";
 
@@ -10,7 +10,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard: FC<ProductCardProps> = ({ product }) => {
-  const isLargeScreen = useIsLargeScreen();
+  const { isLargeScreen } = useMyMediaQueries();
   const w = isLargeScreen ? "250px" : "100%";
   return (
     <Box

@@ -11,7 +11,7 @@ import { FC, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { cartMenuState } from "../../../recoil/atoms";
-import { useIsLargeScreen } from "../../app/hooks/mediaQueries";
+import { useMyMediaQueries } from "../../app/hooks";
 import { useCartItems } from "../../app/hooks/useCartItems";
 import { CartMenuHeader } from "./CartMenuHeader";
 import { CartMenuItem } from "./CartMenuItem";
@@ -22,7 +22,7 @@ export const CartMenu: FC = () => {
   const history = useHistory();
 
   const btnRef = useRef();
-  const isLargeScreen = useIsLargeScreen();
+  const { isLargeScreen } = useMyMediaQueries();
   const size = isLargeScreen ? "md" : "full";
 
   const onClose = () => setIsOpen(false);

@@ -1,18 +1,17 @@
-import { FC } from "react";
 import { Center, Icon } from "@chakra-ui/react";
+import { FC } from "react";
 import {
   MdOutlineArrowForwardIos,
   MdOutlineArrowBackIos,
 } from "react-icons/md";
-import { useIsMediumScreen, useIsLargeScreen } from "../app/hooks/mediaQueries";
+import { useMyMediaQueries } from "../app/hooks";
 
 interface CarouselButtonProps {
   onClick: any;
 }
 
 export const CarouselNextButton: FC<CarouselButtonProps> = ({ onClick }) => {
-  const isMediumScreen = useIsMediumScreen();
-  const isLargeScreen = useIsLargeScreen();
+  const { isLargeScreen, isMediumScreen } = useMyMediaQueries();
   const h = "100%";
   const w = "50px";
   const size = isLargeScreen ? 8 : isMediumScreen ? 6 : 4;
@@ -33,8 +32,7 @@ export const CarouselNextButton: FC<CarouselButtonProps> = ({ onClick }) => {
 };
 
 export const CarouselPrevButton: FC<CarouselButtonProps> = ({ onClick }) => {
-  const isMediumScreen = useIsMediumScreen();
-  const isLargeScreen = useIsLargeScreen();
+  const { isLargeScreen, isMediumScreen } = useMyMediaQueries();
   const h = "100%";
   const w = "50px";
   const size = isLargeScreen ? 8 : isMediumScreen ? 6 : 4;

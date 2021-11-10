@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 import { Container } from "../components/app/Container";
-import { useIsSmallScreen } from "../components/app/hooks/mediaQueries";
+import { useMyMediaQueries } from "../components/app/hooks";
 import { ProductCard } from "../components/cards/ProductCard";
 import { capitalize } from "../helpers";
 import { useProductsByCategorySlug } from "../react-query/hooks";
@@ -15,7 +15,7 @@ interface IParams {
 
 export const CategoryPage: FC = () => {
   const { slug } = useParams<IParams>();
-  const isSmallScreen = useIsSmallScreen();
+  const { isSmallScreen } = useMyMediaQueries();
   const minH = isSmallScreen ? "60vh" : "80vh";
 
   const { data, isLoading, isError } = useProductsByCategorySlug(slug);

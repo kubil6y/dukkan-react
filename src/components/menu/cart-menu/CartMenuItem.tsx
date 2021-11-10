@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { CartItem } from "../../../types";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import { FaTrashAlt } from "react-icons/fa";
-import { useIsSmallScreen } from "../../app/hooks/mediaQueries";
+import { useMyMediaQueries } from "../../app/hooks";
 import { useCartItems } from "../../app/hooks/useCartItems";
 import { FancyCurrency } from "../../misc/FancyCurrency";
 import { useSetRecoilState } from "recoil";
@@ -20,7 +20,7 @@ export const CartMenuItem: FC<CartMenuItemProps> = ({ item }) => {
   const setIsCartOpen = useSetRecoilState(cartMenuState);
 
   const history = useHistory();
-  const isSmallScreen = useIsSmallScreen();
+  const { isSmallScreen } = useMyMediaQueries();
 
   const goToProductDetails = () => {
     setIsCartOpen(false);

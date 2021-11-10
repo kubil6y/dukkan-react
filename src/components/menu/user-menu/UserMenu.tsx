@@ -1,13 +1,3 @@
-import React from "react";
-import { FC } from "react";
-import { useIsLargeScreen } from "../../app/hooks/mediaQueries";
-import { useRecoilState } from "recoil";
-import { userMenuState } from "../../../recoil/atoms";
-import { UserMenuHeader } from "./UserMenuHeader";
-import { UserMenuItem } from "./UserMenuItem";
-import { useUser } from "../../../auth/useUser";
-import { useHistory } from "react-router-dom";
-import { USER_TOKEN } from "../../../constants";
 import {
   Button,
   Drawer,
@@ -19,6 +9,15 @@ import {
   Divider,
   Text,
 } from "@chakra-ui/react";
+import React from "react";
+import { FC } from "react";
+import { useMyMediaQueries, useUser } from "../../app/hooks";
+import { useRecoilState } from "recoil";
+import { userMenuState } from "../../../recoil/atoms";
+import { UserMenuHeader } from "./UserMenuHeader";
+import { UserMenuItem } from "./UserMenuItem";
+import { useHistory } from "react-router-dom";
+import { USER_TOKEN } from "../../../constants";
 
 const loggedInMenuUserItems = [
   { id: 1, text: "Profile", to: "/me" },
@@ -36,7 +35,7 @@ export const UserMenu: FC = () => {
   const [isOpen, setIsOpen] = useRecoilState(userMenuState);
   const btnRef = React.useRef();
 
-  const isLargeScreen = useIsLargeScreen();
+  const { isLargeScreen } = useMyMediaQueries();
   const size = isLargeScreen ? "xs" : "full";
 
   const handleLogout = () => {

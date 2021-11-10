@@ -1,15 +1,3 @@
-import { FC, useEffect, useState, useRef } from "react";
-import { IoMdArrowDropdown } from "react-icons/io";
-import { GoSearch } from "react-icons/go";
-import { colors } from "../../themes/colors";
-import { useIsLargeScreen } from "../app/hooks/mediaQueries";
-import { useDebounce } from "use-debounce/lib";
-import { Metadata, Product } from "../../types";
-import { axiosInstance } from "../../axios/axiosInstance";
-import { SearchResultItem } from "./SearchResultItem";
-import { useClickOutside } from "../app/hooks/useClickOutside";
-import { useLocation } from "react-router-dom";
-import { Pagination } from "../misc/Pagination";
 import {
   Flex,
   Icon,
@@ -19,6 +7,18 @@ import {
   Box,
   Spinner,
 } from "@chakra-ui/react";
+import { FC, useEffect, useState, useRef } from "react";
+import { IoMdArrowDropdown } from "react-icons/io";
+import { GoSearch } from "react-icons/go";
+import { colors } from "../../themes/colors";
+import { useMyMediaQueries } from "../app/hooks";
+import { useDebounce } from "use-debounce/lib";
+import { Metadata, Product } from "../../types";
+import { axiosInstance } from "../../axios/axiosInstance";
+import { SearchResultItem } from "./SearchResultItem";
+import { useClickOutside } from "../app/hooks/useClickOutside";
+import { useLocation } from "react-router-dom";
+import { Pagination } from "../misc/Pagination";
 
 export const SearchInput: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +27,7 @@ export const SearchInput: FC = () => {
   const [page, setPage] = useState(1);
 
   const [inputFocused, setInputFocused] = useState(false);
-  const isLargeScreen = useIsLargeScreen();
+  const { isLargeScreen } = useMyMediaQueries();
   const [showDropbox, setShowDropbox] = useState(false);
 
   const [s, setS] = useState("");

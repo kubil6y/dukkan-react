@@ -1,5 +1,5 @@
-import { FC } from "react";
 import { Image, Flex } from "@chakra-ui/react";
+import { FC } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { colors } from "../../themes/colors";
 import { includes } from "../../helpers";

@@ -1,7 +1,7 @@
+import { Flex, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { colors } from "../../themes/colors";
 import { Link } from "react-router-dom";
-import { Flex, Text } from "@chakra-ui/react";
 
 export const ActivateBanner: FC = () => {
   return (

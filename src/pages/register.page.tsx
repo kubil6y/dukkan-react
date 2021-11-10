@@ -7,8 +7,7 @@ import { Helmet } from "react-helmet-async";
 import { Link, useHistory } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useAuth } from "../auth/useAuth";
-import { useIsLargeScreen } from "../components/app/hooks/mediaQueries";
+import { useAuth, useMyMediaQueries } from "../components/app/hooks";
 
 const schema = yup.object().shape({
   first_name: yup
@@ -48,7 +47,7 @@ export const RegisterPage = () => {
     resolver: yupResolver(schema),
   });
 
-  const isLargeScreen = useIsLargeScreen();
+  const { isLargeScreen } = useMyMediaQueries();
   const minW = isLargeScreen ? "350px" : "280px";
 
   const onSubmit = async () => {

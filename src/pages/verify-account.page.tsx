@@ -1,16 +1,15 @@
 import { FC, useState } from "react";
 import { Box, Center, Input, Text, Icon } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
-import { useIsLargeScreen } from "../components/app/hooks/mediaQueries";
+import { useUser, useMyMediaQueries } from "../components/app/hooks";
 import { IoSendSharp } from "react-icons/io5";
 import { colors } from "../themes/colors";
 import { useGenerateCode, useActivateAccount } from "../react-query/hooks";
-import { useUser } from "../auth/useUser";
 
 export const VerifyAccountPage: FC = () => {
   const { user } = useUser();
   const [inputFocused, setInputFocused] = useState(false);
-  const isLargeScreen = useIsLargeScreen();
+  const { isLargeScreen } = useMyMediaQueries();
 
   const fsPlaceholder = isLargeScreen ? "16px" : "12px";
   const maxW = isLargeScreen ? "600px" : "100%";

@@ -1,8 +1,8 @@
+import { Flex, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { colors } from "../../themes/colors";
-import { Flex, Text } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
-import { useUser } from "../../auth/useUser";
+import { useUser } from "../app/hooks";
 
 export const ReturnsOrders: FC = () => {
   const { user } = useUser();

@@ -1,14 +1,10 @@
 import { FC } from "react";
 import { Container } from "../components/app/Container";
 import { Text, Box, Divider, Flex, Button } from "@chakra-ui/react";
-import { useUser } from "../auth/useUser";
 import { capitalize } from "../helpers";
 import { colors } from "../themes/colors";
 import { useHistory } from "react-router-dom";
-import {
-  useIsLargeScreen,
-  useIsSmallScreen,
-} from "../components/app/hooks/mediaQueries";
+import { useUser, useMyMediaQueries } from "../components/app/hooks";
 
 interface ProfilePageItemProps {
   fieldName: string;
@@ -19,7 +15,7 @@ export const ProfilePageItem: FC<ProfilePageItemProps> = ({
   fieldName,
   value,
 }) => {
-  const isSmallScreen = useIsSmallScreen();
+  const { isSmallScreen } = useMyMediaQueries();
   const fs = isSmallScreen ? "16px" : "18px";
 
   return (
@@ -45,7 +41,7 @@ export const ProfilePageItem: FC<ProfilePageItemProps> = ({
 
 export const ProfilePage: FC = () => {
   const history = useHistory();
-  const isLargeScreen = useIsLargeScreen();
+  const { isLargeScreen } = useMyMediaQueries();
   const { user } = useUser();
   if (!user) return null;
 

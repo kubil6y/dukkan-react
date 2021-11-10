@@ -1,10 +1,10 @@
 import { AxiosError } from "axios";
 import { useSetRecoilState } from "recoil";
-import { axiosInstance } from "../axios/axiosInstance";
-import { useCustomToast } from "../components/app/hooks/useCustomToast";
-import { USER_TOKEN } from "../constants";
-import { userAuthTokenState } from "../recoil/atoms";
-import { CreateAuthenticationTokenDTO, RegisterDTO } from "../types";
+import { useCustomToast } from ".";
+import { axiosInstance } from "../../../axios/axiosInstance";
+import { USER_TOKEN } from "../../../constants";
+import { userAuthTokenState } from "../../../recoil/atoms";
+import { CreateAuthenticationTokenDTO, RegisterDTO } from "../../../types";
 import { useUser } from "./useUser";
 
 export interface UseAuth {

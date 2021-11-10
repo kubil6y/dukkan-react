@@ -5,10 +5,10 @@ import { Text, Center, VStack, HStack } from "@chakra-ui/react";
 import { Container } from "../components/app/Container";
 import { FamilyReviews } from "../components/misc/FamilyReviews";
 import { CategoryCard } from "../components/cards/CategoryCard";
-import { useIsSmallScreen } from "../components/app/hooks/mediaQueries";
+import { useMyMediaQueries } from "../components/app/hooks";
 
 export const HomePage = () => {
-  const isSmallScreen = useIsSmallScreen();
+  const { isSmallScreen } = useMyMediaQueries();
   return (
     <>
       <Helmet>

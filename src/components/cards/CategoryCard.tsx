@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { useIsLargeScreen } from "../app/hooks/mediaQueries";
+import { useMyMediaQueries } from "../app/hooks";
 import { Flex, Text } from "@chakra-ui/react";
 
 interface CategoryCardProps {
@@ -10,7 +10,7 @@ interface CategoryCardProps {
 }
 
 export const CategoryCard: FC<CategoryCardProps> = ({ title, imgSrc, to }) => {
-  const isLargeScreen = useIsLargeScreen();
+  const { isLargeScreen } = useMyMediaQueries();
   const h = isLargeScreen ? "450px" : "300px";
   const w = isLargeScreen ? "360px" : "240px";
   const fs = isLargeScreen ? "21px" : "16px";

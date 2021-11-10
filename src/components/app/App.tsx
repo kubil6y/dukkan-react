@@ -1,14 +1,13 @@
 import React from "react";
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import { useAuth } from "../../auth/useAuth";
+import { useAuth, useUser } from "./hooks";
 import { userAuthTokenState } from "../../recoil/atoms";
 import { Routes } from "./Routes";
 import { Navbar } from "../navbar/Navbar";
 import { useLocation } from "react-router-dom";
 import { includes } from "../../helpers";
 import { Footer } from "./Footer";
-import { useUser } from "../../auth/useUser";
 
 export const App = () => {
   const { user } = useUser();

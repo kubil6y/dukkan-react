@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { colors } from "../../themes/colors";
 import { Flex, Text } from "@chakra-ui/react";
-import { useUser } from "../../auth/useUser";
+import { useUser } from "../app/hooks";
 import { capitalize } from "../../helpers";
 import { useHistory } from "react-router-dom";
 

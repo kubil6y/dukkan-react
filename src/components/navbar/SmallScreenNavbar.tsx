@@ -1,10 +1,10 @@
+import { Box, Flex, Icon } from "@chakra-ui/react";
 import { FC } from "react";
 import { colors } from "../../themes/colors";
 import { Logo } from "../app/Logo";
 import { CartCount } from "./CartCount";
 import { SearchInput } from "./SearchInput";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { Box, Flex, Icon } from "@chakra-ui/react";
 import { useSetRecoilState } from "recoil";
 import { userMenuState } from "../../recoil/atoms";
 

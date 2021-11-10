@@ -1,9 +1,9 @@
+import { Grid, Icon, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { Metadata } from "../../types";
 import { BiArrowToRight, BiArrowToLeft } from "react-icons/bi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useIsSmallScreen } from "../app/hooks/mediaQueries";
-import { Grid, Icon, Text } from "@chakra-ui/react";
+import { useMyMediaQueries } from "../app/hooks";
 
 interface PaginationProps {
   metadata: Metadata;
@@ -14,7 +14,7 @@ export const Pagination: FC<PaginationProps> = ({
   metadata: { first_page, last_page, current_page },
   setPage,
 }) => {
-  const isSmallScreen = useIsSmallScreen();
+  const { isSmallScreen } = useMyMediaQueries();
   const size = isSmallScreen ? 4 : 5;
   const w = isSmallScreen ? "100%" : "40%";
   const fs = isSmallScreen ? "14px" : "18px";

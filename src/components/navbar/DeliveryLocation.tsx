@@ -1,6 +1,6 @@
+import { Flex, Icon, Text, Tooltip } from "@chakra-ui/react";
 import { FC } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import { Flex, Icon, Text, Tooltip } from "@chakra-ui/react";
 import { colors } from "../../themes/colors";
 
 export const DeliveryLocation: FC = () => {

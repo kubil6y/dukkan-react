@@ -18,7 +18,7 @@ import { Helmet } from "react-helmet-async";
 import { Ratings } from "../components/misc/Ratings";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { useIsSmallScreen } from "../components/app/hooks/mediaQueries";
+import { useMyMediaQueries } from "../components/app/hooks";
 import { genArrayOfNElements } from "../helpers";
 import { useSetRecoilState } from "recoil";
 import { cartMenuState } from "../recoil/atoms";
@@ -37,7 +37,7 @@ export const ProductDetailsPage: FC = () => {
   const [qty, setQty] = useState(1);
 
   const toast = useCustomToast();
-  const isSmallScreen = useIsSmallScreen();
+  const { isSmallScreen } = useMyMediaQueries();
 
   if (isLoading === true) {
     return (

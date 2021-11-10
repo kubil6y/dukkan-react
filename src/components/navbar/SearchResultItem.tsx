@@ -3,7 +3,7 @@ import { FC } from "react";
 import { useHistory } from "react-router-dom";
 import { colors } from "../../themes/colors";
 import { Product } from "../../types";
-import { useIsSmallScreen } from "../app/hooks/mediaQueries";
+import { useMyMediaQueries } from "../app/hooks";
 
 interface SearchResultItemProps {
   product: Product;
@@ -11,7 +11,7 @@ interface SearchResultItemProps {
 
 export const SearchResultItem: FC<SearchResultItemProps> = ({ product }) => {
   const history = useHistory();
-  const isSmallScreen = useIsSmallScreen();
+  const { isSmallScreen } = useMyMediaQueries();
   return (
     <Flex
       className="space-x-4"

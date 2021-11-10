@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
-import { userState } from "../recoil/atoms";
-import { User } from "../types";
+import { userState } from "../../../recoil/atoms";
+import { User } from "../../../types";
 
 interface UseUser {
   user: User | null;

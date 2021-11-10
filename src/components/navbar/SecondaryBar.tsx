@@ -1,9 +1,9 @@
+import { Center, Flex, Text, Icon } from "@chakra-ui/react";
 import { FC } from "react";
 import { colors } from "../../themes/colors";
 import { useHistory } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { Center, Flex, Text, Icon } from "@chakra-ui/react";
-import { useIsLargeScreen } from "../app/hooks/mediaQueries";
+import { useMyMediaQueries } from "../app/hooks";
 import { useSetRecoilState } from "recoil";
 import { userMenuState } from "../../recoil/atoms";
 
@@ -33,7 +33,7 @@ const SecondaryBarItem: FC<SecondaryBarItemProps> = ({ text }) => {
 
 export const SecondaryBar: FC = () => {
   const setUserMenuState = useSetRecoilState(userMenuState);
-  const isLargeScreen = useIsLargeScreen();
+  const { isLargeScreen } = useMyMediaQueries();
   const fontSize = isLargeScreen ? "14px" : "12px";
   const pl = isLargeScreen ? "24px" : "4px";
   const lateralPosition = isLargeScreen ? "start" : "center";

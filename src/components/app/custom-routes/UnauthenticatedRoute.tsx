@@ -1,5 +1,5 @@
 import { Redirect, Route, RouteProps } from "react-router";
-import { useUser } from "../../../auth/useUser";
+import { useUser } from "../hooks";
 
 export type UnauthenticatedRouteProps = {
   pathname: string;

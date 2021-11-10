@@ -5,13 +5,13 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { cartMenuState } from "../../recoil/atoms";
 import { cartInfoState } from "../../recoil/selectors";
 import { colors } from "../../themes/colors";
-import { useIsLargeScreen } from "../app/hooks/mediaQueries";
+import { useMyMediaQueries } from "../app/hooks";
 
 export const CartCount: FC = () => {
   const setIsOpen = useSetRecoilState(cartMenuState);
 
   const { count } = useRecoilValue(cartInfoState);
-  const isLargeScreen = useIsLargeScreen();
+  const { isLargeScreen } = useMyMediaQueries();
   const fsCount = isLargeScreen ? "20px" : "16px";
   const fsCart = isLargeScreen ? "14px" : "10px";
   const iconSize = isLargeScreen ? 7 : 6;

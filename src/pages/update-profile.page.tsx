@@ -3,10 +3,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Flex, Box, VStack, Text } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { useIsLargeScreen } from "../components/app/hooks/mediaQueries";
+import { useUser, useMyMediaQueries } from "../components/app/hooks";
 import { FormInput, FormButton, FormErrorMessage } from "../components/form";
 import { RegisterDTO } from "../types";
-import { useUser } from "../auth/useUser";
 import { useUpdateProfile } from "../react-query/hooks";
 import { updateProfileSchema } from "../validation";
 import { userAuthTokenState } from "../recoil/atoms";
@@ -33,7 +32,7 @@ export const UpdateProfilePage: FC = () => {
 
   const updateProfileMutation = useUpdateProfile(getValues(), token);
 
-  const isLargeScreen = useIsLargeScreen();
+  const { isLargeScreen } = useMyMediaQueries();
   const minW = isLargeScreen ? "350px" : "280px";
 
   const onSubmit = () => updateProfileMutation.mutate();

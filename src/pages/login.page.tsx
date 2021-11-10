@@ -5,10 +5,9 @@ import { CreateAuthenticationTokenDTO } from "../types";
 import { FormInput, FormButton, FormErrorMessage } from "../components/form";
 import { Helmet } from "react-helmet-async";
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
-import { useAuth } from "../auth/useAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useIsLargeScreen } from "../components/app/hooks/mediaQueries";
+import { useMyMediaQueries, useAuth } from "../components/app/hooks";
 
 const schema = yup.object().shape({
   email: yup.string().email("Must be valid email").required("Must be provided"),
@@ -31,7 +30,7 @@ export const LoginPage = () => {
     resolver: yupResolver(schema),
   });
 
-  const isLargeScreen = useIsLargeScreen();
+  const { isLargeScreen } = useMyMediaQueries();
   const minW = isLargeScreen ? "350px" : "280px";
 
   const onSubmit = async () => {
