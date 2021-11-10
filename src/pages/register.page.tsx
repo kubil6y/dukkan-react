@@ -6,33 +6,8 @@ import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import { Link, useHistory } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { useAuth, useMyMediaQueries } from "../components/app/hooks";
-
-const schema = yup.object().shape({
-  first_name: yup
-    .string()
-    .min(2, "Must be at least 2 characters")
-    .required("Must be provided"),
-  last_name: yup
-    .string()
-    .required("Must be provided")
-    .min(2, "Must be at least 2 characters"),
-  email: yup.string().email("Must be valid email").required("Must be provided"),
-  address: yup
-    .string()
-    .required("Must be provided")
-    .min(12, "Must be at least 12 characters"),
-  password: yup
-    .string()
-    .required("Must be provided")
-    .min(6, "Must be at least 6 characters"),
-  password_confirm: yup
-    .string()
-    .required("Must be provided")
-    .min(6, "Must be at least 6 characters")
-    .oneOf([yup.ref("password")], "Passwords must match"),
-});
+import { registerUserSchema } from "../validation";
 
 export const RegisterPage = () => {
   const history = useHistory();
@@ -44,7 +19,7 @@ export const RegisterPage = () => {
     formState: { errors },
   } = useForm<RegisterDTO>({
     mode: "onChange",
-    resolver: yupResolver(schema),
+    resolver: yupResolver(registerUserSchema),
   });
 
   const { isLargeScreen } = useMyMediaQueries();

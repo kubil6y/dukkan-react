@@ -6,16 +6,8 @@ import { FormInput, FormButton, FormErrorMessage } from "../components/form";
 import { Helmet } from "react-helmet-async";
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { useMyMediaQueries, useAuth } from "../components/app/hooks";
-
-const schema = yup.object().shape({
-  email: yup.string().email("Must be valid email").required("Must be provided"),
-  password: yup
-    .string()
-    .required("Must be provided")
-    .min(6, "Must be at least 6 characters"),
-});
+import { loginUserSchema } from "../validation";
 
 export const LoginPage = () => {
   const history = useHistory();
@@ -27,7 +19,7 @@ export const LoginPage = () => {
     formState: { errors },
   } = useForm<CreateAuthenticationTokenDTO>({
     mode: "onChange",
-    resolver: yupResolver(schema),
+    resolver: yupResolver(loginUserSchema),
   });
 
   const { isLargeScreen } = useMyMediaQueries();
