@@ -23,6 +23,7 @@ import { genArrayOfNElements } from "../helpers";
 import { useSetRecoilState } from "recoil";
 import { cartMenuState } from "../recoil/atoms";
 import { useCartItems } from "../components/app/hooks/useCartItems";
+import { useHistory } from "react-router-dom";
 
 interface IParams {
   slug: string;
@@ -36,25 +37,38 @@ export const ProductDetailsPage: FC = () => {
   const setIsCartOpen = useSetRecoilState(cartMenuState);
   const [qty, setQty] = useState(1);
 
-  const toast = useCustomToast();
   const { isSmallScreen } = useMyMediaQueries();
+
+  const minH = isSmallScreen ? "60vh" : "80vh";
 
   if (isLoading === true) {
     return (
-      <Center width="100%" h="20%">
+      <Center width="100%" minH="60vh">
         <Spinner size="md" />
       </Center>
     );
   }
 
-  if (isError === true) {
-    toast({
-      title: "Something went wrong",
-      status: "error",
-    });
-    return null;
+  if (!data && isError) {
+    return (
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        flexDirection="column"
+        minH={minH}
+        width="100%"
+      >
+        <Text fontSize="1.5rem" fontWeight="bold" color="red.500">
+          Something went wrong!
+        </Text>
+        <Link to="/">
+          <Text fontSize="1rem" className="link">
+            Go back Home
+          </Text>
+        </Link>
+      </Flex>
+    );
   }
-
   if (data?.ok === true) {
     const product: ProductDetailsResponse = data?.data?.product;
 

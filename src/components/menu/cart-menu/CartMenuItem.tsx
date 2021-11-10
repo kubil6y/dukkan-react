@@ -38,6 +38,7 @@ export const CartMenuItem: FC<CartMenuItemProps> = ({ item }) => {
     updateQtyOfCartItem(item.uuid, qty - 1);
     setQty((c) => c - 1);
   };
+
   const handlePlus = () => {
     if (item.product.count <= qty) {
       return;
@@ -47,6 +48,14 @@ export const CartMenuItem: FC<CartMenuItemProps> = ({ item }) => {
   };
 
   const handleDeleteItem = () => deleteCartItemByUUID(item.uuid);
+
+  // CartItem counter icon styles
+  const isPlusIconDisabled = item.product.count <= qty;
+  const isMinusIconDisabled = qty <= 1;
+  const plusIconColor = isPlusIconDisabled ? "gray.300" : "gray.700";
+  const minusIconColor = isMinusIconDisabled ? "gray.300" : "gray.700";
+  const plusIconCursor = isPlusIconDisabled ? "cursor" : "pointer";
+  const minusIconCursor = isMinusIconDisabled ? "cursor" : "pointer";
 
   return !isSmallScreen ? (
     <>
@@ -73,8 +82,9 @@ export const CartMenuItem: FC<CartMenuItemProps> = ({ item }) => {
         <Flex alignItems="center" justifyContent="center">
           <Icon
             as={AiFillMinusCircle}
+            color={minusIconColor}
             onClick={handleMinus}
-            cursor="pointer"
+            cursor={minusIconCursor}
             w={4}
             h={4}
           />
@@ -83,8 +93,9 @@ export const CartMenuItem: FC<CartMenuItemProps> = ({ item }) => {
           </Text>
           <Icon
             as={AiFillPlusCircle}
+            color={plusIconColor}
             onClick={handlePlus}
-            cursor="pointer"
+            cursor={plusIconCursor}
             w={4}
             h={4}
           />
@@ -119,9 +130,10 @@ export const CartMenuItem: FC<CartMenuItemProps> = ({ item }) => {
             {/* quantity counter */}
             <Flex alignItems="center" justifyContent="center">
               <Icon
+                color={minusIconColor}
                 as={AiFillMinusCircle}
                 onClick={handleMinus}
-                cursor="pointer"
+                cursor={minusIconCursor}
                 w={4}
                 h={4}
               />
@@ -129,9 +141,10 @@ export const CartMenuItem: FC<CartMenuItemProps> = ({ item }) => {
                 {item.qty}
               </Text>
               <Icon
+                color={plusIconColor}
                 as={AiFillPlusCircle}
                 onClick={handlePlus}
-                cursor="pointer"
+                cursor={plusIconCursor}
                 w={4}
                 h={4}
               />
