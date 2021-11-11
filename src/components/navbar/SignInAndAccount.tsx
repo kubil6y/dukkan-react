@@ -9,6 +9,9 @@ export const SignInAndAccount: FC = () => {
   const history = useHistory();
   const { user } = useUser();
 
+  // TODO
+  console.log("user", user);
+
   return (
     <Flex
       minW="100px"

@@ -76,7 +76,7 @@ export const Routes = () => {
       ))}
       {inactivatedRoutes.map(({ id, path, component, exact }) => (
         <InactivatedRoute
-          pathname="/login"
+          pathname="/"
           key={id}
           path={path}
           component={() => component}

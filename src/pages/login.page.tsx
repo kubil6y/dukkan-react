@@ -11,7 +11,7 @@ import { loginUserSchema } from "../validation";
 
 export const LoginPage = () => {
   const history = useHistory();
-  const { createToken } = useAuth();
+  const { login } = useAuth();
   const {
     register,
     handleSubmit,
@@ -29,7 +29,7 @@ export const LoginPage = () => {
     const { email, password } = getValues();
 
     try {
-      await createToken({
+      await login({
         email,
         password,
       });

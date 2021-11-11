@@ -1,65 +1,64 @@
-import { AxiosError } from "axios";
-import { useSetRecoilState } from "recoil";
+import axios from "axios";
 import { useCustomToast } from ".";
 import { axiosInstance } from "../../../axios/axiosInstance";
-import { USER_TOKEN } from "../../../constants";
-import { userAuthTokenState } from "../../../recoil/atoms";
 import { CreateAuthenticationTokenDTO, RegisterDTO } from "../../../types";
+import { useAuthToken } from "./useAuthToken";
 import { useUser } from "./useUser";
 
 export interface UseAuth {
   getProfile: (token: string) => Promise<void>;
-  createToken: (input: CreateAuthenticationTokenDTO) => Promise<void>;
+  login: (input: CreateAuthenticationTokenDTO) => Promise<void>;
   register: (input: RegisterDTO) => Promise<void>;
   logout: () => void;
 }
 
+const SERVER_ERROR =
+  "The server encountered a problem and could not process your request";
+
 export function useAuth(): UseAuth {
-  const SERVER_ERROR =
-    "The server encountered a problem and could not process your request";
-  const setAuthTokenState = useSetRecoilState(userAuthTokenState);
+  const { updateAuthToken, clearAuthToken } = useAuthToken();
   const { clearUser, updateUser } = useUser();
   const toast = useCustomToast();
 
-  async function createToken(input: CreateAuthenticationTokenDTO) {
+  async function login(input: CreateAuthenticationTokenDTO) {
     try {
       const {
         data: { ok, data },
-        status,
       } = await axiosInstance({
-        url: "/tokens/authentication",
+        url: "/login",
         method: "POST",
         data: input,
-        headers: { "Content-Type": "application/json" },
       });
 
-      if (status === 400) {
-        toast({ title: data?.error, status: "warning" });
-        return;
+      if (ok) {
+        updateUser(data!.user);
+        updateAuthToken(data!.authentication_token!.token);
       }
-
-      if (ok && data?.authentication_token?.token) {
-        // update token state
-        const t = data.authentication_token.token;
-        localStorage.setItem(USER_TOKEN, JSON.stringify(t));
-        setAuthTokenState(t);
-      }
-    } catch (e) {
-      const err = e as AxiosError;
-      if (err?.response?.data) {
-        if (typeof err.response?.data?.error === "string") {
-          toast({
-            title: err.response?.data?.error || SERVER_ERROR,
-            status: "error",
-          });
+    } catch (error) {
+      let title = "";
+      if (axios.isAxiosError(error)) {
+        if (
+          error?.response?.data?.error &&
+          typeof error?.response?.data?.error === "string"
+        ) {
+          title = error.response.data.error;
+        } else if (
+          error?.response?.data?.error &&
+          typeof error?.response?.data?.error === "object"
+        ) {
+          const fields = Object.keys(error.response.data.error);
+          title = `Invalid fields ${fields.join(", ")}`;
+        } else {
+          title = "Something went wrong";
         }
       } else {
-        toast({
-          title: "Something went wrong",
-          status: "error",
-        });
+        title = SERVER_ERROR;
       }
-      throw err;
+      toast({
+        title: title,
+        status: "error",
+      });
+      throw error;
     }
   }
 
@@ -71,7 +70,6 @@ export function useAuth(): UseAuth {
     try {
       const {
         data: { ok, data },
-        status,
       } = await axiosInstance({
         url: "/profile",
         method: "GET",
@@ -80,72 +78,86 @@ export function useAuth(): UseAuth {
         },
       });
 
-      if (status === 401) {
-        toast({ title: data?.error, status: "warning" });
-        localStorage.removeItem(USER_TOKEN);
-        return;
-      }
-
-      if (ok && data?.user) {
+      if (ok) {
         // update user state
-        updateUser(data.user);
+        updateUser(data?.user);
       }
-    } catch (e) {
-      const err = e as AxiosError;
-      if (err?.response?.data) {
-        toast({
-          title: err.response?.data?.error || SERVER_ERROR,
-          status: "error",
-        });
-        localStorage.removeItem(USER_TOKEN);
+    } catch (error) {
+      let title = "";
+      if (axios.isAxiosError(error)) {
+        if (
+          error?.response?.data?.error &&
+          error.response.data.error === "invalid or missing token"
+        ) {
+          // token is invalid
+          clearAuthToken();
+          clearUser();
+        } else if (
+          error?.response?.data?.error &&
+          typeof error?.response?.data?.error === "string"
+        ) {
+          title = error.response.data.error;
+        } else if (
+          error?.response?.data?.error &&
+          typeof error?.response?.data?.error === "object"
+        ) {
+          const fields = Object.keys(error.response.data.error);
+          title = `Invalid fields ${fields.join(", ")}`;
+        } else {
+          title = "Something went wrong";
+        }
+      } else {
+        title = SERVER_ERROR;
       }
-      throw err;
+      toast({
+        title: title,
+        status: "error",
+      });
+      throw error;
     }
   }
 
   function logout() {
-    localStorage.removeItem(USER_TOKEN);
     clearUser();
   }
 
   async function register(input: RegisterDTO) {
     try {
-      const {
-        data: { data },
-        status,
-      } = await axiosInstance({
+      await axiosInstance({
         url: "/register",
         method: "POST",
         data: input,
       });
-
-      if (status === 422) {
-        if (data?.error?.email) {
-          toast({ title: data?.error?.email, status: "warning" });
-        }
-        return;
-      }
-    } catch (e) {
-      const err = e as AxiosError;
-      if (err?.response?.data) {
-        if (typeof err.response?.data?.error?.email === "string") {
-          toast({
-            title: err.response?.data?.error?.email || SERVER_ERROR,
-            status: "error",
-          });
+    } catch (error) {
+      let title = "";
+      if (axios.isAxiosError(error)) {
+        if (
+          error?.response?.data?.error &&
+          typeof error?.response?.data?.error === "string"
+        ) {
+          title = error.response.data.error;
+        } else if (
+          error?.response?.data?.error &&
+          typeof error?.response?.data?.error === "object"
+        ) {
+          const fields = Object.keys(error.response.data.error);
+          title = `Invalid fields ${fields.join(", ")}`;
+        } else {
+          title = "Something went wrong";
         }
       } else {
-        toast({
-          title: "Something went wrong",
-          status: "error",
-        });
+        title = SERVER_ERROR;
       }
-      throw err;
+      toast({
+        title: title,
+        status: "error",
+      });
+      throw error;
     }
   }
 
   return {
-    createToken,
+    login,
     getProfile,
     logout,
     register,

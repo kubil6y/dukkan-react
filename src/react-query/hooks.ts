@@ -1,9 +1,7 @@
 import { UseFormSetValue } from "react-hook-form";
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useCustomToast } from "../components/app/hooks/useCustomToast";
-import { userAuthTokenState, userState } from "../recoil/atoms";
 import { EditProfileDTO, ReviewDTO, User } from "../types";
 import { queryClient } from "./client";
 import { queryKeys } from "./constants";
@@ -17,10 +15,11 @@ import {
   updateReviewMutationFn,
 } from "./mutation.func";
 import { useUser } from "../components/app/hooks";
+import { useAuthToken } from "../components/app/hooks/useAuthToken";
 
 export const useActivateAccount = (data: any) => {
   const history = useHistory();
-  const setUser = useSetRecoilState(userState);
+  const { user, updateUser } = useUser();
   const toast = useCustomToast();
 
   const mutation = useMutation(() => activateAccountMutationFn(data), {
@@ -29,12 +28,10 @@ export const useActivateAccount = (data: any) => {
         title: "Account has been verified",
         status: "info",
       });
-      setUser((user) => {
-        if (user !== null) {
-          return { ...user, is_activated: true };
-        }
-        return user;
-      });
+      if (user !== null) {
+        const newUser: User = { ...user, is_activated: true };
+        updateUser(newUser);
+      }
       history.push("/");
     },
   });
@@ -55,25 +52,15 @@ export const useGenerateCode = (data: any) => {
   return mutation;
 };
 
-export const useUpdateProfile = (data: EditProfileDTO, token: string) => {
+export const useUpdateProfile = (data: EditProfileDTO) => {
   const history = useHistory();
+  const { token } = useAuthToken();
   const { user, updateUser } = useUser();
 
   const mutation = useMutation(() => updateProfileMutationFn(data, token), {
     onSuccess: () => {
-      const { first_name, last_name, email, address } = data;
-
-      if (user) {
-        const copy: User = { ...user };
-        if (first_name) copy.first_name = first_name;
-        if (last_name) copy.last_name = last_name;
-        if (email) copy.email = email;
-        if (address) copy.address = address;
-        updateUser(copy);
-        history.push("/me");
-      } else {
-        history.push("/");
-      }
+      queryClient.invalidateQueries(queryKeys.user);
+      history.push("/me");
     },
   });
 
@@ -96,7 +83,7 @@ export const useUpdateReview = (
   slug: string
 ) => {
   const toast = useCustomToast();
-  const token = useRecoilValue(userAuthTokenState);
+  const { token } = useAuthToken();
   const mutation = useMutation(
     () => updateReviewMutationFn(reviewID, data, token),
     {
@@ -114,7 +101,7 @@ export const useUpdateReview = (
 
 export const useDeleteReview = (reviewID: number, slug: string) => {
   const toast = useCustomToast();
-  const token = useRecoilValue(userAuthTokenState);
+  const { token } = useAuthToken();
   const mutation = useMutation(() => deleteReviewMutationFn(reviewID, token), {
     onSuccess: () => {
       queryClient.invalidateQueries([queryKeys.products, slug]);
@@ -133,7 +120,7 @@ export const useCreateReviewProduct = (
   setValue: UseFormSetValue<ReviewDTO>
 ) => {
   const toast = useCustomToast();
-  const token = useRecoilValue(userAuthTokenState);
+  const { token } = useAuthToken();
   const mutation = useMutation(
     () => createReviewMutationFn(data, token, slug),
     {

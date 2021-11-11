@@ -11,13 +11,13 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { FC } from "react";
-import { useMyMediaQueries, useUser } from "../../app/hooks";
+import { useAuth, useMyMediaQueries, useUser } from "../../app/hooks";
 import { useRecoilState } from "recoil";
 import { userMenuState } from "../../../recoil/atoms";
 import { UserMenuHeader } from "./UserMenuHeader";
 import { UserMenuItem } from "./UserMenuItem";
 import { useHistory } from "react-router-dom";
-import { USER_TOKEN } from "../../../constants";
+import { useAuthToken } from "../../app/hooks/useAuthToken";
 
 const loggedInMenuUserItems = [
   { id: 1, text: "Profile", to: "/me" },
@@ -29,7 +29,9 @@ const loggedInMenuOrderItems = [
 ];
 
 export const UserMenu: FC = () => {
+  const { clearAuthToken } = useAuthToken();
   const { user } = useUser();
+  const { logout } = useAuth();
   const history = useHistory();
 
   const [isOpen, setIsOpen] = useRecoilState(userMenuState);
@@ -39,9 +41,8 @@ export const UserMenu: FC = () => {
   const size = isLargeScreen ? "xs" : "full";
 
   const handleLogout = () => {
-    localStorage.removeItem(USER_TOKEN);
-    history.goBack();
-    window.location.reload();
+    clearAuthToken();
+    logout();
   };
 
   const onClose = () => setIsOpen(false);

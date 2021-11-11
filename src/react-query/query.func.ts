@@ -1,6 +1,9 @@
+import axios, { AxiosResponse } from "axios";
 import { axiosInstance } from "../axios/axiosInstance";
 
-export const alsdf = "alsdfjk";
+interface AxiosResponseWithCancel extends AxiosResponse {
+  cancel: () => void;
+}
 
 export const getProductBySlug = async (slug: string) => {
   const { data } = await axiosInstance.get(`/products/${slug}`);
@@ -13,3 +16,26 @@ export const getProductsByCategorySlug = async (slug: string, page: number) => {
   );
   return data;
 };
+
+export async function getUser(
+  token: string
+): Promise<AxiosResponseWithCancel | null> {
+  const source = axios.CancelToken.source();
+
+  if (!token) return null;
+  const axiosResponse: AxiosResponseWithCancel = await axiosInstance.get(
+    "/profile",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cancelToken: source.token,
+    }
+  );
+
+  axiosResponse.cancel = () => {
+    source.cancel();
+  };
+
+  return axiosResponse;
+}

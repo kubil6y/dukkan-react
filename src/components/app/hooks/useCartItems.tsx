@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
-import { CART_ITEMS } from "../../../constants";
+import { LOCAL_CART_ITEMS } from "../../../local-storage";
 import { cartState } from "../../../recoil/atoms";
 import { CartItem } from "../../../types";
 import { useCustomToast } from "./useCustomToast";
@@ -21,7 +21,7 @@ export function useCartItems(): UseCartItems {
   const toast = useCustomToast();
 
   useEffect(() => {
-    localStorage.setItem(CART_ITEMS, JSON.stringify(cartItems));
+    localStorage.setItem(LOCAL_CART_ITEMS, JSON.stringify(cartItems));
   }, [cartItems]);
 
   function doesProductExistsOnCart(productID: number): boolean {

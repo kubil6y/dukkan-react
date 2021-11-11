@@ -1,5 +1,6 @@
 import { Redirect, Route, RouteProps } from "react-router";
 import { useUser } from "../hooks";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export type InactivatedRouteProps = {
   pathname: string;
@@ -10,9 +11,13 @@ export const InactivatedRoute = ({
   ...routeProps
 }: InactivatedRouteProps) => {
   const { user } = useUser();
-  if (user && !user.is_activated) {
+  if (!user) {
+    return <ProtectedRoute pathname={pathname} />;
+  }
+
+  if (!user.is_activated) {
     return <Route {...routeProps} />;
   } else {
-    return <Redirect to={{ pathname }} />;
+    return <Redirect to={{ pathname: "/" }} />;
   }
 };
