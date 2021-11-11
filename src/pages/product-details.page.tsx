@@ -43,13 +43,18 @@ export const ProductDetailsPage: FC = () => {
     register,
     handleSubmit,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm<ReviewDTO>({
     mode: "onChange",
     resolver: yupResolver(reviewSchema),
   });
 
-  const createReviewMutation = useCreateReviewProduct(getValues(), slug);
+  const createReviewMutation = useCreateReviewProduct(
+    { text: getValues("text") },
+    slug,
+    setValue
+  );
 
   const setIsCartOpen = useSetRecoilState(cartMenuState);
   const [qty, setQty] = useState(1);
@@ -98,6 +103,7 @@ export const ProductDetailsPage: FC = () => {
     }
 
     const onSubmit = () => {
+      console.log("from submit", { errors });
       createReviewMutation.mutate();
     };
 
@@ -241,7 +247,7 @@ export const ProductDetailsPage: FC = () => {
                         </Box>
                         <Button
                           mt="1rem"
-                          onClick={onSubmit}
+                          type="submit"
                           colorScheme="facebook"
                           ml="auto"
                           size="sm"

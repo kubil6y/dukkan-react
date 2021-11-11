@@ -4,7 +4,7 @@ export const reviewSchema = yup.object().shape({
   text: yup
     .string()
     .required("Must be provided")
-    .min(3, "Must be at least 3 characters"),
+    .min(4, "Must be longer than 3 characters"),
 });
 
 export const updateProfileSchema = yup.object().shape({

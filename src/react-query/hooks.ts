@@ -1,11 +1,15 @@
+import axios from "axios";
+import { UseFormSetValue } from "react-hook-form";
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useCustomToast } from "../components/app/hooks/useCustomToast";
+import { capitalize } from "../helpers";
 import { userAuthTokenState, userState } from "../recoil/atoms";
 import { EditProfileDTO, ReviewDTO, User } from "../types";
 import { queryClient } from "./client";
 import { queryKeys } from "./constants";
+import { getProductBySlug, getProductsByCategorySlug } from "./query.func";
 import {
   activateAccountMutationFn,
   createReviewMutationFn,
@@ -14,7 +18,6 @@ import {
   updateProfileMutationFn,
   updateReviewMutationFn,
 } from "./mutation.func";
-import { getProductBySlug, getProductsByCategorySlug } from "./query.func";
 
 export const useActivateAccount = (data: any) => {
   const history = useHistory();
@@ -157,12 +160,17 @@ export const useDeleteReview = (reviewID: number, slug: string) => {
   return mutation;
 };
 
-export const useCreateReviewProduct = (data: ReviewDTO, slug: string) => {
+export const useCreateReviewProduct = (
+  data: ReviewDTO,
+  slug: string,
+  setValue: UseFormSetValue<ReviewDTO>
+) => {
   const toast = useCustomToast();
   const token = useRecoilValue(userAuthTokenState);
   const mutation = useMutation(
     () => createReviewMutationFn(data, token, slug),
     {
+      retry: false,
       onSuccess: () => {
         queryClient.invalidateQueries([queryKeys.products, slug]);
         toast({
@@ -171,12 +179,24 @@ export const useCreateReviewProduct = (data: ReviewDTO, slug: string) => {
         });
       },
       onError: (error) => {
-        console.log("error fala filan", error); // CHECK THIS
-        toast({
-          title: "Something went wrong",
-          status: "error",
-        });
+        if (axios.isAxiosError(error)) {
+          if (
+            error.response?.data?.error &&
+            typeof error.response?.data?.error === "string"
+          ) {
+            toast({
+              title: capitalize(error.response?.data?.error),
+              status: "error",
+            });
+          } else {
+            toast({
+              title: "server is fucked",
+              status: "error",
+            });
+          }
+        }
       },
+      onSettled: () => setValue("text", ""),
     }
   );
   return mutation;
