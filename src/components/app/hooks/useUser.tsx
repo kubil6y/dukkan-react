@@ -39,7 +39,7 @@ export function useUser(): UseUser {
     queryClient.setQueryData(queryKeys.user, null);
 
     // TODO cancel user queries from react-query
-    // ...
+    // example ... queryClient.removeQueries([queryKeys.appointments, queryKeys.user]);
   }
 
   return {
