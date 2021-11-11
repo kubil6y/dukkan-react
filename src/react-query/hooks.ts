@@ -1,10 +1,8 @@
-import axios from "axios";
 import { UseFormSetValue } from "react-hook-form";
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useCustomToast } from "../components/app/hooks/useCustomToast";
-import { capitalize } from "../helpers";
 import { userAuthTokenState, userState } from "../recoil/atoms";
 import { EditProfileDTO, ReviewDTO, User } from "../types";
 import { queryClient } from "./client";
@@ -18,6 +16,7 @@ import {
   updateProfileMutationFn,
   updateReviewMutationFn,
 } from "./mutation.func";
+import { useUser } from "../components/app/hooks";
 
 export const useActivateAccount = (data: any) => {
   const history = useHistory();
@@ -38,12 +37,6 @@ export const useActivateAccount = (data: any) => {
       });
       history.push("/");
     },
-    onError: () => {
-      toast({
-        title: "Something went wrong",
-        status: "error",
-      });
-    },
   });
   return mutation;
 };
@@ -58,20 +51,13 @@ export const useGenerateCode = (data: any) => {
         status: "info",
       });
     },
-    onError: () => {
-      toast({
-        title: "Something went wrong",
-        status: "error",
-      });
-    },
   });
   return mutation;
 };
 
 export const useUpdateProfile = (data: EditProfileDTO, token: string) => {
   const history = useHistory();
-  const toast = useCustomToast();
-  const [user, setUserState] = useRecoilState(userState);
+  const { user, updateUser } = useUser();
 
   const mutation = useMutation(() => updateProfileMutationFn(data, token), {
     onSuccess: () => {
@@ -83,18 +69,11 @@ export const useUpdateProfile = (data: EditProfileDTO, token: string) => {
         if (last_name) copy.last_name = last_name;
         if (email) copy.email = email;
         if (address) copy.address = address;
-        setUserState(copy);
+        updateUser(copy);
         history.push("/me");
       } else {
         history.push("/");
       }
-    },
-    onError: () => {
-      toast({
-        title: "Something went wrong",
-        status: "error",
-      });
-      history.push("/");
     },
   });
 
@@ -128,12 +107,6 @@ export const useUpdateReview = (
           status: "info",
         });
       },
-      onError: () => {
-        toast({
-          title: "Something went wrong",
-          status: "error",
-        });
-      },
     }
   );
   return mutation;
@@ -150,12 +123,6 @@ export const useDeleteReview = (reviewID: number, slug: string) => {
         status: "info",
       });
     },
-    onError: () => {
-      toast({
-        title: "Something went wrong",
-        status: "error",
-      });
-    },
   });
   return mutation;
 };
@@ -170,31 +137,12 @@ export const useCreateReviewProduct = (
   const mutation = useMutation(
     () => createReviewMutationFn(data, token, slug),
     {
-      retry: false,
       onSuccess: () => {
         queryClient.invalidateQueries([queryKeys.products, slug]);
         toast({
           title: "Review Added",
           status: "info",
         });
-      },
-      onError: (error) => {
-        if (axios.isAxiosError(error)) {
-          if (
-            error.response?.data?.error &&
-            typeof error.response?.data?.error === "string"
-          ) {
-            toast({
-              title: capitalize(error.response?.data?.error),
-              status: "error",
-            });
-          } else {
-            toast({
-              title: "server is fucked",
-              status: "error",
-            });
-          }
-        }
       },
       onSettled: () => setValue("text", ""),
     }

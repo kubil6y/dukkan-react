@@ -15,7 +15,7 @@ export const ReturnsOrders: FC = () => {
       flexDir="column"
       minW="100px"
       letterSpacing="wide"
-      onClick={() => history.push(user ? "/my-orders" : "register")}
+      onClick={() => history.push(user ? "/my-orders" : "/register")}
     >
       <Text fontSize="12px">{user ? "Returns" : "New here?"}</Text>
       <Text fontSize="14px" fontWeight="700">

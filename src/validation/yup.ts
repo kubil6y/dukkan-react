@@ -1,5 +1,12 @@
 import * as yup from "yup";
 
+export const activateAccountSchema = yup.object().shape({
+  code: yup
+    .string()
+    .required("Must be provided")
+    .length(26, "Must be 26 bytes long"),
+});
+
 export const reviewSchema = yup.object().shape({
   text: yup
     .string()

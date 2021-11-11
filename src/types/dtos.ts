@@ -24,3 +24,7 @@ export interface EditProfileDTO {
 export interface ReviewDTO {
   text: string;
 }
+
+export interface ActivateAccountDTO {
+  code: string;
+}

@@ -5,27 +5,39 @@ import { useUser, useMyMediaQueries } from "../components/app/hooks";
 import { IoSendSharp } from "react-icons/io5";
 import { colors } from "../themes/colors";
 import { useGenerateCode, useActivateAccount } from "../react-query/hooks";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { ActivateAccountDTO } from "../types";
+import { activateAccountSchema } from "../validation";
+import { FormErrorMessage } from "../components/form";
 
 export const VerifyAccountPage: FC = () => {
   const { user } = useUser();
   const [inputFocused, setInputFocused] = useState(false);
-  const { isLargeScreen } = useMyMediaQueries();
 
-  const fsPlaceholder = isLargeScreen ? "16px" : "12px";
-  const maxW = isLargeScreen ? "600px" : "100%";
-  const py = isLargeScreen ? "4rem" : "2rem";
-
-  const [code, setCode] = useState("");
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm<ActivateAccountDTO>({
+    mode: "onChange",
+    resolver: yupResolver(activateAccountSchema),
+  });
 
   const generateMutation = useGenerateCode({ email: user?.email });
-  const activateMutation = useActivateAccount({ code: code });
+  const activateMutation = useActivateAccount({ code: getValues("code") });
 
   const handleGenerateToken = () => generateMutation.mutate();
-  const handleSubmit = () => {
-    if (code === "") return;
+
+  const onSubmit = () => {
     activateMutation.mutate();
   };
 
+  const { isLargeScreen } = useMyMediaQueries();
+  const fsPlaceholder = isLargeScreen ? "16px" : "12px";
+  const maxW = isLargeScreen ? "600px" : "100%";
+  const py = isLargeScreen ? "4rem" : "2rem";
   return (
     <>
       <Helmet>
@@ -37,7 +49,7 @@ export const VerifyAccountPage: FC = () => {
         </Text>
 
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           className="bar-wrapper"
           style={{
             marginTop: "12px",
@@ -54,6 +66,7 @@ export const VerifyAccountPage: FC = () => {
           </Center>
 
           <Input
+            {...register("code")}
             type="text"
             bg="white"
             borderRadius="0"
@@ -64,19 +77,27 @@ export const VerifyAccountPage: FC = () => {
             _focus={{ borderColor: "none" }}
             onFocus={() => setInputFocused(true)}
             onBlur={() => setInputFocused(false)}
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
           />
 
-          <Center
-            bg={colors.orangeSecondary}
-            px="12px"
-            cursor="pointer"
-            onClick={handleSubmit}
+          <button
+            type="submit"
+            style={{
+              backgroundColor: colors.orangeSecondary,
+              paddingLeft: "12px",
+              paddingRight: "12px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
             <Icon as={IoSendSharp} w={4} h={4} color={colors.darkGrayPrimary} />
-          </Center>
+          </button>
         </form>
+
+        {errors?.code?.message && (
+          <FormErrorMessage message={errors.code.message} />
+        )}
 
         <Text fontSize="12px">
           If you have not received your code, click{" "}

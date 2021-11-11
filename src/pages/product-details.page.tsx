@@ -184,11 +184,6 @@ export const ProductDetailsPage: FC = () => {
                   >
                     out of stock
                   </Button>
-                  <Text fontSize="12px" mt="6px" ml="2px">
-                    <Link to="/" className="link">
-                      Go back Home
-                    </Link>
-                  </Text>
                 </>
               ) : (
                 <>
