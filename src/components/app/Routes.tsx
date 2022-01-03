@@ -27,6 +27,7 @@ const protectedRoutes = [
   { id: 11, path: "/me", component: <ProfilePage />, exact: true },
   { id: 12, path: "/me/edit", component: <UpdateProfilePage /> },
   { id: 13, path: "/my-orders", component: <MyOrdersPage /> },
+  { id: 14, path: "/checkout", component: <CheckoutPage /> },
 ];
 
 const inactivatedRoutes = [
@@ -42,7 +43,6 @@ const commonRoutes = [
   { id: 1000, path: "/", component: <HomePage />, exact: true },
   { id: 1001, path: "/categories/:slug", component: <CategoryPage /> },
   { id: 1002, path: "/products/:slug", component: <ProductDetailsPage /> },
-  { id: 1003, path: "/checkout", component: <CheckoutPage /> },
 ];
 
 export const Routes = () => {

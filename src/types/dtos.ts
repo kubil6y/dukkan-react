@@ -28,3 +28,13 @@ export interface ReviewDTO {
 export interface ActivateAccountDTO {
   code: string;
 }
+
+interface OrderItemDTO {
+  product_id: number;
+  quantity: number;
+}
+
+export interface CreateOrderDTO {
+  payment_method: string;
+  order_items: OrderItemDTO[];
+}

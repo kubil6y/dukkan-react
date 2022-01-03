@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 import { LOCAL_CART_ITEMS } from "../../../local-storage";
 import { cartState } from "../../../recoil/atoms";
-import { CartItem } from "../../../types";
+import { CartItem, CreateOrderDTO } from "../../../types";
 import { useCustomToast } from "./useCustomToast";
 
 interface UseCartItems {
@@ -14,6 +14,7 @@ interface UseCartItems {
   updateQtyOfCartItem(uuid: string, qty: number): void;
   clearCartItems(): void;
   calculateTotal(): number;
+  getCreateOrderData(): CreateOrderDTO;
 }
 
 export function useCartItems(): UseCartItems {
@@ -94,6 +95,20 @@ export function useCartItems(): UseCartItems {
     return total;
   }
 
+  function getCreateOrderData(): CreateOrderDTO {
+    const orderItems =
+      cartItems.length > 0
+        ? cartItems.map((item) => ({
+            quantity: item.qty,
+            product_id: item.product.id,
+          }))
+        : [];
+    return {
+      payment_method: "cash",
+      order_items: orderItems,
+    };
+  }
+
   return {
     cartItems,
     setCartItems,
@@ -103,5 +118,6 @@ export function useCartItems(): UseCartItems {
     updateQtyOfCartItem,
     clearCartItems,
     calculateTotal,
+    getCreateOrderData,
   };
 }

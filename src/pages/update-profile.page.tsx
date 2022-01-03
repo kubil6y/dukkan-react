@@ -33,6 +33,7 @@ export const UpdateProfilePage: FC = () => {
   const minW = isLargeScreen ? "350px" : "280px";
 
   const onSubmit = () => updateProfileMutation.mutate();
+
   return (
     <>
       <Helmet>

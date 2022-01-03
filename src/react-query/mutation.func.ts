@@ -1,5 +1,5 @@
 import { axiosInstance } from "../axios/axiosInstance";
-import { EditProfileDTO, ReviewDTO } from "../types";
+import { CreateOrderDTO, EditProfileDTO, ReviewDTO } from "../types";
 
 export const generateTokenMutationFn = (data: any) => {
   return axiosInstance.post("/tokens/generate-activation", data);
@@ -7,6 +7,17 @@ export const generateTokenMutationFn = (data: any) => {
 
 export const activateAccountMutationFn = (data: any) => {
   return axiosInstance.post("/tokens/activation", data);
+};
+
+export const createOrderMutationFn = (data: CreateOrderDTO, token: string) => {
+  return axiosInstance({
+    method: "POST",
+    url: "/orders",
+    data: data,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
 export const updateProfileMutationFn = (

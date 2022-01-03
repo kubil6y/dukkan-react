@@ -8,6 +8,9 @@ import {
   Select,
   Button,
   Textarea,
+  Alert,
+  AlertIcon,
+  CloseButton,
 } from "@chakra-ui/react";
 import { FC, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -34,6 +37,7 @@ interface IParams {
 }
 
 export const ProductDetailsPage: FC = () => {
+  const [showAlert, setShowAlert] = useState(true);
   const { slug } = useParams<IParams>();
   const { data, isLoading, isError } = useProduct(slug);
   const { addCartItem } = useCartItems();
@@ -103,7 +107,7 @@ export const ProductDetailsPage: FC = () => {
     }
 
     const onSubmit = () => {
-      console.log("from submit", { errors });
+      console.log(getValues("text"));
       createReviewMutation.mutate();
     };
 
@@ -252,18 +256,22 @@ export const ProductDetailsPage: FC = () => {
                       </Flex>
                     </form>
                   </Box>
-                ) : (
-                  <div>
-                    <h1>can NOT NOT NOT review</h1>
-                  </div>
-                )}
+                ) : null}
               </>
             ) : (
-              <div>
-                <h1>
-                  you must be logged in and ordered to review the product!
-                </h1>
-              </div>
+              showAlert && (
+                <Alert status="info" maxW="800px" mx="auto">
+                  <AlertIcon />
+                  You must be logged in and purchased this product in order to
+                  review
+                  <CloseButton
+                    position="absolute"
+                    right="8px"
+                    top="8px"
+                    onClick={() => setShowAlert(false)}
+                  />
+                </Alert>
+              )
             )}
           </>
 

@@ -2,19 +2,20 @@ import { UseFormSetValue } from "react-hook-form";
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import { useCustomToast } from "../components/app/hooks/useCustomToast";
-import { EditProfileDTO, ReviewDTO, User } from "../types";
+import { CreateOrderDTO, EditProfileDTO, ReviewDTO, User } from "../types";
 import { queryClient } from "./client";
 import { queryKeys } from "./constants";
 import { getProductBySlug, getProductsByCategorySlug } from "./query.func";
 import {
   activateAccountMutationFn,
+  createOrderMutationFn,
   createReviewMutationFn,
   deleteReviewMutationFn,
   generateTokenMutationFn,
   updateProfileMutationFn,
   updateReviewMutationFn,
 } from "./mutation.func";
-import { useUser } from "../components/app/hooks";
+import { useCartItems, useUser } from "../components/app/hooks";
 import { useAuthToken } from "../components/app/hooks/useAuthToken";
 
 export const useActivateAccount = (data: any) => {
@@ -52,14 +53,34 @@ export const useGenerateCode = (data: any) => {
   return mutation;
 };
 
+export const useCreateOrder = (data: CreateOrderDTO) => {
+  const history = useHistory();
+  const { token } = useAuthToken();
+  const { clearCartItems } = useCartItems();
+
+  const mutation = useMutation(() => createOrderMutationFn(data, token), {
+    onSuccess: () => {
+      // TODO invalidate my orders query
+      //queryClient.invalidateQueries(queryKeys.user);
+      clearCartItems();
+      history.push("/my-orders"); // my orders
+    },
+  });
+
+  return mutation;
+};
+
 export const useUpdateProfile = (data: EditProfileDTO) => {
   const history = useHistory();
   const { token } = useAuthToken();
-  const { user, updateUser } = useUser();
+  const { updateUser } = useUser();
 
   const mutation = useMutation(() => updateProfileMutationFn(data, token), {
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries(queryKeys.user);
+      if (data?.data?.data?.user !== undefined) {
+        updateUser(data.data.data.user);
+      }
       history.push("/me");
     },
   });
@@ -88,11 +109,13 @@ export const useUpdateReview = (
     () => updateReviewMutationFn(reviewID, data, token),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries([queryKeys.products, slug]);
         toast({
           title: "Review Updated",
           status: "info",
         });
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries([queryKeys.products, slug]);
       },
     }
   );
